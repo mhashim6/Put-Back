@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!--bottom sheet-->
+	<dimen name="bottom_sheet_item_text_size">16sp</dimen>
+	<dimen name="bottom_sheet_item_padding">8dp</dimen>
+	<dimen name="bottom_sheet_item_margin_bottom">8dp</dimen>
+	<dimen name="bottom_sheet_item_drawable_padding">10dp</dimen>
+
+	<!--grid layout manager-->
+	<integer name="span_count">4</integer>
+</resources>

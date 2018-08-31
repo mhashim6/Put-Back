@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			xmlns:tools="http://schemas.android.com/tools"
+			android:id="@+id/nav_graph"
+			app:startDestination="@id/notionsFragment">
+
+	<fragment
+		android:id="@+id/notionsFragment"
+		android:name="mhashim.android.putback.ui.NotionsFragment"
+		android:label="fragment_notions"
+		app:defaultNavHost="true"
+		tools:layout="@layout/fragment_notions">
+		<action
+			android:id="@+id/action_notionsFragment_to_notionDetailFragment"
+			app:destination="@id/notionDetailFragment"/>
+		<action
+			android:id="@+id/action_notionsFragment_to_idleNotionsFragment"
+			app:destination="@id/idleNotionsFragment"/>
+	</fragment>
+
+	<fragment
+		android:id="@+id/idleNotionsFragment"
+		android:name="mhashim.android.putback.ui.IdleNotionsFragment"
+		android:label="fragment_idle_notions"
+		tools:layout="@layout/fragment_notions">
+		<action
+			android:id="@+id/action_idleNotionsFragment_to_notionDetailFragment"
+			app:destination="@id/notionDetailFragment"/>
+		<action
+			android:id="@+id/action_idleNotionsFragment_to_notionsFragment"
+			app:destination="@id/notionsFragment"/>
+	</fragment>
+
+	<fragment
+		android:id="@+id/notionDetailFragment"
+		android:name="mhashim.android.putback.ui.NotionDetailFragment"
+		android:label="fragment_notion_detail"
+		tools:layout="@layout/fragment_notion_detail"/>
+
+	<fragment
+		android:id="@+id/notionsArchievedFragment"
+		android:name="mhashim.android.putback.ui.NotionsFragment"
+		android:label="fragment_notions"
+		tools:layout="@layout/fragment_notions">
+		<action
+			android:id="@+id/action_notionsArchievedFragment_to_notionDetailFragment"
+			app:destination="@id/notionDetailFragment"/>
+	</fragment>
+
+	<fragment
+		android:id="@+id/settingsFragment"
+		android:name="mhashim.android.putback.ui.SettingsFragment"
+		android:label="fragment_settings"
+		tools:layout="@layout/fragment_settings"/>
+</navigation>

@@ -1,0 +1,20 @@
+[
+  {
+    "name": "high",
+    "interval": "4",
+    "isBuiltIn": "true",
+    "color": "#945e5c"
+  },
+  {
+    "name": "moderate",
+    "interval": "14",
+    "isBuiltIn": "true",
+    "color": "#082c37"
+  },
+  {
+    "name": "low",
+    "interval": "30",
+    "isBuiltIn": "true",
+    "color": "#85a486"
+  }
+]
