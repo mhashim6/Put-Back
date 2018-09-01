@@ -56,7 +56,7 @@ object NotionsRealm {
 		realm.close()
 	}
 
-	fun loadHotNotion(): Notion? {
+	fun loadHottestNotion(): Notion? {
 		val realm = Realm.getDefaultInstance()
 		val activeNotions = realm.where(Notion::class.java).equalTo("isArchived", false).findAll()
 		var notion = activeNotions.firstOrNull(hotNotionPredicate)

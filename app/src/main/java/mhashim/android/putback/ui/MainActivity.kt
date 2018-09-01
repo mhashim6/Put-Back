@@ -14,42 +14,6 @@ class MainActivity : AppCompatActivity() {
 //		writeDummyData()
 
 		setContentView(R.layout.activity_main)
-		//setSupportActionBar(toolbar)
-
-		/*	bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-
-				override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-
-				}
-
-				override fun onStateChanged(bottomSheet: View, newState: Int) {
-
-					if (newState == STATE_EXPANDED) {
-						val fragmentView = nav_host_fragment.view!!
-						val backgroundToBlur = fragmentView.captureBitmap()
-
-						val startX = 0
-						val startY = bottomSheet.y.toInt() - toolbar.height
-
-						Log.d("asd", backgroundToBlur.height.toString())
-						Log.d("root", root.height.toString())
-						Log.d("bottom", startY.toString())
-						Log.d("toolbar", toolbar.height.toString())
-						Log.d("hmm", (root.height - toolbar.height).toString())
-						Log.d("shit", ((toolbar.height + backgroundToBlur.height) - bottomSheet.height).toString())
-						Log.d("yousef", (backgroundToBlur.height - startY).toString())
-
-						val newBG = backgroundToBlur.crop(0, startY = startY, endX = backgroundToBlur.width, endY = backgroundToBlur.height)
-						Blurry.with(this@MainActivity)
-								//	.color(ResourcesCompat.getColor(resources, R.color.pale_yellow,null))
-								.from(newBG)
-								.into(bottomSheetBackground)
-					}
-				}
-
-			})
-	*/
 	}
 
 	private fun writeDummyData() {
@@ -66,13 +30,6 @@ class MainActivity : AppCompatActivity() {
 		}
 		realm.close()
 	}
-
-
-/*  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-			menuInflater.inflate(R.menu.main, menu)
-			return super.onCreateOptionsMenu(menu)
-	}
-	*/
 
 //	override fun onSupportNavigateUp() = findNavController(this, R.id.nav_host_fragment).navigateUp()
 }

@@ -8,7 +8,7 @@ import androidx.work.Worker
 import mhashim.android.putback.App
 import mhashim.android.putback.R
 import mhashim.android.putback.data.Notion
-import mhashim.android.putback.data.NotionsRealm.loadHotNotion
+import mhashim.android.putback.data.NotionsRealm.loadHottestNotion
 import mhashim.android.putback.data.NotionsRealm.updateLastRunAt
 import mhashim.android.putback.debug
 
@@ -19,7 +19,7 @@ import mhashim.android.putback.debug
 class NotionsReminder : Worker() {
 
 	override fun doWork(): Result {
-		val notion = loadHotNotion()
+		val notion = loadHottestNotion()
 		notion?.let {
 			updateLastRunAt(it, System.currentTimeMillis())
 			showNotification(it)
