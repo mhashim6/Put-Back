@@ -96,6 +96,9 @@ abstract class BaseFragment : Fragment(), ToolbarOwner {
 		findNavController(this).navigate(destination)
 	}
 
+	protected fun navigateUp() {
+		findNavController(this).navigateUp()
+	}
 
 	override fun onAttach(context: Context?) {
 		super.onAttach(context)

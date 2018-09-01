@@ -1,11 +1,9 @@
 package mhashim.android.putback.ui
 
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
+import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -16,27 +14,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
-import io.reactivex.Flowable
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_notions.*
 import mhashim.android.putback.R
-import mhashim.android.putback.data.Notion
-import mhashim.android.putback.data.NotionsRealm.changeIdleStatus
-import mhashim.android.putback.data.NotionsRealm.closeRealm
-import mhashim.android.putback.data.NotionsRealm.findAllWithIdleStatus
 import mhashim.android.putback.debug
-import mhashim.android.putback.ui.NotionsPresenter.NotionCompactViewModel
 import mhashim.android.putback.ui.NotionsPresenter.present
-import java.util.concurrent.TimeUnit
+
 
 open class NotionsFragment : BaseFragment() {
 	protected open val isIdle = false
 
+	@LayoutRes
 	override val layoutRes = R.layout.fragment_notions
 
 	override lateinit var toolbar: Toolbar
@@ -51,10 +39,7 @@ open class NotionsFragment : BaseFragment() {
 	private val notionsAdapter by lazy {
 		makeAdapter<NotionCompactView, NotionCompactViewModel>(R.layout.notion_compact, notionsSortedList()) {
 			onBindViewHolder { notionView, notion ->
-				notionView.apply {
-					content.text = notion.content
-					setCardBackgroundColor(notion.color)
-				}
+				notionView.render(notion)
 			}
 		}
 	}
@@ -77,6 +62,8 @@ open class NotionsFragment : BaseFragment() {
 		notionsRecycler.layoutManager = StaggeredGridLayoutManager(resources.getInteger(R.integer.span_count), StaggeredGridLayoutManager.VERTICAL)
 		val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.Callback() {
 
+			override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder) = .7f
+
 			override fun isLongPressDragEnabled() = false
 
 			override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
@@ -98,7 +85,7 @@ open class NotionsFragment : BaseFragment() {
 		notionsRecycler.adapter = notionsAdapter
 	}
 
-	private fun attemptToArchive(notion: NotionsPresenter.NotionCompactViewModel, pos: Int) {
+	private fun attemptToArchive(notion: NotionCompactViewModel, pos: Int) {
 		notionsAdapter.removeItem(notion)
 		snacks.enqueue(Snackbar
 				.make(root, if (isIdle) getString(R.string.un_archived_message) else getString(R.string.archived_message), LENGTH_SHORT)
@@ -115,23 +102,27 @@ open class NotionsFragment : BaseFragment() {
 	}
 
 	private fun showData() {
-		val viewModel = present(archives.buffer(10, TimeUnit.SECONDS), resources, isIdle)
+		val viewModel = present(archives, resources, isIdle)
 		with(viewModel) {
 			subscriptions.addAll(
-					notions.subscribe(::updateRecyclerView),
+					notions.subscribe(::updateNotions),
+					emptyNotionsVisibility.subscribe(::updateEmptyFillerView),
 					successfulArchives
 			)
 		}
 	}
 
-	private fun updateRecyclerView(notions: List<NotionCompactViewModel>) {
+	private fun updateNotions(notions: List<NotionCompactViewModel>) {
 		debug("items updated, size: ${notions.size}")
-		fillerView.visibility = if (notions.isEmpty()) VISIBLE else GONE
 		notionsAdapter.replaceAll(notions)
 		notionsAdapter.notifyDataSetChanged()
 	}
 
-	private fun notionsSortedList(): SortedList<NotionsPresenter.NotionCompactViewModel> {
+	private fun updateEmptyFillerView(visibility: Int) {
+		fillerView.visibility = visibility
+	}
+
+	private fun notionsSortedList(): SortedList<NotionCompactViewModel> {
 		return SortedList<NotionCompactViewModel>(NotionCompactViewModel::class.java, (object : SortedList.Callback<NotionCompactViewModel>() {
 			override fun areItemsTheSame(item1: NotionCompactViewModel, item2: NotionCompactViewModel): Boolean {
 				return item1.model.id == item2.model.id
@@ -168,49 +159,4 @@ open class NotionsFragment : BaseFragment() {
 			view.id == R.id.archiveItem -> navigateTo(R.id.action_notionsFragment_to_idleNotionsFragment)
 		}
 	}
-}
-
-private object NotionsPresenter {
-
-	class ViewModel(val notions: Flowable<List<NotionCompactViewModel>>, val successfulArchives: Disposable)
-
-	class NotionCompactViewModel(
-			val model: Notion,
-			resources: Resources,
-			val content: String = model.content,
-			val interval: Int = model.interval, //TODO
-			val createdAt: Long = model.createdAt,
-			val modifiedAt: Long = createdAt,
-			val lastRunAt: Long = createdAt,
-			val isArchived: Boolean = false,
-			val color: Int = colorSelector(model, resources)
-	)
-
-	fun present(archiveAttempts: Observable<MutableList<NotionCompactViewModel>>, resources: Resources, isIdle: Boolean): ViewModel {
-		val realm = Realm.getDefaultInstance()
-
-		val notions = findAllWithIdleStatus(isIdle)
-				.map { realm.copyFromRealm(it).map { notion -> NotionCompactViewModel(notion, resources) } }
-//				.map { emptyList<NotionCompactViewModel>() } //for debugging empty results.
-
-//		successful archives
-		val successfulArchives = archiveAttempts
-				.map {
-					val models = it.map { it.model }
-					models.map {
-						it.apply { isArchived = isIdle.not() }
-					}
-				}
-				.filter { it.isNotEmpty() }
-				.subscribeOn(Schedulers.computation())
-				.observeOn(AndroidSchedulers.mainThread())
-				.doFinally { closeRealm(realm) }
-				.subscribe { list ->
-					debug("10 seconds have passed!")
-					changeIdleStatus(list, isIdle.not())
-				}
-
-		return ViewModel(notions, successfulArchives)
-	}
-
 }

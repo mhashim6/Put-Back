@@ -30,7 +30,7 @@ class NotionsReminder : Worker() {
 	private fun showNotification(notion: Notion) {
 		debug("new shit is always welcome")
 
-		val notification = NotificationCompat.Builder(applicationContext, App.CHANNEL_ID)
+		val notification = NotificationCompat.Builder(applicationContext, App.NOTIFICATION_CHANNEL_ID)
 				.setSmallIcon(R.drawable.ic_format_list_bulleted_type_white_18dp)
 				.setContentTitle("Feeling like it?")
 				.setContentText(notion.content)

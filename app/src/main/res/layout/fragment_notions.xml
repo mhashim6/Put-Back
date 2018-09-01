@@ -8,24 +8,13 @@
 	android:layout_height="match_parent"
 	tools:context=".ui.NotionsFragment">
 
-	<com.google.android.material.appbar.AppBarLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="@android:color/transparent"
-		app:elevation="0dp">
-
-		<androidx.appcompat.widget.Toolbar
-			android:id="@+id/toolbarId"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			app:layout_scrollFlags="scroll|enterAlways|snap"
-			app:navigationIcon="@drawable/ic_format_list_bulleted_type_white_24dp"
-			app:title="@string/app_name"
-			/>
-	</com.google.android.material.appbar.AppBarLayout>
+	<include
+		android:id="@+id/toolbar"
+		layout="@layout/common_toolbar"/>
 
 	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/notionsRecyclerId"
+		android:overScrollMode="always"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:layout_marginEnd="4dp"

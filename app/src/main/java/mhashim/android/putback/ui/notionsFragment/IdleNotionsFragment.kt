@@ -34,7 +34,7 @@ class IdleNotionsFragment : NotionsFragment() {
 
 	override fun onNavigationItemClick(view: View) {
 		when {
-			view.id == R.id.notionsItem -> navigateTo(R.id.action_idleNotionsFragment_to_notionsFragment)
+			view.id == R.id.notionsItem -> navigateUp()
 		}
 	}
 

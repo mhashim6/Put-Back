@@ -5,6 +5,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import io.realm.Realm
@@ -36,7 +37,11 @@ class App : Application() {
 		val workRequest = PeriodicWorkRequest
 				.Builder(NotionsReminder::class.java, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES)
 				.build()
-		WorkManager.getInstance().enqueue(workRequest)
+
+		WorkManager.getInstance()
+				.enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,
+						ExistingPeriodicWorkPolicy.KEEP,
+						workRequest)
 	}
 
 	@SuppressLint("NewApi")
@@ -45,7 +50,7 @@ class App : Application() {
 			val name = getString(R.string.channel_name)
 			val description = getString(R.string.channel_description)
 			val importance = NotificationManager.IMPORTANCE_HIGH
-			val channel = NotificationChannel(CHANNEL_ID, name, importance)
+			val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance)
 			channel.description = description
 			val notificationManager = getSystemService(NotificationManager::class.java)
 			notificationManager!!.createNotificationChannel(channel)
@@ -53,7 +58,8 @@ class App : Application() {
 	}
 
 	companion object {
-		const val CHANNEL_ID = "NOTIONS_REMINDER_CHANNEL"
+		const val NOTIFICATION_CHANNEL_ID = "NOTIONS_REMINDER_CHANNEL"
+		const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG"
 	}
 
 }

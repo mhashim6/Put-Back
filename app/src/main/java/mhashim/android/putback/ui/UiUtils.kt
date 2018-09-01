@@ -30,7 +30,6 @@ fun Bitmap.crop(startX: Int, startY: Int, endX: Int, endY: Int): Bitmap {
 fun colorSelector(notion: Notion, resources: Resources): Int {
 
 	val colorRes = when {
-		notion.isArchived -> R.color.muted_gray
 		notion.interval in 0..4 -> R.color.muted_red
 		notion.interval > 15 -> R.color.muted_green
 		else -> R.color.muted_blue
