@@ -2,8 +2,6 @@ package mhashim.android.putback.ui.notionsFragment
 
 import android.content.res.Resources
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -13,12 +11,16 @@ import io.realm.Realm
 import mhashim.android.putback.data.Notion
 import mhashim.android.putback.data.NotionsRealm
 import mhashim.android.putback.ui.colorSelector
+import mhashim.android.putback.ui.visibility
 
 /**
  * Created by mhashim6 on 01/09/2018.
  */
 
-class ViewModel(val notions: Flowable<List<NotionCompactViewModel>>, val emptyNotionsVisibility: Flowable<Int>, val successfulArchives: Disposable)
+class ViewModel(
+		val notions: Flowable<List<NotionCompactViewModel>>,
+		val emptyNotionsVisibility: Flowable<Int>,
+		val successfulArchives: Disposable)
 
 class NotionCompactViewModel(
 		resources: Resources,
@@ -41,12 +43,12 @@ object NotionsPresenter {
 
 		val realm = Realm.getDefaultInstance()
 
-		val notions = NotionsRealm.findAllWithIdleStatus(isIdle)
+		val notions = NotionsRealm.findAllWithIdleState(isIdle)
 				.map { realm.copyFromRealm(it).map { notion -> NotionCompactViewModel(resources, notion) } }
 //				.map { emptyList<NotionCompactViewModel>() } //for debugging empty results.
 
 
-		val emptyNotionsVisibility = notions.map { if (it.isEmpty()) VISIBLE else GONE }
+		val fillerViewVisibility = notions.map { (it.isEmpty()).visibility }
 
 //		successful archives
 		val successfulArchives = idleStates
@@ -54,12 +56,11 @@ object NotionsPresenter {
 				.observeOn(AndroidSchedulers.mainThread())
 				.doFinally { NotionsRealm.closeRealm(realm) }
 				.subscribe {
-					val notion = it.first.model
-					val idleState = it.second
-					NotionsRealm.changeIdleStatus(notion, idleState)
+					val (notion, idleState) = it
+					NotionsRealm.changeIdleState(notion.model, idleState)
 				}
 
-		return ViewModel(notions, emptyNotionsVisibility, successfulArchives)
+		return ViewModel(notions, fillerViewVisibility, successfulArchives)
 	}
 
 }

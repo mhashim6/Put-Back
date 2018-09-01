@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import kotlinx.android.synthetic.main.notion_compact.view.*
+import mhashim.android.putback.ui.notionsFragment.NotionCompactViewModel
 
 class NotionCompactView : CardView {
 

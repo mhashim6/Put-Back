@@ -37,3 +37,7 @@ fun colorSelector(notion: Notion, resources: Resources): Int {
 
 	return ResourcesCompat.getColor(resources, colorRes, null)
 }
+
+
+val Boolean.visibility
+	get() = if (this) View.VISIBLE else View.GONE

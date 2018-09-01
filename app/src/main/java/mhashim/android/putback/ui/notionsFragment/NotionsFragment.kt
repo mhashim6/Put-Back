@@ -34,7 +34,7 @@ open class NotionsFragment : BaseFragment() {
 
 	private val snacks = SnackbarQueue()
 
-	private val archives: PublishSubject<Pair<NotionCompactViewModel, Boolean>> = PublishSubject.create()
+	private val idleStates: PublishSubject<Pair<NotionCompactViewModel, Boolean>> = PublishSubject.create()
 
 	private val notionsAdapter by lazy {
 		makeAdapter<NotionCompactView, NotionCompactViewModel>(R.layout.notion_compact, notionsSortedList()) {
@@ -55,6 +55,7 @@ open class NotionsFragment : BaseFragment() {
 		fillerView = view.findViewById(R.id.emptyViewId)
 		notionsRecycler = view.findViewById(R.id.notionsRecyclerId)
 		fab = view.findViewById(R.id.fabId)
+		fab.visibility = isIdle.not().visibility
 	}
 
 	private fun initRecyclerView() {
@@ -85,17 +86,17 @@ open class NotionsFragment : BaseFragment() {
 	}
 
 	private fun attemptToArchive(notion: NotionCompactViewModel, pos: Int) {
-		archives.onNext(notion to isIdle.not())
+		idleStates.onNext(notion to isIdle.not())
 		snacks.enqueue(Snackbar
 				.make(root, if (isIdle) getString(R.string.un_archived_message) else getString(R.string.archived_message), LENGTH_SHORT)
 				.setAction(getString(R.string.undo)) {
-					archives.onNext(notion to isIdle)
+					idleStates.onNext(notion to isIdle)
 				}
 		)
 	}
 
 	private fun showData() {
-		val viewModel = present(archives, resources, isIdle)
+		val viewModel = present(idleStates, resources, isIdle)
 		with(viewModel) {
 			subscriptions.addAll(
 					notions.subscribe(::updateNotions),

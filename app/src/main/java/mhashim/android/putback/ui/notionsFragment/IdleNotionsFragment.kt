@@ -16,6 +16,11 @@ class IdleNotionsFragment : NotionsFragment() {
 		toolbar.subtitle = "Idle Notions"
 	}
 
+	override fun setUpViews(view: View) {
+		super.setUpViews(view)
+	}
+
+
 	override fun onNavigationItemClick(view: View) {
 		when {
 			view.id == R.id.notionsItem -> navigateUp()

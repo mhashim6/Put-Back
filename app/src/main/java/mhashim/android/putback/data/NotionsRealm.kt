@@ -12,17 +12,17 @@ import mhashim.android.putback.hotNotionPredicate
 
 object NotionsRealm {
 
-	fun findAllWithIdleStatus(status: Boolean): Flowable<RealmResults<Notion>> {
+	fun findAllWithIdleState(state: Boolean): Flowable<RealmResults<Notion>> {
 		val realm = Realm.getDefaultInstance()
 		return realm.where(Notion::class.java)
-				.equalTo("isArchived", status)
+				.equalTo("isArchived", state)
 				.findAllAsync()
 				.asFlowable()
 				.filter { it.isLoaded && it.isValid }
 				.doFinally { closeRealm(realm) }
 	}
 
-	fun changeIdleStatus(notion: Notion, status: Boolean) {
+	fun changeIdleState(notion: Notion, status: Boolean) {
 		val realm = Realm.getDefaultInstance()
 
 		realm.executeTransactionAsync {
@@ -32,7 +32,7 @@ object NotionsRealm {
 		closeRealm(realm)
 	}
 
-	fun changeIdleStatus(notions: Iterable<Notion>, status: Boolean) {
+	fun changeIdleState(notions: Iterable<Notion>, status: Boolean) {
 		val realm = Realm.getDefaultInstance()
 
 		realm.executeTransactionAsync({
