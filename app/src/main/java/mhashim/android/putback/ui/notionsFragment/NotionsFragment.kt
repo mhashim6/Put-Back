@@ -1,4 +1,4 @@
-package mhashim.android.putback.ui
+package mhashim.android.putback.ui.notionsFragment
 
 
 import android.os.Bundle
@@ -17,7 +17,8 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_notions.*
 import mhashim.android.putback.R
 import mhashim.android.putback.debug
-import mhashim.android.putback.ui.NotionsPresenter.present
+import mhashim.android.putback.ui.*
+import mhashim.android.putback.ui.notionsFragment.NotionsPresenter.present
 
 
 open class NotionsFragment : BaseFragment() {
@@ -45,7 +46,6 @@ open class NotionsFragment : BaseFragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-
 		initRecyclerView()
 		showData()
 	}

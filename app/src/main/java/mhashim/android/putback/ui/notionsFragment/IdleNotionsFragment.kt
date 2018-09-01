@@ -1,4 +1,4 @@
-package mhashim.android.putback.ui
+package mhashim.android.putback.ui.notionsFragment
 
 import android.view.View
 import mhashim.android.putback.R

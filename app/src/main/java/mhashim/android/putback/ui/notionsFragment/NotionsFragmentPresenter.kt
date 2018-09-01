@@ -1,4 +1,4 @@
-package mhashim.android.putback.ui
+package mhashim.android.putback.ui.notionsFragment
 
 import android.content.res.Resources
 import android.view.View
@@ -12,6 +12,7 @@ import io.reactivex.subjects.PublishSubject
 import io.realm.Realm
 import mhashim.android.putback.data.Notion
 import mhashim.android.putback.data.NotionsRealm
+import mhashim.android.putback.ui.colorSelector
 
 /**
  * Created by mhashim6 on 01/09/2018.
