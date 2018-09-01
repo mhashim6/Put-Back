@@ -12,8 +12,6 @@ import io.reactivex.subjects.PublishSubject
 import io.realm.Realm
 import mhashim.android.putback.data.Notion
 import mhashim.android.putback.data.NotionsRealm
-import mhashim.android.putback.debug
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by mhashim6 on 01/09/2018.
@@ -33,15 +31,13 @@ class NotionCompactViewModel(
 		val color: Int = colorSelector(model, resources)
 )
 
-fun NotionCompactView.render(notion: NotionCompactViewModel) {
-	content.text = notion.content
-	archiveIcon.visibility = notion.archivedIconVisibility
-	setCardBackgroundColor(notion.color)
-}
-
 object NotionsPresenter {
 
-	fun present(archiveAttempts: PublishSubject<NotionCompactViewModel>, resources: Resources, isIdle: Boolean): ViewModel {
+	fun present(
+			idleStates: PublishSubject<Pair<NotionCompactViewModel, Boolean>>,
+			resources: Resources,
+			isIdle: Boolean): ViewModel {
+
 		val realm = Realm.getDefaultInstance()
 
 		val notions = NotionsRealm.findAllWithIdleStatus(isIdle)
@@ -52,20 +48,14 @@ object NotionsPresenter {
 		val emptyNotionsVisibility = notions.map { if (it.isEmpty()) VISIBLE else GONE }
 
 //		successful archives
-		val successfulArchives = archiveAttempts.buffer(5, TimeUnit.SECONDS)
-				.map {
-					val models = it.map { it.model }
-					models.map {
-						it.apply { isArchived = isIdle.not() }
-					}
-				}
-				.filter { it.isNotEmpty() }
+		val successfulArchives = idleStates
 				.subscribeOn(Schedulers.computation())
 				.observeOn(AndroidSchedulers.mainThread())
 				.doFinally { NotionsRealm.closeRealm(realm) }
-				.subscribe { list ->
-					debug("buffer period has passed")
-					NotionsRealm.changeIdleStatus(list, isIdle.not())
+				.subscribe {
+					val notion = it.first.model
+					val idleState = it.second
+					NotionsRealm.changeIdleStatus(notion, idleState)
 				}
 
 		return ViewModel(notions, emptyNotionsVisibility, successfulArchives)

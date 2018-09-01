@@ -17,3 +17,9 @@ class NotionCompactView : CardView {
 	val archiveIcon: AppCompatImageView by lazy { archiveIconId }
 //	val priorityRibbon:View by lazy { priority }
 }
+
+fun NotionCompactView.render(notion: NotionCompactViewModel) {
+	content.text = notion.content
+	archiveIcon.visibility = notion.archivedIconVisibility
+	setCardBackgroundColor(notion.color)
+}

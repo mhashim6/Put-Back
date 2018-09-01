@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import io.reactivex.subjects.PublishSubject
@@ -34,7 +33,7 @@ open class NotionsFragment : BaseFragment() {
 
 	private val snacks = SnackbarQueue()
 
-	private val archives: PublishSubject<NotionCompactViewModel> = PublishSubject.create()
+	private val archives: PublishSubject<Pair<NotionCompactViewModel, Boolean>> = PublishSubject.create()
 
 	private val notionsAdapter by lazy {
 		makeAdapter<NotionCompactView, NotionCompactViewModel>(R.layout.notion_compact, notionsSortedList()) {
@@ -86,18 +85,12 @@ open class NotionsFragment : BaseFragment() {
 	}
 
 	private fun attemptToArchive(notion: NotionCompactViewModel, pos: Int) {
-		notionsAdapter.removeItem(notion)
+		archives.onNext(notion to isIdle.not())
 		snacks.enqueue(Snackbar
 				.make(root, if (isIdle) getString(R.string.un_archived_message) else getString(R.string.archived_message), LENGTH_SHORT)
 				.setAction(getString(R.string.undo)) {
-					notionsAdapter.addItem(notion)
-
-				}.addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
-					override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-						if (event == DISMISS_EVENT_TIMEOUT)
-							archives.onNext(notion)
-					}
-				})
+					archives.onNext(notion to isIdle)
+				}
 		)
 	}
 
@@ -115,7 +108,6 @@ open class NotionsFragment : BaseFragment() {
 	private fun updateNotions(notions: List<NotionCompactViewModel>) {
 		debug("items updated, size: ${notions.size}")
 		notionsAdapter.replaceAll(notions)
-		notionsAdapter.notifyDataSetChanged()
 	}
 
 	private fun updateEmptyFillerView(visibility: Int) {
