@@ -6,9 +6,10 @@
 
 package mhashim.android.putback
 
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.util.Log
-import mhashim.android.putback.data.Notion
-import java.util.concurrent.TimeUnit
 
 fun Any.debug(message: Any?) = Log.d(this::class.java.simpleName, message.toString())
 fun Any.info(message: Any?) = Log.i(this::class.java.simpleName, message.toString())
@@ -16,10 +17,11 @@ fun Any.verbose(message: Any?) = Log.v(this::class.java.simpleName, message.toSt
 fun Any.error(message: Any?) = Log.e(this::class.java.simpleName, message.toString())
 fun Any.wtf(message: Any?) = Log.wtf(this::class.java.simpleName, message.toString())
 
-val hotNotionPredicate: (Notion) -> Boolean = { notion ->
-	val lastRunDay = TimeUnit.MILLISECONDS.toDays(notion.lastRunAt)
-	val today = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis())
-
-//	notion.interval >= (today - lastRunDay)
-	true
+fun notificationAction(context: Context, id: String, actionType: Int): PendingIntent {
+	return PendingIntent.getBroadcast(
+			context, actionType,
+			Intent(context, NotificationBroadcastReceiver::class.java).apply {
+				putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
+				putExtra(NotificationBroadcastReceiver.ACTION_TYPE, actionType)
+			}, 0)
 }

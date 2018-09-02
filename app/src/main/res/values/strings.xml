@@ -10,4 +10,6 @@
 	<string name="un_archived_message">Notion is active again</string>
 	<string name="channel_name">PutBack Notions Reminder</string>
 	<string name="channel_description">This channel is used to deliver notifications for active notions</string>
+	<string name="putback">Put Back</string>
+	<string name="notion_is_putback">A notion\'s been sent to your future self</string>
 </resources>

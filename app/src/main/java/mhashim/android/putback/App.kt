@@ -34,9 +34,14 @@ class App : Application() {
 	}
 
 	private fun submitWorks() {
+
 		val workRequest = PeriodicWorkRequest
 				.Builder(NotionsReminder::class.java, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES)
 				.build()
+
+		workRequest.apply {
+			tags.add(NOTIONS_REMINDER_TAG)
+		}
 
 		WorkManager.getInstance()
 				.enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,

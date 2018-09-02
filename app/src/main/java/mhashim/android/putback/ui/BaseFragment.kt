@@ -1,6 +1,5 @@
 package mhashim.android.putback.ui
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import io.reactivex.disposables.CompositeDisposable
 import mhashim.android.putback.R
 
 
@@ -23,8 +21,6 @@ import mhashim.android.putback.R
  * Created by mhashim6 on 29/08/2018.
  */
 abstract class BaseFragment : Fragment(), ToolbarOwner {
-
-	protected lateinit var subscriptions: CompositeDisposable
 
 	abstract val layoutRes: Int
 
@@ -38,24 +34,11 @@ abstract class BaseFragment : Fragment(), ToolbarOwner {
 	@DrawableRes
 	override val navigationIconRes = 0
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		retainInstance = true
-	}
-
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		return inflater.inflate(layoutRes, container, false)
 	}
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		setUpViews(view)
-		setUpToolbar()
-	}
-
-	protected open fun setUpViews(view: View) {}
-
-	protected open fun setUpToolbar() {
+	override fun setUpToolbar(toolbar: Toolbar) {
 		if (menuRes != 0)
 			toolbar.inflateMenu(menuRes)
 		if (navigationIconRes != 0)
@@ -99,21 +82,9 @@ abstract class BaseFragment : Fragment(), ToolbarOwner {
 	protected fun navigateUp() {
 		findNavController(this).navigateUp()
 	}
-
-	override fun onAttach(context: Context?) {
-		super.onAttach(context)
-		subscriptions = CompositeDisposable()
-	}
-
-	override fun onDetach() {
-		super.onDetach()
-		subscriptions.clear()
-	}
 }
 
 interface ToolbarOwner {
-	val toolbar: Toolbar
-
 	val toolbarTitleColor: Int
 
 	val toolbarSubtitleColor: Int
@@ -121,6 +92,8 @@ interface ToolbarOwner {
 	val menuRes: Int
 
 	val navigationIconRes: Int
+
+	fun setUpToolbar(toolbar: Toolbar)
 
 	fun onMenuItemClickedListener(menuItem: MenuItem): Boolean = true
 

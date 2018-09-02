@@ -6,8 +6,11 @@ import android.graphics.Canvas
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
+import io.realm.OrderedCollectionChangeSet
 import mhashim.android.putback.R
 import mhashim.android.putback.data.Notion
+import mhashim.android.putback.ui.notionsFragment.BaseAdapter
+import mhashim.android.putback.ui.notionsFragment.NotionCompactViewModel
 
 
 /**
@@ -41,3 +44,21 @@ fun colorSelector(notion: Notion, resources: Resources): Int {
 
 val Boolean.visibility
 	get() = if (this) View.VISIBLE else View.GONE
+
+
+fun BaseAdapter<NotionCompactView, NotionCompactViewModel>.handleChanges(collectionChange: Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet?>) {
+	val (collection, changeset) = collectionChange
+	replaceAll(collection)
+	if (changeset == null)
+		notifyDataSetChanged()
+	else {
+		for (change in changeset.changeRanges)
+			notifyItemRangeChanged(change.startIndex, change.length)
+
+		for (insertion in changeset.insertionRanges)
+			notifyItemRangeInserted(insertion.startIndex, insertion.length)
+
+		for (deletion in changeset.deletionRanges)
+			notifyItemRangeRemoved(deletion.startIndex, deletion.length)
+	}
+}

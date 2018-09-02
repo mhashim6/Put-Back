@@ -1,11 +1,10 @@
-package mhashim.android.putback.ui
+package mhashim.android.putback.ui.notionsFragment
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SortedList
 
 /**
  * Create a @BaseAdapter
@@ -29,14 +28,14 @@ import androidx.recyclerview.widget.SortedList
  * ```h
  */
 inline fun <reified V : View, reified T : Any> makeAdapter(
-		@LayoutRes resId: Int, items: SortedList<T>, f: BaseAdapter<V, T>.() -> Unit): BaseAdapter<V, T> {
+		@LayoutRes resId: Int, items: MutableList<T>, f: BaseAdapter<V, T>.() -> Unit): BaseAdapter<V, T> {
 	return BaseAdapter<V, T>(resId, items).apply { f() }
 }
 
 /**
  * RecyclerView.Adapter for data class, use fun [makeAdapter] to create it
  */
-class BaseAdapter<out V : View, T : Any>(@LayoutRes private val resId: Int, var items: SortedList<T>)
+class BaseAdapter<out V : View, T : Any>(@LayoutRes private val resId: Int, var items: MutableList<T>)
 	: RecyclerView.Adapter<BaseAdapter.DataClassViewHolder<T>>() {
 	private var _onBindViewHolder: (view: V, item: T) -> Unit = { _, _ -> }
 	private var _onItemClickListener: (view: V, item: T) -> Unit = { _, _ -> }
@@ -64,10 +63,15 @@ class BaseAdapter<out V : View, T : Any>(@LayoutRes private val resId: Int, var 
 		_onBindViewHolder(holder.itemView as V, item)
 	}
 
-	override fun getItemCount(): Int = items.size()
+	override fun getItemCount(): Int = items.size
 
 	fun replaceAll(all: Collection<T>) {
-		items.replaceAll(all)
+		items.clear()
+		items.addAll(all)
+	}
+
+	fun addAll(all: Collection<T>) {
+		items.addAll(all)
 	}
 
 	fun addItem(item: T) {

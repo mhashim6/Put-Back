@@ -1,6 +1,8 @@
 package mhashim.android.putback.ui.notionsFragment
 
+import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import mhashim.android.putback.R
 
 /**
@@ -11,15 +13,10 @@ class IdleNotionsFragment : NotionsFragment() {
 
 	override val navigationIconRes = R.drawable.ic_archive_white_24dp
 
-	override fun setUpToolbar() {
-		super.setUpToolbar()
+	override fun setUpToolbar(toolbar: Toolbar) {
+		super.setUpToolbar(toolbar)
 		toolbar.subtitle = "Idle Notions"
 	}
-
-	override fun setUpViews(view: View) {
-		super.setUpViews(view)
-	}
-
 
 	override fun onNavigationItemClick(view: View) {
 		when {
