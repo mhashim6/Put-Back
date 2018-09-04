@@ -1,10 +1,13 @@
 package mhashim.android.putback.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation
 import io.realm.Realm
 import mhashim.android.putback.R
 import mhashim.android.putback.data.Notion
+import mhashim.android.putback.debug
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,6 +17,15 @@ class MainActivity : AppCompatActivity() {
 //		writeDummyData()
 
 		setContentView(R.layout.activity_main)
+	}
+
+	override fun onNewIntent(intent: Intent) {
+		debug(intent.action)
+		super.onNewIntent(intent)
+		if (intent.action == MAIN_ACTIVITY_SHOW_NOTION_ACTION) {
+			//TODO pass notionId to detail fragment.
+			Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.notionDetailFragment,Bundle())
+		}
 	}
 
 	private fun writeDummyData() {
@@ -32,5 +44,11 @@ class MainActivity : AppCompatActivity() {
 	}
 
 //	override fun onSupportNavigateUp() = findNavController(this, R.id.nav_host_fragment).navigateUp()
+
+
+	companion object {
+		const val MAIN_ACTIVITY_SHOW_NOTION_ACTION = "MAIN_ACTIVITY_SHOW_NOTION_ACTION"
+	}
+
 }
 

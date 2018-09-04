@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import mhashim.android.putback.data.NotionsRealm
+import mhashim.android.putback.ui.MainActivity
+import mhashim.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
 import mhashim.android.putback.work.NotionsReminder
 
 /**
@@ -23,10 +25,16 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 			}
 
 			ACTION_TYPE_ARCHIVE -> {
-				val notion = NotionsRealm.findOne(notionId)
-				notion?.let {
-					NotionsRealm.changeIdleState(it, true)
+				NotionsRealm.changeIdleState(notionId, true)
+			}
+
+			ACTION_TYPE_SHOW_CONTENT -> {
+				val activityStarter = Intent(context, MainActivity::class.java).apply {
+					action = MAIN_ACTIVITY_SHOW_NOTION_ACTION
+					putExtra(NOTION_ID_EXTRA, notionId)
 				}
+
+				context.startActivity(activityStarter)
 			}
 		}
 

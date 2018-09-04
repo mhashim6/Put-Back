@@ -28,14 +28,14 @@ import androidx.recyclerview.widget.RecyclerView
  * ```h
  */
 inline fun <reified V : View, reified T : Any> makeAdapter(
-		@LayoutRes resId: Int, items: MutableList<T>, f: BaseAdapter<V, T>.() -> Unit): BaseAdapter<V, T> {
+		@LayoutRes resId: Int, items: List<T>, f: BaseAdapter<V, T>.() -> Unit): BaseAdapter<V, T> {
 	return BaseAdapter<V, T>(resId, items).apply { f() }
 }
 
 /**
  * RecyclerView.Adapter for data class, use fun [makeAdapter] to create it
  */
-class BaseAdapter<out V : View, T : Any>(@LayoutRes private val resId: Int, var items: MutableList<T>)
+class BaseAdapter<out V : View, T : Any>(@LayoutRes private val resId: Int, private var items: List<T>)
 	: RecyclerView.Adapter<BaseAdapter.DataClassViewHolder<T>>() {
 	private var _onBindViewHolder: (view: V, item: T) -> Unit = { _, _ -> }
 	private var _onItemClickListener: (view: V, item: T) -> Unit = { _, _ -> }
@@ -65,21 +65,20 @@ class BaseAdapter<out V : View, T : Any>(@LayoutRes private val resId: Int, var 
 
 	override fun getItemCount(): Int = items.size
 
-	fun replaceAll(all: Collection<T>) {
-		items.clear()
-		items.addAll(all)
+	fun replaceAll(all: List<T>) {
+		items = all
 	}
 
 	fun addAll(all: Collection<T>) {
-		items.addAll(all)
+//		items.addAll(all)
 	}
 
 	fun addItem(item: T) {
-		items.add(item)
+//		items.add(item)
 	}
 
 	fun removeItem(item: T) {
-		items.remove(item)
+//		items.remove(item)
 	}
 
 	class DataClassViewHolder<T : Any>(itemView: View) : RecyclerView.ViewHolder(itemView) {

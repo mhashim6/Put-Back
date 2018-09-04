@@ -12,4 +12,5 @@
 	<string name="channel_description">This channel is used to deliver notifications for active notions</string>
 	<string name="putback">Put Back</string>
 	<string name="notion_is_putback">A notion\'s been sent to your future self</string>
+	<string name="notion_is_archived">Productivity: 100</string>
 </resources>

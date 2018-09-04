@@ -12,7 +12,9 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-		<activity android:name=".ui.MainActivity">
+		<activity
+			android:name=".ui.MainActivity"
+			android:launchMode="singleInstance">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 
@@ -20,12 +22,13 @@
 			</intent-filter>
 		</activity>
 
-		<receiver android:name=".NotificationBroadcastReceiver" android:exported="false">
+		<receiver
+			android:name=".NotificationBroadcastReceiver"
+			android:exported="false">
 			<intent-filter>
 				<action android:name="mhashim6.putback.NOTIFICATION"/>
 			</intent-filter>
 		</receiver>
-
 	</application>
 
 </manifest>

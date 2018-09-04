@@ -51,9 +51,21 @@ object NotionsRealm {
 		val realm = Realm.getDefaultInstance()
 
 		realm.executeTransactionAsync {
-			it.copyToRealmOrUpdate(notion.apply { isArchived = state })
+			notion.isArchived = state
+			it.copyToRealmOrUpdate(notion)
 		}
 
+		closeRealm(realm)
+	}
+
+	fun changeIdleState(id: String, state: Boolean) {
+		val realm = Realm.getDefaultInstance()
+		realm.executeTransaction {
+			val notion = it.where<Notion>().equalTo("id", id).findFirst()
+
+			notion?.isArchived = state
+			debug("here bich ${notion?.isArchived}")
+		}
 		closeRealm(realm)
 	}
 
@@ -99,7 +111,7 @@ object NotionsRealm {
 		val today = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis())
 
 //	notion.interval >= (today - lastRunDay)
-		true
+		true //TODO
 	}
 
 	private fun closeRealm(realm: Realm) {

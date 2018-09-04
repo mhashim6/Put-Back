@@ -4,7 +4,6 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.View
-import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
 import io.realm.OrderedCollectionChangeSet
 import mhashim.android.putback.R
@@ -29,7 +28,6 @@ fun Bitmap.crop(startX: Int, startY: Int, endX: Int, endY: Int): Bitmap {
 	return Bitmap.createBitmap(this, startX, startY, endX - startX, endY - startY)
 }
 
-@ColorRes
 fun colorSelector(notion: Notion, resources: Resources): Int {
 
 	val colorRes = when {

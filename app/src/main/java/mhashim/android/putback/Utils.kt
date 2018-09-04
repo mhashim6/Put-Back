@@ -10,6 +10,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import mhashim.android.putback.ui.MainActivity
 
 fun Any.debug(message: Any?) = Log.d(this::class.java.simpleName, message.toString())
 fun Any.info(message: Any?) = Log.i(this::class.java.simpleName, message.toString())
@@ -23,5 +24,14 @@ fun notificationAction(context: Context, id: String, actionType: Int): PendingIn
 			Intent(context, NotificationBroadcastReceiver::class.java).apply {
 				putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
 				putExtra(NotificationBroadcastReceiver.ACTION_TYPE, actionType)
+			}, 0)
+}
+
+fun notificationContentAction(context: Context, id: String, actionType: Int, action: String): PendingIntent {
+	return PendingIntent.getActivity(
+			context, actionType,
+			Intent(context, MainActivity::class.java).apply {
+				this.action = action
+				putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
 			}, 0)
 }

@@ -16,7 +16,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_notions.*
 import mhashim.android.putback.R
-import mhashim.android.putback.debug
 import mhashim.android.putback.ui.*
 
 
@@ -38,7 +37,7 @@ open class NotionsFragment : BaseFragment() {
 	private val idleStates: PublishSubject<Pair<NotionCompactViewModel, Boolean>> = PublishSubject.create()
 
 	private val notionsAdapter by lazy {
-		makeAdapter<NotionCompactView, NotionCompactViewModel>(R.layout.notion_compact, mutableListOf()) {
+		makeAdapter<NotionCompactView, NotionCompactViewModel>(R.layout.notion_compact, listOf()) {
 			onBindViewHolder { notionView, notion ->
 				notionView.render(notion)
 			}
@@ -48,11 +47,17 @@ open class NotionsFragment : BaseFragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		setUpViews(view)
-		initRecyclerView()
+
+/* TODO
+		val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
+		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select ringtone for notifications:")
+		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
+		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
+		this.startActivityForResult(intent, 999)*/
 	}
 
 	override fun onResume() {
-		debug("resumed")
 		super.onResume()
 		showData()
 	}
@@ -66,7 +71,10 @@ open class NotionsFragment : BaseFragment() {
 		toolbar = view.findViewById(R.id.toolbarId)
 		setUpToolbar(toolbar)
 		fillerView = view.findViewById(R.id.emptyViewId)
+
 		notionsRecycler = view.findViewById(R.id.notionsRecyclerId)
+		initRecyclerView()
+
 		fab = view.findViewById(R.id.fabId)
 		fab.visibility = isIdle.not().visibility
 	}
@@ -122,46 +130,6 @@ open class NotionsFragment : BaseFragment() {
 	private fun updateEmptyFillerView(visibility: Int) {
 		fillerView.visibility = visibility
 	}
-
-	/*
-private fun updateNotions(notions: List<NotionCompactViewModel>) {
-	debug("items updated, size: ${notions.size}")
-	notionsAdapter.replaceAll(notions)
-}
-
-
-	private fun notionsSortedList(): SortedList<NotionCompactViewModel> {
-		return SortedList<NotionCompactViewModel>(NotionCompactViewModel::class.java, (object : SortedList.Callback<NotionCompactViewModel>() {
-			override fun areItemsTheSame(item1: NotionCompactViewModel, item2: NotionCompactViewModel): Boolean {
-				return item1.model.id == item2.model.id
-			}
-
-			override fun onMoved(fromPosition: Int, toPosition: Int) {
-				notionsAdapter.notifyItemMoved(fromPosition, toPosition)
-			}
-
-			override fun onChanged(position: Int, count: Int) {
-				notionsAdapter.notifyItemRangeChanged(position, count)
-			}
-
-			override fun onInserted(position: Int, count: Int) {
-				notionsAdapter.notifyItemRangeInserted(position, count)
-			}
-
-			override fun onRemoved(position: Int, count: Int) {
-				notionsAdapter.notifyItemRangeRemoved(position, count)
-			}
-
-			override fun compare(o1: NotionCompactViewModel, o2: NotionCompactViewModel): Int {
-				return o1.model.createdAt.compareTo(o2.model.createdAt)
-			}
-
-			override fun areContentsTheSame(oldItem: NotionCompactViewModel, newItem: NotionCompactViewModel): Boolean {
-				return oldItem == newItem
-			}
-		}))
-	}
-*/
 
 	override fun onNavigationItemClick(view: View) {
 		when {

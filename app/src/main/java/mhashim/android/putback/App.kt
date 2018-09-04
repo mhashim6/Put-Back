@@ -36,7 +36,7 @@ class App : Application() {
 	private fun submitWorks() {
 
 		val workRequest = PeriodicWorkRequest
-				.Builder(NotionsReminder::class.java, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES)
+				.Builder(NotionsReminder::class.java, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES) //temp for testing.
 				.build()
 
 		workRequest.apply {
