@@ -15,16 +15,20 @@ class MainActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 //		writeDummyData()
-
 		setContentView(R.layout.activity_main)
+		handleIntent(intent)
 	}
 
 	override fun onNewIntent(intent: Intent) {
 		debug(intent.action)
 		super.onNewIntent(intent)
+		handleIntent(intent)
+	}
+
+	private fun handleIntent(intent: Intent) {
 		if (intent.action == MAIN_ACTIVITY_SHOW_NOTION_ACTION) {
 			//TODO pass notionId to detail fragment.
-			Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.notionDetailFragment,Bundle())
+			Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.notionDetailFragment, Bundle())
 		}
 	}
 
