@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import mhashim.android.putback.*
+import mhashim.android.putback.App.Companion.NOTIFICATION_CHANNEL_ID
 import mhashim.android.putback.NotificationBroadcastReceiver.Companion.ACTION_TYPE_PUTBACK
 import mhashim.android.putback.NotificationBroadcastReceiver.Companion.ACTION_TYPE_SHOW_CONTENT
 import mhashim.android.putback.data.Notion
@@ -44,11 +45,12 @@ class NotionsReminder : Worker() {
 				.setContentText(notion.content)
 				.setCategory(NotificationCompat.CATEGORY_REMINDER)
 				.setContentIntent(showAction)
-				.addAction(0, applicationContext.getString(R.string.putback), putbackAction)
+				.addAction(0, applicationContext.getString(R.string.putback), putbackAction) //TODO icon
 //				.addAction(0, applicationContext.getString(R.string.archive), archiveAction)
 
 				.setStyle(NotificationCompat.BigTextStyle().bigText(notion.content).setSummaryText("No need to rush")) //TODO multiple texts
 				.setPriority(NotificationCompat.PRIORITY_HIGH)
+				.setChannelId(NOTIFICATION_CHANNEL_ID)
 				.setLights(color, 500, 2000)
 //				.setDefaults(NotificationCompat.DEFAULT_SOUND)
 				.setColor(color)
