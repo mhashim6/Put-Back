@@ -11,7 +11,6 @@ import mhashim.android.putback.debug
 
 class MainActivity : AppCompatActivity() {
 
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 //		writeDummyData()
