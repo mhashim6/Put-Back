@@ -40,11 +40,10 @@ fun present(
 
 	val fillerViewVisibility = PublishSubject.create<Int>()
 
-	val notionsChanges = NotionsRealm.notionsChangesSubject(isIdle)
+	val notionsChanges = NotionsRealm.notionsChanges(isIdle)
 			.observeOn(AndroidSchedulers.mainThread())
 			.doOnNext { fillerViewVisibility.onNext(it.first.isEmpty().visibility) }
 			.map { it.first.map { notion -> NotionCompactViewModel(resources, notion) } to it.second }
-//				.map { emptyList<NotionCompactViewModel>() } //for debugging empty results.
 
 //		successful archives
 	val archives = idleStates
