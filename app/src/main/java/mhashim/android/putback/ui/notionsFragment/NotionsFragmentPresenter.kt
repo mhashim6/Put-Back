@@ -18,7 +18,7 @@ import mhashim.android.putback.ui.visibility
  */
 
 class ViewModel(
-		val notions: Observable<Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet?>>,
+		val notionsChanges: Observable<Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet?>>,
 		val emptyNotionsVisibility: Observable<Int>,
 		val archives: Disposable)
 
@@ -41,7 +41,7 @@ fun present(
 
 	val fillerViewVisibility = PublishSubject.create<Int>()
 
-	val notions = NotionsRealm.notionsChangeSet(isIdle)
+	val notionsChanges = NotionsRealm.notionsChangeSet(isIdle)
 			.doOnNext { fillerViewVisibility.onNext(it.first.isEmpty().visibility) }
 			.map { it.first.map { notion -> NotionCompactViewModel(resources, notion) } to it.second }
 //				.map { emptyList<NotionCompactViewModel>() } //for debugging empty results.
@@ -54,7 +54,7 @@ fun present(
 				NotionsRealm.changeIdleState(notion.model, idleState)
 			}
 
-	return ViewModel(notions,
+	return ViewModel(notionsChanges,
 			fillerViewVisibility.subscribeOn(
 					Schedulers.computation())
 					.observeOn(AndroidSchedulers.mainThread()),

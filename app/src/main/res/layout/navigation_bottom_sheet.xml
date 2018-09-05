@@ -31,7 +31,7 @@
 			android:focusable="true"
 			android:foreground="?android:selectableItemBackground"
 			android:padding="@dimen/bottom_sheet_item_padding"
-			android:text="@string/notions"
+			android:text="@string/notionsSubject"
 			android:textSize="@dimen/bottom_sheet_item_text_size"/>
 
 		<androidx.appcompat.widget.AppCompatTextView

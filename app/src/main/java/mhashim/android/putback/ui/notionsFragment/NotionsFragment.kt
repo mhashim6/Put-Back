@@ -110,7 +110,7 @@ open class NotionsFragment : BaseFragment() {
 		val viewModel = present(idleStates, resources, isIdle)
 		with(viewModel) {
 			subscriptions.addAll(
-					notions.subscribe(notionsAdapter::handleChanges),
+					notionsChanges.subscribe(notionsAdapter::handleChanges),
 					emptyNotionsVisibility.subscribe(::updateEmptyFillerView),
 					archives
 			)

@@ -30,7 +30,7 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="top|center"
 		android:layout_marginTop="?attr/actionBarSize"
-		android:src="@drawable/ic_spider"
+		app:srcCompat="@drawable/ic_spider"
 		android:visibility="gone"
 		/>
 

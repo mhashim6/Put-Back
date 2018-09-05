@@ -1,7 +1,11 @@
 package mhashim.android.putback.data
 
+import android.os.HandlerThread
 import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposables
 import io.realm.OrderedCollectionChangeSet
 import io.realm.Realm
 import io.realm.RealmObject
@@ -26,6 +30,35 @@ object NotionsRealm {
 				.doFinally { closeRealm(realm) }
 	}
 
+	fun notionsChanges(state: Boolean): Observable<Pair<MutableList<Notion>, OrderedCollectionChangeSet?>> {
+		val looperScheduler: Scheduler
+		val x: Int
+		val thread = HandlerThread("looper")
+		thread.start()
+		looperScheduler = AndroidSchedulers.from(thread.looper)
+
+		return Observable.create<Pair<MutableList<Notion>, OrderedCollectionChangeSet?>> { source ->
+			val realm = Realm.getDefaultInstance()
+			val queryResult = realm.where<Notion>()
+					.equalTo("isArchived", state)
+					.findAll()
+
+			queryResult.addChangeListener { realmResults, changeSet ->
+				if (!source.isDisposed)
+					if (realmResults.isValid && realmResults.isLoaded) {
+						debug("well shit")
+						val results: MutableList<Notion> = realm.copyFromRealm(realmResults)
+						source.onNext(results to changeSet)
+					}
+			}
+			source.setDisposable(Disposables.fromRunnable {
+				queryResult.removeAllChangeListeners()
+				realm.close()
+			})
+		}.subscribeOn(looperScheduler).unsubscribeOn(looperScheduler)
+	}
+
+
 	fun notionsChangeSet(state: Boolean): Observable<Pair<MutableList<Notion>, OrderedCollectionChangeSet?>> {
 		val realm = Realm.getDefaultInstance()
 		return realm.where<Notion>()
@@ -48,19 +81,12 @@ object NotionsRealm {
 	}
 
 	fun changeIdleState(notion: Notion, state: Boolean) {
-		val realm = Realm.getDefaultInstance()
-
-		realm.executeTransactionAsync {
-			notion.isArchived = state
-			it.copyToRealmOrUpdate(notion)
-		}
-
-		closeRealm(realm)
+		changeIdleState(notion.id,state)
 	}
 
 	fun changeIdleState(id: String, state: Boolean) {
 		val realm = Realm.getDefaultInstance()
-		realm.executeTransaction {
+		realm.executeTransactionAsync {
 			val notion = it.where<Notion>().equalTo("id", id).findFirst()
 
 			notion?.isArchived = state
