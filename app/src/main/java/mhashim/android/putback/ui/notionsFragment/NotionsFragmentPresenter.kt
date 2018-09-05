@@ -5,7 +5,6 @@ import android.view.View
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import io.realm.OrderedCollectionChangeSet
 import mhashim.android.putback.data.Notion
@@ -18,7 +17,7 @@ import mhashim.android.putback.ui.visibility
  */
 
 class ViewModel(
-		val notionsChanges: Observable<Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet?>>,
+		val notionsChanges: Observable<Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet>>,
 		val emptyNotionsVisibility: Observable<Int>,
 		val archives: Disposable)
 
@@ -41,11 +40,11 @@ fun present(
 
 	val fillerViewVisibility = PublishSubject.create<Int>()
 
-	val notionsChanges = NotionsRealm.notionsChangeSet(isIdle)
+	val notionsChanges = NotionsRealm.notionsChangesSubject(isIdle)
+			.observeOn(AndroidSchedulers.mainThread())
 			.doOnNext { fillerViewVisibility.onNext(it.first.isEmpty().visibility) }
 			.map { it.first.map { notion -> NotionCompactViewModel(resources, notion) } to it.second }
 //				.map { emptyList<NotionCompactViewModel>() } //for debugging empty results.
-
 
 //		successful archives
 	val archives = idleStates
@@ -55,8 +54,6 @@ fun present(
 			}
 
 	return ViewModel(notionsChanges,
-			fillerViewVisibility.subscribeOn(
-					Schedulers.computation())
-					.observeOn(AndroidSchedulers.mainThread()),
+			fillerViewVisibility.observeOn(AndroidSchedulers.mainThread()),
 			archives)
 }

@@ -16,6 +16,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_notions.*
 import mhashim.android.putback.R
+import mhashim.android.putback.debug
 import mhashim.android.putback.ui.*
 
 
@@ -39,6 +40,7 @@ open class NotionsFragment : BaseFragment() {
 	private val notionsAdapter by lazy {
 		makeAdapter<NotionCompactView, NotionCompactViewModel>(R.layout.notion_compact, listOf()) {
 			onBindViewHolder { notionView, notion ->
+				debug("kill me plz")
 				notionView.render(notion)
 			}
 		}

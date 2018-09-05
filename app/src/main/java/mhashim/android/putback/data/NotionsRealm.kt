@@ -6,10 +6,9 @@ import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
-import io.realm.OrderedCollectionChangeSet
-import io.realm.Realm
-import io.realm.RealmObject
-import io.realm.RealmQuery
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.realm.*
 import mhashim.android.putback.debug
 import java.util.concurrent.TimeUnit
 
@@ -30,36 +29,62 @@ object NotionsRealm {
 				.doFinally { closeRealm(realm) }
 	}
 
-	fun notionsChanges(state: Boolean): Observable<Pair<MutableList<Notion>, OrderedCollectionChangeSet?>> {
-		val looperScheduler: Scheduler
-		val x: Int
-		val thread = HandlerThread("looper")
-		thread.start()
-		looperScheduler = AndroidSchedulers.from(thread.looper)
-
-		return Observable.create<Pair<MutableList<Notion>, OrderedCollectionChangeSet?>> { source ->
+	fun notionsChanges(state: Boolean): Observable<Pair<MutableList<Notion>, OrderedCollectionChangeSet>> {
+		val scheduler = looperScheduler()
+		return Observable.create<Pair<MutableList<Notion>, OrderedCollectionChangeSet>> { source ->
 			val realm = Realm.getDefaultInstance()
 			val queryResult = realm.where<Notion>()
 					.equalTo("isArchived", state)
-					.findAll()
+					.findAllAsync()
 
-			queryResult.addChangeListener { realmResults, changeSet ->
-				if (!source.isDisposed)
-					if (realmResults.isValid && realmResults.isLoaded) {
-						debug("well shit")
-						val results: MutableList<Notion> = realm.copyFromRealm(realmResults)
-						source.onNext(results to changeSet)
-					}
+			val listener: OrderedRealmCollectionChangeListener<RealmResults<Notion>> = OrderedRealmCollectionChangeListener { realmResults, changeSet ->
+				if (realmResults.isValid && realmResults.isLoaded) {
+					val results: MutableList<Notion> = realm.copyFromRealm(realmResults)
+					source.onNext(results to changeSet)
+				}
 			}
+			queryResult.addChangeListener(listener)
 			source.setDisposable(Disposables.fromRunnable {
-				queryResult.removeAllChangeListeners()
+				queryResult.removeChangeListener(listener)
 				realm.close()
 			})
-		}.subscribeOn(looperScheduler).unsubscribeOn(looperScheduler)
+		}.subscribeOn(scheduler).unsubscribeOn(scheduler)
 	}
 
+	private fun looperScheduler(): Scheduler {
+		var looperScheduler: Scheduler? = null
+		val thread = HandlerThread("looper")
+		thread.start()
+		synchronized(thread) {
+			looperScheduler = AndroidSchedulers.from(thread.looper)
+		}
+		return looperScheduler!!
+	}
 
-	fun notionsChangeSet(state: Boolean): Observable<Pair<MutableList<Notion>, OrderedCollectionChangeSet?>> {
+	fun notionsChangesSubject(state: Boolean): Observable<Pair<MutableList<Notion>, OrderedCollectionChangeSet>> {
+
+		val notionsChanges = BehaviorSubject.create<Pair<MutableList<Notion>, OrderedCollectionChangeSet>>()
+
+		val realm = Realm.getDefaultInstance()
+		val queryResult = realm.where<Notion>()
+				.equalTo("isArchived", state)
+				.findAllAsync()
+		val listener: OrderedRealmCollectionChangeListener<RealmResults<Notion>> = OrderedRealmCollectionChangeListener { realmResults, changeSet ->
+			if (realmResults.isValid && realmResults.isLoaded) {
+				val results: MutableList<Notion> = realm.copyFromRealm(realmResults)
+				notionsChanges.onNext(results to changeSet)
+			}
+		}
+		queryResult.addChangeListener(listener)
+		notionsChanges.doFinally {
+			queryResult.removeChangeListener(listener)
+			closeRealm(realm)
+		}.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+
+		return notionsChanges
+	}
+
+	fun notionsChangeSetMainThread(state: Boolean): Observable<Pair<MutableList<Notion>, OrderedCollectionChangeSet?>> {
 		val realm = Realm.getDefaultInstance()
 		return realm.where<Notion>()
 				.equalTo("isArchived", state)
@@ -81,7 +106,7 @@ object NotionsRealm {
 	}
 
 	fun changeIdleState(notion: Notion, state: Boolean) {
-		changeIdleState(notion.id,state)
+		changeIdleState(notion.id, state)
 	}
 
 	fun changeIdleState(id: String, state: Boolean) {

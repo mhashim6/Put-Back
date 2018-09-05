@@ -10,6 +10,7 @@ import mhashim.android.putback.R
 import mhashim.android.putback.data.Notion
 import mhashim.android.putback.ui.notionsFragment.BaseAdapter
 import mhashim.android.putback.ui.notionsFragment.NotionCompactViewModel
+import mhashim.android.putback.wtf
 
 
 /**
@@ -44,10 +45,16 @@ val Boolean.visibility
 	get() = if (this) View.VISIBLE else View.GONE
 
 
-fun BaseAdapter<NotionCompactView, NotionCompactViewModel>.handleChanges(collectionChange: Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet?>) {
+fun BaseAdapter<NotionCompactView, NotionCompactViewModel>.handleChanges(collectionChange: Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet>) {
 	val (collection, changeset) = collectionChange
+
+	if (changeset.state == OrderedCollectionChangeSet.State.ERROR) {
+		wtf("changeset state = ERROR")
+		return
+	}
+
 	replaceAll(collection)
-	if (changeset == null)
+	if (changeset.state == OrderedCollectionChangeSet.State.INITIAL)
 		notifyDataSetChanged()
 	else {
 		for (change in changeset.changeRanges)
