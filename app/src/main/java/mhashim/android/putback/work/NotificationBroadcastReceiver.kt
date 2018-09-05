@@ -1,14 +1,14 @@
-package mhashim.android.putback
+package mhashim.android.putback.work
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import mhashim.android.putback.RandomStrings.randomComment
 import mhashim.android.putback.data.NotionsRealm
 import mhashim.android.putback.ui.MainActivity
 import mhashim.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
-import mhashim.android.putback.work.NotionsReminder
 
 /**
  * Created by mhashim6 on 02/09/2018.
@@ -21,7 +21,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
 		when (actionType) {
 			ACTION_TYPE_PUTBACK -> {
-				Toast.makeText(context, R.string.notion_is_putback, Toast.LENGTH_SHORT).show()
+				Toast.makeText(context, randomComment(), Toast.LENGTH_SHORT).show()
 			}
 
 			ACTION_TYPE_ARCHIVE -> {

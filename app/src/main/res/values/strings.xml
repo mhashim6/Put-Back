@@ -11,6 +11,17 @@
 	<string name="channel_name">PutBack Notions Reminder</string>
 	<string name="channel_description">This channel is used to deliver notifications for active notionsSubject</string>
 	<string name="putback">Put Back</string>
-	<string name="notion_is_putback">A notion\'s been sent to your future self</string>
 	<string name="notion_is_archived">Productivity: 100</string>
+
+	<!--titles-->
+	<string name="title_1">Feeling like it?</string>
+	<string name="title_2">I have an idea…</string>
+	<string name="title_3">Hey, what about…</string>
+
+	<!--comments-->
+	<string name="comment_1">A notion\'s been sent to your future self</string>
+	<string name="comment_2">Take your time</string>
+	<string name="comment_3">No need to rush</string>
+	<string name="comment_4">El. Psy. Congroo</string>
+
 </resources>

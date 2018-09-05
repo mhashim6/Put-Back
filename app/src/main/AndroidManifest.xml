@@ -23,7 +23,7 @@
 		</activity>
 
 		<receiver
-			android:name=".NotificationBroadcastReceiver"
+			android:name=".work.NotificationBroadcastReceiver"
 			android:exported="false">
 			<intent-filter>
 				<action android:name="mhashim6.putback.NOTIFICATION"/>
