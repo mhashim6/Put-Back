@@ -23,7 +23,8 @@ class ViewModel(
 
 class NotionCompactViewModel(
 		resources: Resources,
-		val model: Notion,
+		 model: Notion,
+		val notionId: String = model.id,
 		val content: String = model.content,
 		val interval: Int = model.interval, //TODO
 		val createdAt: Long = model.createdAt,
@@ -49,7 +50,7 @@ fun present(
 	val archives = idleStates
 			.subscribe {
 				val (notion, idleState) = it
-				NotionsRealm.changeIdleState(notion.model, idleState)
+				NotionsRealm.changeIdleState(notion.notionId, idleState)
 			}
 
 	return ViewModel(notionsChanges,
