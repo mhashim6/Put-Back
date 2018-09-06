@@ -14,13 +14,13 @@
 
 	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/notionsRecyclerId"
-		android:overScrollMode="always"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:layout_marginEnd="4dp"
-		android:layout_marginLeft="4dp"
-		android:layout_marginRight="4dp"
 		android:layout_marginStart="4dp"
+		android:layout_marginLeft="4dp"
+		android:layout_marginEnd="4dp"
+		android:layout_marginRight="4dp"
+		android:overScrollMode="always"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 	<!--image author: https://www.flaticon.com/free-icon/spider_93292-->
@@ -30,8 +30,8 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="top|center"
 		android:layout_marginTop="?attr/actionBarSize"
-		app:srcCompat="@drawable/ic_spider"
 		android:visibility="gone"
+		app:srcCompat="@drawable/ic_spider"
 		/>
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,9 +39,9 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom|end"
-		android:layout_marginBottom="20dp"
 		android:layout_marginEnd="20dp"
 		android:layout_marginRight="20dp"
+		android:layout_marginBottom="20dp"
 		android:src="@drawable/ic_plus_black_36dp"
 		app:elevation="1dp"
 		app:fabSize="normal"
