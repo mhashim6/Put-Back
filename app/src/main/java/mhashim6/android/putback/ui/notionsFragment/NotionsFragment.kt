@@ -16,7 +16,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_notions.*
 import mhashim6.android.putback.R
-import mhashim6.android.putback.debug
 import mhashim6.android.putback.ui.*
 
 
@@ -40,7 +39,6 @@ open class NotionsFragment : BaseFragment() {
 	private val notionsAdapter by lazy {
 		makeAdapter<NotionCompactView, NotionCompactViewModel>(R.layout.notion_compact, listOf()) {
 			onBindViewHolder { notionView, notion ->
-				debug("kill me plz")
 				notionView.render(notion)
 			}
 		}
@@ -136,6 +134,7 @@ open class NotionsFragment : BaseFragment() {
 	override fun onNavigationItemClick(view: View) {
 		when {
 			view.id == R.id.archiveItem -> navigateTo(R.id.action_notionsFragment_to_idleNotionsFragment)
+			view.id == R.id.settingsItem-> navigateTo(R.id.action_notionsFragment_to_preferncesFragment)
 		}
 	}
 }

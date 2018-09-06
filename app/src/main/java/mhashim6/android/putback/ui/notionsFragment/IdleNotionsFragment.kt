@@ -20,6 +20,7 @@ class IdleNotionsFragment : NotionsFragment() {
 	override fun onNavigationItemClick(view: View) {
 		when {
 			view.id == R.id.notionsItem -> navigateUp()
+			view.id == R.id.settingsItem -> navigateTo(R.id.action_idleNotionsFragment_to_preferncesFragment)
 		}
 	}
 

@@ -57,17 +57,19 @@ abstract class BaseFragment : Fragment(), ToolbarOwner {
 
 		val bottomSheetView = layoutInflater.inflate(R.layout.navigation_bottom_sheet, null)
 
-		val notionsDestination = bottomSheetView.findViewById<AppCompatTextView>(R.id.notionsItem)
-		notionsDestination.setOnClickListener {
+		val destinationClickListener = { view: View ->
 			dialog.cancel()
-			onNavigationItemClick(it)
+			onNavigationItemClick(view)
 		}
 
+		val notionsDestination = bottomSheetView.findViewById<AppCompatTextView>(R.id.notionsItem)
+		notionsDestination.setOnClickListener(destinationClickListener)
+
 		val idleNotionsDestination = bottomSheetView.findViewById<AppCompatTextView>(R.id.archiveItem)
-		idleNotionsDestination.setOnClickListener {
-			dialog.cancel()
-			onNavigationItemClick(it)
-		}
+		idleNotionsDestination.setOnClickListener(destinationClickListener)
+
+		val preferencesDestination = bottomSheetView.findViewById<AppCompatTextView>(R.id.settingsItem)
+		preferencesDestination.setOnClickListener(destinationClickListener)
 
 		dialog.setContentView(bottomSheetView)
 		dialog.show()
