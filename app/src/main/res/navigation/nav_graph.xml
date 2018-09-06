@@ -7,7 +7,7 @@
 
 	<fragment
 		android:id="@+id/notionsFragment"
-		android:name="mhashim.android.putback.ui.notionsFragment.NotionsFragment"
+		android:name="mhashim6.android.putback.ui.notionsFragment.NotionsFragment"
 		android:label="fragment_notions"
 		app:defaultNavHost="true"
 		tools:layout="@layout/fragment_notions">
@@ -21,7 +21,7 @@
 
 	<fragment
 		android:id="@+id/idleNotionsFragment"
-		android:name="mhashim.android.putback.ui.notionsFragment.IdleNotionsFragment"
+		android:name="mhashim6.android.putback.ui.notionsFragment.IdleNotionsFragment"
 		android:label="fragment_idle_notions"
 		tools:layout="@layout/fragment_notions">
 		<action
@@ -34,13 +34,13 @@
 
 	<fragment
 		android:id="@+id/notionDetailFragment"
-		android:name="mhashim.android.putback.ui.NotionDetailFragment"
+		android:name="mhashim6.android.putback.ui.NotionDetailFragment"
 		android:label="fragment_notion_detail"
 		tools:layout="@layout/fragment_notion_detail"/>
 
 	<fragment
 		android:id="@+id/settingsFragment"
-		android:name="mhashim.android.putback.ui.SettingsFragment"
+		android:name="mhashim6.android.putback.ui.SettingsFragment"
 		android:label="fragment_settings"
 		tools:layout="@layout/fragment_settings"/>
 </navigation>
