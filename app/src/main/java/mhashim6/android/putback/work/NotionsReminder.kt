@@ -4,12 +4,15 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
-import mhashim6.android.putback.*
+import mhashim6.android.putback.App
 import mhashim6.android.putback.App.Companion.NOTIFICATION_CHANNEL_ID
+import mhashim6.android.putback.R
 import mhashim6.android.putback.RandomStrings.randomTitle
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.NotionsRealm.loadHottestNotion
 import mhashim6.android.putback.data.NotionsRealm.updateLastRunAt
+import mhashim6.android.putback.notificationAction
+import mhashim6.android.putback.notificationContentAction
 import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
 import mhashim6.android.putback.ui.colorSelector
 import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_PUTBACK
@@ -23,7 +26,6 @@ class NotionsReminder : Worker() {
 
     override fun doWork(): Result {
         val notion = loadHottestNotion()
-        debug("idle: ${notion?.isArchived}")
 
         notion?.let {
             updateLastRunAt(it)

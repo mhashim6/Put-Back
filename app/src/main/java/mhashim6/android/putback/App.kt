@@ -39,10 +39,6 @@ class App : Application() {
                 .Builder(NotionsReminder::class.java, 12, TimeUnit.HOURS, 5, TimeUnit.MINUTES) //temp for testing.
                 .build()
 
-        workRequest.apply {
-            tags.add(NOTIONS_REMINDER_TAG)
-        }
-
         WorkManager.getInstance()
                 .enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,
                         ExistingPeriodicWorkPolicy.KEEP,
