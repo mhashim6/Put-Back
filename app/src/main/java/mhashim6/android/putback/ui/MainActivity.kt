@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-		writeDummyData()
+//		writeDummyData()
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) //so the intent is not handled again if the device was rotated.
             handleIntent(intent)
@@ -35,15 +35,15 @@ class MainActivity : AppCompatActivity() {
     private fun writeDummyData() {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction {
-            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet.", interval = 1, timeUnit = Notion.DAY))
-       /*     it.copyToRealmOrUpdate(Notion(content = "Lorem.", interval = 8, timeUnit = Notion.DAY))
+            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet.", interval = 2, timeUnit = Notion.WEEK))
+            it.copyToRealmOrUpdate(Notion(content = "Lorem.", interval = 8, timeUnit = Notion.DAY))
             it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor.", interval = 4, timeUnit = Notion.DAY))
             it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero.", interval = 2, timeUnit = Notion.MONTH))
             it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero.", interval = 1, timeUnit = Notion.MONTH))
             it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero.", interval = 15, timeUnit = Notion.DAY))
             it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero.", interval = 1, timeUnit = Notion.YEAR))
             it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero."))
-            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero."))*/
+            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero."))
         }
         realm.close()
     }

@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.View
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import io.realm.OrderedCollectionChangeSet
 import mhashim6.android.putback.R
@@ -14,6 +15,7 @@ import mhashim6.android.putback.ui.notionsFragment.BaseAdapter
 import mhashim6.android.putback.ui.notionsFragment.NotionCompactView
 import mhashim6.android.putback.ui.notionsFragment.NotionCompactViewModel
 import mhashim6.android.putback.wtf
+import java.util.*
 
 
 /**
@@ -41,6 +43,26 @@ fun colorSelector(notion: Notion, resources: Resources): Int {
     }
 
     return ResourcesCompat.getColor(resources, colorRes, null)
+}
+
+
+fun intervalString(interval: Int, unit: Int, resources: Resources): String {
+    return String.format(Locale.getDefault(),
+            resources.getString(R.string.time_unit_template),
+            interval,
+            resources.getString(unitStringSelector(interval, unit)))
+}
+
+@StringRes
+fun unitStringSelector(interval: Int, unit: Int): Int {
+    val isPlural = (interval > 1)
+
+    return when (unit) {
+        Notion.YEAR -> if (isPlural) R.string.year else R.string.year_plural
+        Notion.MONTH -> if (isPlural) R.string.month else R.string.month_plural
+        Notion.WEEK -> if (isPlural) R.string.week else R.string.week_plural
+        else -> if (isPlural) R.string.day else R.string.day_plural
+    }
 }
 
 @DrawableRes

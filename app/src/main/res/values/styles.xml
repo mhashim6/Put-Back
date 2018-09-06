@@ -6,7 +6,7 @@
 		<item name="colorAccent">@color/colorAccent</item>
 		<item name="android:textColorPrimary">@android:color/white</item>
 
-		<item name="android:windowBackground">@drawable/window_background_jaipur</item>
+		<item name="android:windowBackground">@drawable/window_background_love_couple</item>
 		<!-- TODO <item name="android:statusBarColor">@android:color/transparent</item>-->
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>

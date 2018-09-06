@@ -9,8 +9,8 @@ import io.reactivex.subjects.PublishSubject
 import io.realm.OrderedCollectionChangeSet
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.NotionsRealm
-import mhashim6.android.putback.intervalString
 import mhashim6.android.putback.ui.colorSelector
+import mhashim6.android.putback.ui.intervalString
 import mhashim6.android.putback.ui.statusIconSelector
 import mhashim6.android.putback.ui.visibility
 
@@ -28,7 +28,7 @@ class NotionCompactViewModel(
         model: Notion,
         val notionId: String = model.id,
         val content: String = model.content,
-        val interval: String = intervalString(model.interval, model.timeUnit),
+        val interval: String = intervalString(model.interval, model.timeUnit, resources),
         @DrawableRes val statusIcon: Int = statusIconSelector(model),
         val color: Int = colorSelector(model, resources)
 )

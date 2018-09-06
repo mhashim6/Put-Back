@@ -24,4 +24,19 @@
 	<string name="comment_3">No need to rush</string>
 	<string name="comment_4">El. Psy. Congroo</string>
 
+
+	<!--time units-->
+	<string name="time_unit_template">%d %s</string>
+	<string name="year">YEAR</string>
+	<string name="year_plural">YEARS</string>
+
+	<string name="month">MONTH</string>
+	<string name="month_plural">MONTHS</string>
+
+	<string name="week">WEEK</string>
+	<string name="week_plural">WEEKS</string>
+
+	<string name="day">DAY</string>
+	<string name="day_plural">DAYS</string>
+
 </resources>
