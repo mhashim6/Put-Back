@@ -22,6 +22,7 @@ object NotionsRealm {
 		val realm = Realm.getDefaultInstance()
 		return realm.where<Notion>()
 				.equalTo("isArchived", state)
+				.sort("createdAt")
 				.findAllAsync()
 				.asFlowable()
 				.filter { it.isLoaded && it.isValid }
@@ -35,6 +36,7 @@ object NotionsRealm {
 			val realm = Realm.getDefaultInstance()
 			val queryResult = realm.where<Notion>()
 					.equalTo("isArchived", state)
+					.sort("createdAt")
 					.findAllAsync()
 
 			val listener: OrderedRealmCollectionChangeListener<RealmResults<Notion>> = OrderedRealmCollectionChangeListener { realmResults, changeSet ->
@@ -68,6 +70,7 @@ object NotionsRealm {
 		val realm = Realm.getDefaultInstance()
 		val queryResult = realm.where<Notion>()
 				.equalTo("isArchived", state)
+				.sort("createdAt")
 				.findAllAsync()
 		val listener: OrderedRealmCollectionChangeListener<RealmResults<Notion>> = OrderedRealmCollectionChangeListener { realmResults, changeSet ->
 			if (realmResults.isValid && realmResults.isLoaded) {
@@ -88,6 +91,7 @@ object NotionsRealm {
 		val realm = Realm.getDefaultInstance()
 		return realm.where<Notion>()
 				.equalTo("isArchived", state)
+				.sort("createdAt")
 				.findAllAsync()
 				.asChangesetObservable()
 				.map { Pair(realm.copyFromRealm(it.collection), it.changeset) }
