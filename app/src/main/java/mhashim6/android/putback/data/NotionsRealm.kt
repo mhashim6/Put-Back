@@ -128,7 +128,7 @@ object NotionsRealm {
 
 		realm.executeTransactionAsync({
 			it.copyToRealmOrUpdate(
-					notions.map { it.apply { it.isArchived = state } }
+					notions.map {list-> list.apply {isArchived = state } }
 			)
 		}, { e ->
 			error("archive error: ${e.message}")
@@ -164,7 +164,7 @@ object NotionsRealm {
 		val lastRunDay = TimeUnit.MILLISECONDS.toDays(notion.lastRunAt)
 		val today = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis())
 
-//	notion.interval >= (today - lastRunDay)
+//	notion.interval*notion.timeUnit >= (today - lastRunDay)
 		true //TODO
 	}
 
