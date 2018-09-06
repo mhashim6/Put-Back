@@ -10,8 +10,10 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.ui.MainActivity
 import mhashim6.android.putback.work.NotificationBroadcastReceiver
+import java.util.concurrent.TimeUnit
 
 fun Any.debug(message: Any?) = Log.d(this::class.java.simpleName, message.toString())
 fun Any.info(message: Any?) = Log.i(this::class.java.simpleName, message.toString())
@@ -35,4 +37,13 @@ fun notificationContentAction(context: Context, id: String, actionType: Int, act
                 this.action = action
                 putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
             }, 0)
+}
+
+
+fun isAboutToRun(notion: Notion): Boolean {
+    val interval = notion.interval * notion.timeUnit
+
+    val lastRunDay = TimeUnit.MILLISECONDS.toDays(notion.lastRunAt)
+    val today = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis())
+    return interval - (today - lastRunDay) in 0..4 //if it's going to run in like 4 days.
 }

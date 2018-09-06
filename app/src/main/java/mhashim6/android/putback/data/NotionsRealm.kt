@@ -164,7 +164,7 @@ object NotionsRealm {
         val lastRunDay = TimeUnit.MILLISECONDS.toDays(notion.lastRunAt)
         val today = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis())
 
-//	notion.interval*notion.timeUnit >= (today - lastRunDay)
+//	(today - lastRunDay) >= notion.interval*notion.timeUnit
         true //TODO
     }
 

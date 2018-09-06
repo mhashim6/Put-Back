@@ -4,10 +4,12 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.view.View
+import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import io.realm.OrderedCollectionChangeSet
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.Notion
+import mhashim6.android.putback.isAboutToRun
 import mhashim6.android.putback.ui.notionsFragment.BaseAdapter
 import mhashim6.android.putback.ui.notionsFragment.NotionCompactView
 import mhashim6.android.putback.ui.notionsFragment.NotionCompactViewModel
@@ -39,6 +41,15 @@ fun colorSelector(notion: Notion, resources: Resources): Int {
     }
 
     return ResourcesCompat.getColor(resources, colorRes, null)
+}
+
+@DrawableRes
+fun statusIconSelector(notion: Notion): Int {
+    return when {
+        notion.isArchived -> R.drawable.ic_archive_grey600_18dp
+        isAboutToRun(notion) -> R.drawable.ic_progress_clock_grey600_18dp
+        else -> 0
+    }
 }
 
 

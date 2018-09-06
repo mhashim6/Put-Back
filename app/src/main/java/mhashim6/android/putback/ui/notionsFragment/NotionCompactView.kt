@@ -21,6 +21,8 @@ class NotionCompactView : CardView {
 fun NotionCompactView.render(notion: NotionCompactViewModel) {
     content.text = notion.content
     intervalText.text = notion.interval
-    statusIcon.visibility = notion.archivedIconVisibility
+
+    statusIcon.setImageResource(notion.statusIcon)
+
     setCardBackgroundColor(notion.color)
 }
