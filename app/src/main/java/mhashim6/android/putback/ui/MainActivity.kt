@@ -15,7 +15,8 @@ class MainActivity : AppCompatActivity() {
 		super.onCreate(savedInstanceState)
 //		writeDummyData()
 		setContentView(R.layout.activity_main)
-		handleIntent(intent)
+		if (savedInstanceState == null) //so the intent is not handled again if the device was rotated.
+			handleIntent(intent)
 	}
 
 	override fun onNewIntent(intent: Intent) {
