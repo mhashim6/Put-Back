@@ -45,5 +45,5 @@ fun isAboutToRun(notion: Notion): Boolean {
 
     val lastRunDay = TimeUnit.MILLISECONDS.toDays(notion.lastRunAt)
     val today = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis())
-    return interval - (today - lastRunDay) in 0..4 //TODO if it's going to run in like 2 days.
+    return interval - (today - lastRunDay) in 0..2
 }
