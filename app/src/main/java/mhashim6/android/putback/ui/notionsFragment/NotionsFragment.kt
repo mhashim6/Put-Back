@@ -32,8 +32,6 @@ open class NotionsFragment : BaseFragment() {
 	private lateinit var notionsRecycler: RecyclerView
 	private lateinit var fab: FloatingActionButton
 
-	private val snacks = SnackbarQueue()
-
 	private val idleStates: PublishSubject<Pair<NotionCompactViewModel, Boolean>> = PublishSubject.create()
 
 	private val notionsAdapter by lazy {
@@ -64,6 +62,7 @@ open class NotionsFragment : BaseFragment() {
 
 	override fun onPause() {
 		subscriptions.clear()
+		SnackbarQueue.clear()
 		super.onPause()
 	}
 
@@ -119,12 +118,10 @@ open class NotionsFragment : BaseFragment() {
 
 	private fun archive(notion: NotionCompactViewModel, pos: Int) {
 		idleStates.onNext(notion to isIdle.not())
-		snacks.enqueue(Snackbar
-				.make(root, if (isIdle) getString(R.string.un_archived_message) else getString(R.string.archived_message), LENGTH_SHORT)
+		Snackbar.make(root, if (isIdle) getString(R.string.un_archived_message) else getString(R.string.archived_message), LENGTH_SHORT)
 				.setAction(getString(R.string.undo)) {
 					idleStates.onNext(notion to isIdle)
-				}
-		)
+				}.enqueue()
 	}
 
 	private fun updateEmptyFillerView(visibility: Int) {
@@ -134,7 +131,7 @@ open class NotionsFragment : BaseFragment() {
 	override fun onNavigationItemClick(view: View) {
 		when {
 			view.id == R.id.archiveItem -> navigateTo(R.id.action_notionsFragment_to_idleNotionsFragment)
-			view.id == R.id.settingsItem-> navigateTo(R.id.action_notionsFragment_to_preferncesFragment)
+			view.id == R.id.settingsItem -> navigateTo(R.id.action_notionsFragment_to_preferncesFragment)
 		}
 	}
 }

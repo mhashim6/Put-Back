@@ -119,7 +119,6 @@ object NotionsRealm {
 			val notion = it.where<Notion>().equalTo("id", id).findFirst()
 
 			notion?.isArchived = state
-			debug("here bich ${notion?.isArchived}")
 		}
 		closeRealm(realm)
 	}
