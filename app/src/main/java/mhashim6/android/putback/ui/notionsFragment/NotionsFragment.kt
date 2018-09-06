@@ -16,7 +16,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_notions.*
 import mhashim6.android.putback.R
-import mhashim6.android.putback.ui.*
+import mhashim6.android.putback.ui.BaseFragment
+import mhashim6.android.putback.ui.SnackbarQueue
+import mhashim6.android.putback.ui.enqueue
+import mhashim6.android.putback.ui.handleChanges
 
 
 open class NotionsFragment : BaseFragment() {
@@ -75,7 +78,8 @@ open class NotionsFragment : BaseFragment() {
         initRecyclerView()
 
         fab = view.findViewById(R.id.fabId)
-        fab.visibility = isIdle.not().visibility
+        if (isIdle)
+            fab.hide()
     }
 
     private fun initRecyclerView() {
