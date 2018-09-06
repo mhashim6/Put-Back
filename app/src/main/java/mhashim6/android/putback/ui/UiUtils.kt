@@ -58,10 +58,10 @@ fun unitStringSelector(interval: Int, unit: Int): Int {
     val isPlural = (interval > 1)
 
     return when (unit) {
-        Notion.YEAR -> if (isPlural) R.string.year else R.string.year_plural
-        Notion.MONTH -> if (isPlural) R.string.month else R.string.month_plural
-        Notion.WEEK -> if (isPlural) R.string.week else R.string.week_plural
-        else -> if (isPlural) R.string.day else R.string.day_plural
+        Notion.YEAR -> if (isPlural) R.string.year_plural else R.string.year
+        Notion.MONTH -> if (isPlural) R.string.month_plural else R.string.month
+        Notion.WEEK -> if (isPlural) R.string.week_plural else R.string.week
+        else -> if (isPlural) R.string.day_plural else R.string.day
     }
 }
 
