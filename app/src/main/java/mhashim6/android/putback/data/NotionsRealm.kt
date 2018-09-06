@@ -152,7 +152,6 @@ object NotionsRealm {
 
         val activeNotions = realm.where<Notion>().equalTo("isArchived", false).findAll()
         var notion = activeNotions.firstOrNull(hotNotionPredicate)
-        debug("idle: ${notion?.isArchived}")
         if (notion != null)
             notion = realm.copyFromRealm(notion)
 
@@ -160,12 +159,12 @@ object NotionsRealm {
         return notion
     }
 
-    private val hotNotionPredicate: (Notion) -> Boolean = { notion ->
+    val hotNotionPredicate: (Notion) -> Boolean = { notion ->
         val lastRunDay = TimeUnit.MILLISECONDS.toDays(notion.lastRunAt)
         val today = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis())
 
-//	(today - lastRunDay) >= notion.interval*notion.timeUnit
-        true //TODO
+        (today - lastRunDay) >= notion.interval * notion.timeUnit
+//        true
     }
 
     private fun closeRealm(realm: Realm) {
