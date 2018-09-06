@@ -10,7 +10,7 @@
 		<item name="android:textColorPrimary">@android:color/white</item>
 
 		<!--window-->
-		<item name="android:windowBackground">@drawable/window_background_dusk</item>
+		<item name="android:windowBackground">@drawable/window_background_jaipur</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 		<item name="android:windowTranslucentStatus">false</item>
 		<!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
