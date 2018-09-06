@@ -21,52 +21,52 @@ import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACT
  */
 class NotionsReminder : Worker() {
 
-	override fun doWork(): Result {
-		val notion = loadHottestNotion()
-		debug("idle: ${notion?.isArchived}")
+    override fun doWork(): Result {
+        val notion = loadHottestNotion()
+        debug("idle: ${notion?.isArchived}")
 
-		notion?.let {
-			updateLastRunAt(it)
-			showNotification(it)
-		}
-		return Result.SUCCESS
-	}
+        notion?.let {
+            updateLastRunAt(it)
+            showNotification(it)
+        }
+        return Result.SUCCESS
+    }
 
-	private fun showNotification(notion: Notion) {
-		val color = colorSelector(notion, applicationContext.resources)
+    private fun showNotification(notion: Notion) {
+        val color = colorSelector(notion, applicationContext.resources)
 
-		val putbackAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_PUTBACK)
+        val putbackAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_PUTBACK)
 //		val archiveAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_ARCHIVE)
 
-		val showAction = notificationContentAction(applicationContext, notion.id, ACTION_TYPE_SHOW_CONTENT, MAIN_ACTIVITY_SHOW_NOTION_ACTION)
-		val notification = NotificationCompat.Builder(applicationContext, App.NOTIFICATION_CHANNEL_ID)
-				.setSmallIcon(R.drawable.ic_format_list_bulleted_type_white_18dp)
-				.setContentTitle(randomTitle(applicationContext.resources))
-				.setContentText(notion.content)
-				.setCategory(NotificationCompat.CATEGORY_REMINDER)
-				.setContentIntent(showAction)
-				.addAction(0, applicationContext.getString(R.string.putback), putbackAction) //TODO icon
+        val showAction = notificationContentAction(applicationContext, notion.id, ACTION_TYPE_SHOW_CONTENT, MAIN_ACTIVITY_SHOW_NOTION_ACTION)
+        val notification = NotificationCompat.Builder(applicationContext, App.NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_format_list_bulleted_type_white_18dp)
+                .setContentTitle(randomTitle(applicationContext.resources))
+                .setContentText(notion.content)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setContentIntent(showAction)
+                .addAction(0, applicationContext.getString(R.string.putback), putbackAction) //TODO icon
 //				.addAction(0, applicationContext.getString(R.string.archive), archiveAction)
 
-				.setStyle(NotificationCompat.BigTextStyle().bigText(notion.content))
-				.setPriority(NotificationCompat.PRIORITY_HIGH)
-				.setChannelId(NOTIFICATION_CHANNEL_ID)
-				.setLights(color, 500, 2000)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(notion.content))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setChannelId(NOTIFICATION_CHANNEL_ID)
+                .setLights(color, 500, 2000)
 //				.setDefaults(NotificationCompat.DEFAULT_SOUND)
-				.setColor(color)
-				.setAutoCancel(true)
-				.setOnlyAlertOnce(true)
-				.build()
+                .setColor(color)
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true)
+                .build()
 
-		notification.flags = NotificationCompat.FLAG_ONLY_ALERT_ONCE or NotificationCompat.FLAG_AUTO_CANCEL or NotificationCompat.FLAG_SHOW_LIGHTS
+        notification.flags = NotificationCompat.FLAG_ONLY_ALERT_ONCE or NotificationCompat.FLAG_AUTO_CANCEL or NotificationCompat.FLAG_SHOW_LIGHTS
 
-		val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-		notificationManager.notify(NOTION_NOTIFICATION_ID, notification)
-	}
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(NOTION_NOTIFICATION_ID, notification)
+    }
 
-	companion object {
-		const val NOTION_NOTIFICATION_ID = 17
-	}
+    companion object {
+        const val NOTION_NOTIFICATION_ID = 17
+    }
 
 }
 

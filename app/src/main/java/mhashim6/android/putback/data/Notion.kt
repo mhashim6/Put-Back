@@ -9,7 +9,7 @@ open class Notion(
         @PrimaryKey var id: String = UUID.randomUUID().toString(),
         var content: String = "",
         @Index var interval: Int = 2, //moderate priority.
-        @Index var timeUnit: Int = 7,
+        @Index var timeUnit: Int = WEEK,
         @Index var createdAt: Long = System.currentTimeMillis(),
         @Index var modifiedAt: Long = createdAt,
         /**last date this Notion has passed it's interval.*/

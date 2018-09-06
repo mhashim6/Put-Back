@@ -20,19 +20,19 @@ fun Any.error(message: Any?) = Log.e(this::class.java.simpleName, message.toStri
 fun Any.wtf(message: Any?) = Log.wtf(this::class.java.simpleName, message.toString())
 
 fun notificationAction(context: Context, id: String, actionType: Int): PendingIntent {
-	return PendingIntent.getBroadcast(
-			context, actionType,
-			Intent(context, NotificationBroadcastReceiver::class.java).apply {
-				putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
-				putExtra(NotificationBroadcastReceiver.ACTION_TYPE, actionType)
-			}, 0)
+    return PendingIntent.getBroadcast(
+            context, actionType,
+            Intent(context, NotificationBroadcastReceiver::class.java).apply {
+                putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
+                putExtra(NotificationBroadcastReceiver.ACTION_TYPE, actionType)
+            }, 0)
 }
 
 fun notificationContentAction(context: Context, id: String, actionType: Int, action: String): PendingIntent {
-	return PendingIntent.getActivity(
-			context, actionType,
-			Intent(context, MainActivity::class.java).apply {
-				this.action = action
-				putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
-			}, 0)
+    return PendingIntent.getActivity(
+            context, actionType,
+            Intent(context, MainActivity::class.java).apply {
+                this.action = action
+                putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
+            }, 0)
 }

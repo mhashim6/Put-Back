@@ -20,51 +20,51 @@ import java.util.concurrent.TimeUnit
 
 class App : Application() {
 
-	override fun onCreate() {
-		super.onCreate()
-		initRealm()
-		createNotionsReminderNotificationChannel()
-		submitWorks()
-	}
+    override fun onCreate() {
+        super.onCreate()
+        initRealm()
+        createNotionsReminderNotificationChannel()
+        submitWorks()
+    }
 
-	private fun initRealm() {
-		Realm.init(applicationContext)
-		Realm.setDefaultConfiguration(RealmConfiguration.Builder()
-				.build())
-	}
+    private fun initRealm() {
+        Realm.init(applicationContext)
+        Realm.setDefaultConfiguration(RealmConfiguration.Builder()
+                .build())
+    }
 
-	private fun submitWorks() {
+    private fun submitWorks() {
 
-		val workRequest = PeriodicWorkRequest
-				.Builder(NotionsReminder::class.java, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES) //temp for testing.
-				.build()
+        val workRequest = PeriodicWorkRequest
+                .Builder(NotionsReminder::class.java, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES) //temp for testing.
+                .build()
 
-		workRequest.apply {
-			tags.add(NOTIONS_REMINDER_TAG)
-		}
+        workRequest.apply {
+            tags.add(NOTIONS_REMINDER_TAG)
+        }
 
-		WorkManager.getInstance()
-				.enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,
-						ExistingPeriodicWorkPolicy.KEEP,
-						workRequest)
-	}
+        WorkManager.getInstance()
+                .enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,
+                        ExistingPeriodicWorkPolicy.KEEP,
+                        workRequest)
+    }
 
-	@SuppressLint("NewApi")
-	private fun createNotionsReminderNotificationChannel() {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-			val name = getString(R.string.channel_name)
-			val description = getString(R.string.channel_description)
-			val importance = NotificationManager.IMPORTANCE_HIGH
-			val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance)
-			channel.description = description
-			val notificationManager = getSystemService(NotificationManager::class.java)
-			notificationManager!!.createNotificationChannel(channel)
-		}
-	}
+    @SuppressLint("NewApi")
+    private fun createNotionsReminderNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val description = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance)
+            channel.description = description
+            val notificationManager = getSystemService(NotificationManager::class.java)
+            notificationManager!!.createNotificationChannel(channel)
+        }
+    }
 
-	companion object {
-		const val NOTIFICATION_CHANNEL_ID = "NOTIONS_REMINDER_CHANNEL"
-		const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG"
-	}
+    companion object {
+        const val NOTIFICATION_CHANNEL_ID = "NOTIONS_REMINDER_CHANNEL"
+        const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG"
+    }
 
 }

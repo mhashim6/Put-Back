@@ -22,82 +22,82 @@ import mhashim6.android.putback.R
  */
 abstract class BaseFragment : Fragment(), ToolbarOwner {
 
-	abstract val layoutRes: Int
+    abstract val layoutRes: Int
 
-	override val toolbarTitleColor = Color.WHITE
+    override val toolbarTitleColor = Color.WHITE
 
-	override val toolbarSubtitleColor: Int = Color.WHITE
+    override val toolbarSubtitleColor: Int = Color.WHITE
 
-	@MenuRes
-	override var menuRes = 0
+    @MenuRes
+    override var menuRes = 0
 
-	@DrawableRes
-	override val navigationIconRes = 0
+    @DrawableRes
+    override val navigationIconRes = 0
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return inflater.inflate(layoutRes, container, false)
-	}
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(layoutRes, container, false)
+    }
 
-	override fun setUpToolbar(toolbar: Toolbar) {
-		if (menuRes != 0)
-			toolbar.inflateMenu(menuRes)
-		if (navigationIconRes != 0)
-			toolbar.setNavigationIcon(navigationIconRes)
+    override fun setUpToolbar(toolbar: Toolbar) {
+        if (menuRes != 0)
+            toolbar.inflateMenu(menuRes)
+        if (navigationIconRes != 0)
+            toolbar.setNavigationIcon(navigationIconRes)
 
-		toolbar.setTitleTextColor(toolbarTitleColor)
-		toolbar.setSubtitleTextColor(toolbarSubtitleColor)
-		toolbar.setOnMenuItemClickListener(::onMenuItemClickedListener)
-		toolbar.setNavigationOnClickListener(::onNavigationIconClickListener)
-	}
+        toolbar.setTitleTextColor(toolbarTitleColor)
+        toolbar.setSubtitleTextColor(toolbarSubtitleColor)
+        toolbar.setOnMenuItemClickListener(::onMenuItemClickedListener)
+        toolbar.setNavigationOnClickListener(::onNavigationIconClickListener)
+    }
 
-	override fun onNavigationIconClickListener(view: View) = showBottomSheetDialog()
+    override fun onNavigationIconClickListener(view: View) = showBottomSheetDialog()
 
-	private fun showBottomSheetDialog() {
-		val dialog = BottomSheetDialog(activity!!)
+    private fun showBottomSheetDialog() {
+        val dialog = BottomSheetDialog(activity!!)
 
-		val bottomSheetView = layoutInflater.inflate(R.layout.navigation_bottom_sheet, null)
+        val bottomSheetView = layoutInflater.inflate(R.layout.navigation_bottom_sheet, null)
 
-		val destinationClickListener = { view: View ->
-			dialog.cancel()
-			onNavigationItemClick(view)
-		}
+        val destinationClickListener = { view: View ->
+            dialog.cancel()
+            onNavigationItemClick(view)
+        }
 
-		val notionsDestination = bottomSheetView.findViewById<AppCompatTextView>(R.id.notionsItem)
-		notionsDestination.setOnClickListener(destinationClickListener)
+        val notionsDestination = bottomSheetView.findViewById<AppCompatTextView>(R.id.notionsItem)
+        notionsDestination.setOnClickListener(destinationClickListener)
 
-		val idleNotionsDestination = bottomSheetView.findViewById<AppCompatTextView>(R.id.archiveItem)
-		idleNotionsDestination.setOnClickListener(destinationClickListener)
+        val idleNotionsDestination = bottomSheetView.findViewById<AppCompatTextView>(R.id.archiveItem)
+        idleNotionsDestination.setOnClickListener(destinationClickListener)
 
-		val preferencesDestination = bottomSheetView.findViewById<AppCompatTextView>(R.id.settingsItem)
-		preferencesDestination.setOnClickListener(destinationClickListener)
+        val preferencesDestination = bottomSheetView.findViewById<AppCompatTextView>(R.id.settingsItem)
+        preferencesDestination.setOnClickListener(destinationClickListener)
 
-		dialog.setContentView(bottomSheetView)
-		dialog.show()
-	}
+        dialog.setContentView(bottomSheetView)
+        dialog.show()
+    }
 
-	protected open fun onNavigationItemClick(view: View) {}
+    protected open fun onNavigationItemClick(view: View) {}
 
-	protected fun navigateTo(@IdRes destination: Int) {
-		findNavController(this).navigate(destination)
-	}
+    protected fun navigateTo(@IdRes destination: Int) {
+        findNavController(this).navigate(destination)
+    }
 
-	protected fun navigateUp() {
-		findNavController(this).navigateUp()
-	}
+    protected fun navigateUp() {
+        findNavController(this).navigateUp()
+    }
 }
 
 interface ToolbarOwner {
-	val toolbarTitleColor: Int
+    val toolbarTitleColor: Int
 
-	val toolbarSubtitleColor: Int
+    val toolbarSubtitleColor: Int
 
-	val menuRes: Int
+    val menuRes: Int
 
-	val navigationIconRes: Int
+    val navigationIconRes: Int
 
-	fun setUpToolbar(toolbar: Toolbar)
+    fun setUpToolbar(toolbar: Toolbar)
 
-	fun onMenuItemClickedListener(menuItem: MenuItem): Boolean = true
+    fun onMenuItemClickedListener(menuItem: MenuItem): Boolean = true
 
-	fun onNavigationIconClickListener(view: View) {}
+    fun onNavigationIconClickListener(view: View) {}
 }
