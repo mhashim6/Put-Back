@@ -7,14 +7,9 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
-import io.realm.OrderedCollectionChangeSet
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.isAboutToRun
-import mhashim6.android.putback.ui.notionsFragment.BaseAdapter
-import mhashim6.android.putback.ui.notionsFragment.NotionCompactView
-import mhashim6.android.putback.ui.notionsFragment.NotionCompactViewModel
-import mhashim6.android.putback.wtf
 import java.util.*
 
 
@@ -77,27 +72,3 @@ fun statusIconSelector(notion: Notion): Int {
 
 val Boolean.visibility
     get() = if (this) View.VISIBLE else View.GONE
-
-
-fun BaseAdapter<NotionCompactView, NotionCompactViewModel>.handleChanges(collectionChange: Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet>) {
-    val (collection, changeset) = collectionChange
-
-    if (changeset.state == OrderedCollectionChangeSet.State.ERROR) {
-        wtf("changeset state = ERROR")
-        return
-    }
-
-    replaceAll(collection)
-    if (changeset.state == OrderedCollectionChangeSet.State.INITIAL)
-        notifyDataSetChanged()
-    else {
-        for (change in changeset.changeRanges)
-            notifyItemRangeChanged(change.startIndex, change.length)
-
-        for (insertion in changeset.insertionRanges)
-            notifyItemRangeInserted(insertion.startIndex, insertion.length)
-
-        for (deletion in changeset.deletionRanges)
-            notifyItemRangeRemoved(deletion.startIndex, deletion.length)
-    }
-}

@@ -13,6 +13,7 @@ import mhashim6.android.putback.ui.colorSelector
 import mhashim6.android.putback.ui.intervalString
 import mhashim6.android.putback.ui.statusIconSelector
 import mhashim6.android.putback.ui.visibility
+import mhashim6.android.putback.wtf
 
 /**
  * Created by mhashim6 on 01/09/2018.
@@ -32,6 +33,30 @@ class NotionCompactViewModel(
         @DrawableRes val statusIcon: Int = statusIconSelector(model),
         val color: Int = colorSelector(model, resources)
 )
+
+
+fun BaseAdapter<NotionCompactView, NotionCompactViewModel>.handleChanges(collectionChange: Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet>) {
+    val (collection, changeset) = collectionChange
+
+    if (changeset.state == OrderedCollectionChangeSet.State.ERROR) {
+        wtf("changeset state = ERROR")
+        return
+    }
+
+    replaceAll(collection)
+    if (changeset.state == OrderedCollectionChangeSet.State.INITIAL)
+        notifyDataSetChanged()
+    else {
+        for (change in changeset.changeRanges)
+            notifyItemRangeChanged(change.startIndex, change.length)
+
+        for (insertion in changeset.insertionRanges)
+            notifyItemRangeInserted(insertion.startIndex, insertion.length)
+
+        for (deletion in changeset.deletionRanges)
+            notifyItemRangeRemoved(deletion.startIndex, deletion.length)
+    }
+}
 
 fun present(
         idleStates: PublishSubject<Pair<NotionCompactViewModel, Boolean>>,

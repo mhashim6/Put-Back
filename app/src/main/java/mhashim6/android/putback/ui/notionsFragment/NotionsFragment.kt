@@ -19,7 +19,6 @@ import mhashim6.android.putback.R
 import mhashim6.android.putback.ui.BaseFragment
 import mhashim6.android.putback.ui.SnackbarQueue
 import mhashim6.android.putback.ui.enqueue
-import mhashim6.android.putback.ui.handleChanges
 
 
 open class NotionsFragment : BaseFragment() {
