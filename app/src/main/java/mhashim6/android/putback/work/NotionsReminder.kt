@@ -1,11 +1,12 @@
 package mhashim6.android.putback.work
 
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.work.PeriodicWorkRequest
 import androidx.work.Worker
-import mhashim6.android.putback.App
-import mhashim6.android.putback.App.Companion.NOTIFICATION_CHANNEL_ID
 import mhashim6.android.putback.R
 import mhashim6.android.putback.RandomStrings.randomTitle
 import mhashim6.android.putback.data.Notion
@@ -17,6 +18,7 @@ import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOT
 import mhashim6.android.putback.ui.colorSelector
 import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_PUTBACK
 import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_SHOW_CONTENT
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -41,7 +43,7 @@ class NotionsReminder : Worker() {
 //		val archiveAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_ARCHIVE)
 
         val showAction = notificationContentAction(applicationContext, notion.id, ACTION_TYPE_SHOW_CONTENT, MAIN_ACTIVITY_SHOW_NOTION_ACTION)
-        val notification = NotificationCompat.Builder(applicationContext, App.NOTIFICATION_CHANNEL_ID)
+        val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_format_list_bulleted_type_white_18dp)
                 .setContentTitle(randomTitle(applicationContext.resources))
                 .setContentText(notion.content)
@@ -66,8 +68,30 @@ class NotionsReminder : Worker() {
         notificationManager.notify(NOTION_NOTIFICATION_ID, notification)
     }
 
-    companion object {
+    companion object Factory {
         const val NOTION_NOTIFICATION_ID = 17
+        const val NOTIFICATION_CHANNEL_ID = "NOTIONS_REMINDER_CHANNEL"
+        const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG"
+
+        fun createNotionsReminder(): PeriodicWorkRequest {
+            val workRequest = PeriodicWorkRequest
+                    .Builder(NotionsReminder::class.java, 12, TimeUnit.HOURS, 5, TimeUnit.MINUTES) //temp for testing.
+                    .build()
+
+            return workRequest
+        }
+
+        fun createNotionsReminderNotificationChannel(context: Context) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = context.getString(R.string.channel_name)
+                val description = context.getString(R.string.channel_description)
+                val importance = NotificationManager.IMPORTANCE_HIGH
+                val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance)
+                channel.description = description
+                val notificationManager = context.getSystemService(NotificationManager::class.java)
+                notificationManager!!.createNotificationChannel(channel)
+            }
+        }
     }
 
 }
