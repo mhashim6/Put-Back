@@ -13,6 +13,7 @@ import android.util.Log
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.ui.MainActivity
 import mhashim6.android.putback.work.NotificationBroadcastReceiver
+import java.text.DateFormat
 import java.util.concurrent.TimeUnit
 
 fun Any.debug(message: Any?) = Log.d(this::class.java.simpleName, message.toString())
@@ -45,5 +46,7 @@ fun isAboutToRun(notion: Notion): Boolean {
 
     val lastRunDay = TimeUnit.MILLISECONDS.toDays(notion.lastRunAt)
     val today = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis())
-    return interval - (today - lastRunDay) in 0..2
+    return interval - (today - lastRunDay) <= 2
 }
+
+fun formatDate(date: Long): String = DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)

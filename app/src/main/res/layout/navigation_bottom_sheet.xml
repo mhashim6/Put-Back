@@ -20,7 +20,7 @@
 		android:padding="24dp">
 
 		<androidx.appcompat.widget.AppCompatTextView
-			android:id="@+id/notionsItem"
+			android:id="@+id/notionsOption"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/bottom_sheet_item_margin_bottom"
@@ -35,7 +35,7 @@
 			android:textSize="@dimen/bottom_sheet_item_text_size"/>
 
 		<androidx.appcompat.widget.AppCompatTextView
-			android:id="@+id/archiveItem"
+			android:id="@+id/archiveOption"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/bottom_sheet_item_margin_bottom"
@@ -50,7 +50,7 @@
 			android:textSize="@dimen/bottom_sheet_item_text_size"/>
 
 		<androidx.appcompat.widget.AppCompatTextView
-			android:id="@+id/settingsItem"
+			android:id="@+id/settingsOption"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="@dimen/bottom_sheet_item_margin_bottom"

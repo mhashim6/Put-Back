@@ -79,12 +79,11 @@ object NotionsRealm {
             }
         }
         queryResult.addChangeListener(listener)
-        notionsChanges.doFinally {
+
+        return notionsChanges.doFinally {
             queryResult.removeChangeListener(listener)
             closeRealm(realm)
         }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-
-        return notionsChanges
     }
 
     fun notionsChangeSetMainThread(state: Boolean): Observable<Pair<MutableList<Notion>, OrderedCollectionChangeSet?>> {
@@ -98,7 +97,10 @@ object NotionsRealm {
                 .doFinally { closeRealm(realm) }
     }
 
-    fun findOne(id: String): Notion? {
+    fun findOne(id: String?): Notion? {
+        if (id == null)
+            return null
+
         val realm = Realm.getDefaultInstance()
 
         var notion = realm.where<Notion>().equalTo("id", id).findFirst()
@@ -107,6 +109,19 @@ object NotionsRealm {
 
         closeRealm(realm)
         return notion
+    }
+
+    fun findOneFlowable(id: String): Flowable<Notion> {
+        val realm = Realm.getDefaultInstance()
+        return realm.where<Notion>()
+                .equalTo("id", id)
+                .findFirstAsync()
+                .asFlowable<Notion>()
+                .filter { it.isLoaded && it.isValid }
+//                .map { realm.copyFromRealm(it) }
+                .doFinally { closeRealm(realm) }
+
+
     }
 
     fun changeIdleState(notion: Notion, state: Boolean) {
@@ -175,6 +190,30 @@ object NotionsRealm {
         } finally {
             debug("realm closed")
         }
+    }
+
+    fun update(notionId: String, content: String, interval: Int, timeUnit: Int) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync {
+            val notion = it.where<Notion>()
+                    .equalTo("id", notionId)
+                    .findFirst()
+            if (notion != null) {
+                notion.content = content
+                notion.interval = interval
+                notion.timeUnit = timeUnit
+                notion.modifiedAt = System.currentTimeMillis()
+            } else if (content.isNotEmpty()) {
+                it.copyToRealmOrUpdate(
+                        Notion(content = content,
+                                interval = interval,
+                                timeUnit = timeUnit,
+                                modifiedAt = System.currentTimeMillis()
+                        )
+                )
+            }
+        }
+        closeRealm(realm)
     }
 
     private inline fun <reified T : RealmObject> Realm.where(): RealmQuery<T> = this.where(T::class.java)

@@ -1,14 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			 xmlns:tools="http://schemas.android.com/tools"
-			 android:layout_width="match_parent"
-			 android:layout_height="match_parent"
-			 tools:context=".ui.NotionDetailFragment">
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/container"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@color/muted_blue">
 
-	<!-- TODO: Update blank fragment layout -->
-	<TextView
+	<androidx.appcompat.widget.AppCompatEditText
+		android:id="@+id/contentId"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:text="TODO"/>
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:autoLink="all"
+		android:background="@null"
+		android:linksClickable="true"
+		android:padding="16dp"
+		tools:text="Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper"
+		android:textColor="@android:color/black"
+		android:textSize="20sp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent"/>
 
-</FrameLayout>
+	<View
+		android:id="@+id/separator"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:layout_marginStart="16dp"
+		android:layout_marginLeft="16dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginEnd="16dp"
+		android:layout_marginRight="16dp"
+		android:layout_marginBottom="32dp"
+		android:background="@color/light_transparent"
+		android:visibility="visible"
+		app:layout_constraintBottom_toBottomOf="@id/contentId"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/contentId"/>
+
+	<LinearLayout
+		android:id="@+id/intervalPanel"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginLeft="16dp"
+		android:layout_marginTop="40dp"
+		android:layout_marginEnd="16dp"
+		android:layout_marginRight="16dp"
+		android:background="@drawable/toolbar_background"
+		android:orientation="horizontal"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/separator">
+
+		<androidx.appcompat.widget.AppCompatEditText
+			android:id="@+id/intervalTextId"
+			android:layout_width="100dp"
+			android:layout_height="wrap_content"
+			android:background="@null"
+			android:inputType="number"
+			android:maxLength="2"
+			android:maxLines="1"
+			android:padding="10dp"
+			android:requiresFadingEdge="horizontal"
+			tools:text="15"
+			android:textAlignment="center"
+			android:textColor="@android:color/black"
+			android:textSize="20sp"/>
+
+		<androidx.appcompat.widget.AppCompatSpinner
+			android:id="@+id/unitSpinner"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="32dp"
+			android:layout_marginLeft="32dp"
+			android:entries="@array/time_unit_array"
+			android:padding="10dp"
+			android:textColor="@android:color/black"
+			/>
+	</LinearLayout>
+
+
+	<androidx.appcompat.widget.AppCompatTextView
+		android:id="@+id/dateMetaData"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginTop="32dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:ellipsize="marquee"
+		android:focusable="true"
+		android:focusableInTouchMode="true"
+		android:marqueeRepeatLimit="marquee_forever"
+		android:padding="10dp"
+		android:singleLine="true"
+		tools:text="created at 07/09/2018 - last run at 07/09/2018"
+		android:textColor="@color/dark_transparent"
+		android:textIsSelectable="true"
+		android:textStyle="italic"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/intervalPanel"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@
 	<string name="channel_description">This channel is used to deliver notifications for active notionsSubject</string>
 	<string name="putback">Put Back</string>
 	<string name="notion_is_archived">Productivity: 100</string>
+	<string name="delete">Delete</string>
 
 	<!--titles-->
 	<string name="title_1">Feeling like it?</string>
@@ -26,7 +27,13 @@
 
 
 	<!--time units-->
-	<string name="time_unit_template">%d %s</string>
+	<array name="time_unit_array">
+		<item>@string/week_plural</item>
+		<item>@string/month_plural</item>
+		<item>@string/year_plural</item>
+		<item>@string/day_plural</item>
+	</array>
+
 	<string name="year">YEAR</string>
 	<string name="year_plural">YEARS</string>
 
@@ -39,4 +46,7 @@
 	<string name="day">DAY</string>
 	<string name="day_plural">DAYS</string>
 
+	<!--dates-->
+	<string name="created_at">created at</string>
+	<string name="last_run_at">last run at</string>
 </resources>

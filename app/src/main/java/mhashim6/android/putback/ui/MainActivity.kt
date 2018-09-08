@@ -3,18 +3,23 @@ package mhashim6.android.putback.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation
+import androidx.core.os.bundleOf
 import io.realm.Realm
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.debug
+import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
+import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_ID
+import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.NOTION_ID_EXTRA
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 //		writeDummyData()
         setContentView(R.layout.activity_main)
+
         if (savedInstanceState == null) //so the intent is not handled again if the device was rotated.
             handleIntent(intent)
     }
@@ -27,10 +32,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleIntent(intent: Intent) {
         if (intent.action == MAIN_ACTIVITY_SHOW_NOTION_ACTION) {
-            //TODO pass notionId to detail fragment.
-            Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.notionDetailFragment, Bundle())
+            showNotionDetail(intent.getStringExtra(NOTION_ID_EXTRA))
         }
     }
+
+    private fun showNotionDetail(notionId: String) {
+        NotionDetailFragment.create(
+                bundleOf(NotionDetailFragment.NOTION_DETAIL_ACTION_TYPE to NOTION_DETAIL_ACTION_DISPLAY,
+                        NOTION_DETAIL_NOTION_ID to notionId))
+                .show(supportFragmentManager, NotionDetailFragment::class.java.simpleName)
+    }
+
 
     private fun writeDummyData() {
         val realm = Realm.getDefaultInstance()

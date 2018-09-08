@@ -6,6 +6,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -17,8 +18,14 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_notions.*
 import mhashim6.android.putback.R
 import mhashim6.android.putback.ui.BaseFragment
+import mhashim6.android.putback.ui.NotionDetailFragment
+import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_CREATE
+import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
+import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_TYPE
+import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_ID
 import mhashim6.android.putback.ui.SnackbarQueue
 import mhashim6.android.putback.ui.enqueue
+import java.util.*
 
 
 open class NotionsFragment : BaseFragment() {
@@ -41,8 +48,12 @@ open class NotionsFragment : BaseFragment() {
             onBindViewHolder { notionView, notion ->
                 notionView.render(notion)
             }
+            onItemClickListener { _, model ->
+                showNotionDetail(NOTION_DETAIL_ACTION_DISPLAY, model.notionId)
+            }
         }
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,6 +90,9 @@ open class NotionsFragment : BaseFragment() {
         fab = view.findViewById(R.id.fabId)
         if (isIdle)
             fab.hide()
+        fab.setOnClickListener {
+            showNotionDetail(NOTION_DETAIL_ACTION_CREATE, UUID.randomUUID().toString())
+        }
     }
 
     private fun initRecyclerView() {
@@ -124,6 +138,7 @@ open class NotionsFragment : BaseFragment() {
         Snackbar.make(root, if (isIdle) getString(R.string.un_archived_message) else getString(R.string.archived_message), LENGTH_SHORT)
                 .setAction(getString(R.string.undo)) {
                     idleStates.onNext(notion to isIdle)
+
                 }.enqueue()
     }
 
@@ -131,10 +146,17 @@ open class NotionsFragment : BaseFragment() {
         fillerView.visibility = visibility
     }
 
+    private fun showNotionDetail(actionType: Int, notionId: String?) {
+        NotionDetailFragment.create(
+                bundleOf(NOTION_DETAIL_ACTION_TYPE to actionType,
+                        NOTION_DETAIL_NOTION_ID to notionId))
+                .show(fragmentManager, NotionDetailFragment::class.java.simpleName)
+    }
+
     override fun onNavigationItemClick(view: View) {
         when {
-            view.id == R.id.archiveItem -> navigateTo(R.id.action_notionsFragment_to_idleNotionsFragment)
-            view.id == R.id.settingsItem -> navigateTo(R.id.action_notionsFragment_to_preferncesFragment)
+            view.id == R.id.archiveOption -> navigateTo(R.id.action_notionsFragment_to_idleNotionsFragment)
+            view.id == R.id.settingsOption -> navigateTo(R.id.action_notionsFragment_to_preferncesFragment)
         }
     }
 }
