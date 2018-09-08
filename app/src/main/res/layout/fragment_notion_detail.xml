@@ -21,12 +21,12 @@
 		android:background="@null"
 		android:linksClickable="true"
 		android:padding="16dp"
-		tools:text="Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper"
 		android:textColor="@android:color/black"
 		android:textSize="20sp"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"/>
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper"/>
 
 	<View
 		android:id="@+id/separator"
@@ -70,10 +70,10 @@
 			android:maxLines="1"
 			android:padding="10dp"
 			android:requiresFadingEdge="horizontal"
-			tools:text="15"
 			android:textAlignment="center"
 			android:textColor="@android:color/black"
-			android:textSize="20sp"/>
+			android:textSize="20sp"
+			tools:text="15"/>
 
 		<androidx.appcompat.widget.AppCompatSpinner
 			android:id="@+id/unitSpinner"
@@ -103,11 +103,11 @@
 		android:marqueeRepeatLimit="marquee_forever"
 		android:padding="10dp"
 		android:singleLine="true"
-		tools:text="created at 07/09/2018 - last run at 07/09/2018"
 		android:textColor="@color/dark_transparent"
 		android:textIsSelectable="true"
 		android:textStyle="italic"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@id/intervalPanel"/>
+		app:layout_constraintTop_toBottomOf="@id/intervalPanel"
+		tools:text="created at 07/09/2018 - last run at 07/09/2018"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
