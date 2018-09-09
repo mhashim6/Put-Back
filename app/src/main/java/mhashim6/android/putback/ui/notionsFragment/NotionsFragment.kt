@@ -54,7 +54,6 @@ open class NotionsFragment : BaseFragment() {
         }
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpViews(view)
