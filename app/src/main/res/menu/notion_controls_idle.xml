@@ -5,7 +5,7 @@
 	<item
 		android:id="@+id/archiveItem"
 		android:icon="@drawable/ic_archive_grey600_24dp"
-		android:title="@string/archive"
+		android:title="@string/un_archive"
 		app:showAsAction="ifRoom"/>
 
 	<item

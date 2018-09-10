@@ -22,6 +22,7 @@
 		android:foreground="?android:selectableItemBackground"
 		android:padding="@dimen/bottom_sheet_item_padding"
 		android:text="@string/notionsSubject"
+		android:textColor="@color/dim_grey"
 		android:textSize="@dimen/bottom_sheet_item_text_size"/>
 
 	<androidx.appcompat.widget.AppCompatTextView
@@ -37,6 +38,7 @@
 		android:focusable="true"
 		android:padding="@dimen/bottom_sheet_item_padding"
 		android:text="@string/archive"
+		android:textColor="@color/dim_grey"
 		android:textSize="@dimen/bottom_sheet_item_text_size"/>
 
 	<androidx.appcompat.widget.AppCompatTextView
@@ -51,6 +53,7 @@
 		android:focusable="true"
 		android:foreground="?android:selectableItemBackground"
 		android:padding="@dimen/bottom_sheet_item_padding"
-		android:text="@string/settings"
+		android:text="@string/preferences"
+		android:textColor="@color/dim_grey"
 		android:textSize="@dimen/bottom_sheet_item_text_size"/>
 </LinearLayout>

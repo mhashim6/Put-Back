@@ -25,7 +25,7 @@
 	</style>
 
 	<style name="MenuItemTextAppearance" parent="TextAppearance.Widget.AppCompat.ExpandedMenu.Item">
-		<item name="android:textColor">@android:color/black</item>
+		<item name="android:textColor">@color/dim_grey</item>
 	</style>
 
 	<!--spinner-->

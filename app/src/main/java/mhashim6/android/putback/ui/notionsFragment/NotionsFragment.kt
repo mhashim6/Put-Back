@@ -54,10 +54,12 @@ open class NotionsFragment : BaseFragment() {
             }
             onItemLongClickListener { view, model ->
                 val menu = PopupMenu(activity!!, view)
-                menu.inflate(R.menu.notion_controls)
+                menu.inflate(if (isIdle) R.menu.notion_controls_idle else R.menu.notion_controls)
                 menu.setOnMenuItemClickListener {
-                    if (it.itemId == R.id.deleteItem)
-                        delete(model)
+                    when (it.itemId) {
+                        R.id.deleteItem -> delete(model)
+                        R.id.archiveItem -> archive(model)
+                    }
                     true
                 }
                 menu.show()
@@ -126,7 +128,7 @@ open class NotionsFragment : BaseFragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val notion = (viewHolder as BaseAdapter.DataClassViewHolder<NotionCompactViewModel>).item
-                archive(notion, viewHolder.adapterPosition)
+                archive(notion)
             }
         })
         itemTouchHelper.attachToRecyclerView(notionsRecycler)
@@ -134,7 +136,7 @@ open class NotionsFragment : BaseFragment() {
     }
 
     private fun showData() {
-        val viewModel = present(idleStates,deletes, resources, isIdle)
+        val viewModel = present(idleStates, deletes, resources, isIdle)
         with(viewModel) {
             subscriptions.addAll(
                     notionsChanges.subscribe(notionsAdapter::handleChanges),
@@ -145,7 +147,7 @@ open class NotionsFragment : BaseFragment() {
         }
     }
 
-    private fun archive(notion: NotionCompactViewModel, pos: Int) {
+    private fun archive(notion: NotionCompactViewModel) {
         idleStates.onNext(notion to isIdle.not())
         Snackbar.make(root, if (isIdle) R.string.un_archived_message else R.string.archived_message, LENGTH_LONG)
                 .setAction(getString(R.string.undo)) {

@@ -8,6 +8,7 @@
 	<color name="muted_gray">#D3D3D3</color>
 	<color name="dark_transparent">#38000000</color>
 	<color name="light_transparent">#17000000</color>
+	<color name="dim_grey">#6f6f6f</color>
 
 	<!--
 
