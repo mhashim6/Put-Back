@@ -40,7 +40,7 @@
 
 	<fragment
 		android:id="@+id/notionDetailFragment"
-		android:name="mhashim6.android.putback.ui.NotionDetailFragment"
+		android:name="mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment"
 		android:label="fragment_notion_detail"
 		tools:layout="@layout/fragment_notion_detail"/>
 

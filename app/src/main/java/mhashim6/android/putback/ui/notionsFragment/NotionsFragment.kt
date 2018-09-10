@@ -18,13 +18,13 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_notions.*
 import mhashim6.android.putback.R
 import mhashim6.android.putback.ui.BaseFragment
-import mhashim6.android.putback.ui.NotionDetailFragment
-import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_CREATE
-import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
-import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_TYPE
-import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_ID
 import mhashim6.android.putback.ui.SnackbarQueue
 import mhashim6.android.putback.ui.enqueue
+import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment
+import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_CREATE
+import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
+import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_TYPE
+import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_ID
 
 
 open class NotionsFragment : BaseFragment() {
