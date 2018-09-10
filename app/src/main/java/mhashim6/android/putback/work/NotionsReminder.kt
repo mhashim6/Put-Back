@@ -10,12 +10,13 @@ import androidx.work.Worker
 import mhashim6.android.putback.R
 import mhashim6.android.putback.RandomStrings.randomTitle
 import mhashim6.android.putback.data.Notion
-import mhashim6.android.putback.data.NotionsRealm.loadHottestNotion
+import mhashim6.android.putback.data.NotionsRealm.findHottestNotion
 import mhashim6.android.putback.data.NotionsRealm.updateLastRunAt
 import mhashim6.android.putback.notificationAction
 import mhashim6.android.putback.notificationContentAction
 import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
 import mhashim6.android.putback.ui.colorSelector
+import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_ARCHIVE
 import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_PUTBACK
 import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_SHOW_CONTENT
 import java.util.concurrent.TimeUnit
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit
 class NotionsReminder : Worker() {
 
     override fun doWork(): Result {
-        val notion = loadHottestNotion()
+        val notion = findHottestNotion()
 
         notion?.let {
             updateLastRunAt(it)
@@ -40,7 +41,7 @@ class NotionsReminder : Worker() {
         val color = colorSelector(notion, applicationContext.resources)
 
         val putbackAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_PUTBACK)
-//		val archiveAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_ARCHIVE)
+		val archiveAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_ARCHIVE)
 
         val showAction = notificationContentAction(applicationContext, notion.id, ACTION_TYPE_SHOW_CONTENT, MAIN_ACTIVITY_SHOW_NOTION_ACTION)
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
@@ -50,7 +51,7 @@ class NotionsReminder : Worker() {
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setContentIntent(showAction)
                 .addAction(0, applicationContext.getString(R.string.putback), putbackAction) //TODO icon
-//				.addAction(0, applicationContext.getString(R.string.archive), archiveAction)
+				.addAction(0, applicationContext.getString(R.string.archive), archiveAction)
 
                 .setStyle(NotificationCompat.BigTextStyle().bigText(notion.content))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -74,11 +75,9 @@ class NotionsReminder : Worker() {
         const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG"
 
         fun createNotionsReminder(): PeriodicWorkRequest {
-            val workRequest = PeriodicWorkRequest
-                    .Builder(NotionsReminder::class.java, 12, TimeUnit.HOURS, 5, TimeUnit.MINUTES) //temp for testing.
+            return PeriodicWorkRequest
+                    .Builder(NotionsReminder::class.java, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES) //temp for testing.
                     .build()
-
-            return workRequest
         }
 
         fun createNotionsReminderNotificationChannel(context: Context) {

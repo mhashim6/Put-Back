@@ -49,4 +49,5 @@
 	<!--dates-->
 	<string name="created_at">created at</string>
 	<string name="last_run_at">last run at</string>
+	<string name="one">1</string>
 </resources>

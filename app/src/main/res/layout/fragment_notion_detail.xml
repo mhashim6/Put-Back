@@ -67,6 +67,7 @@
 			android:background="@null"
 			android:inputType="number"
 			android:maxLength="2"
+			android:hint="@string/one"
 			android:maxLines="1"
 			android:padding="10dp"
 			android:requiresFadingEdge="horizontal"

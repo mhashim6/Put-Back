@@ -25,7 +25,6 @@ import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_
 import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_ID
 import mhashim6.android.putback.ui.SnackbarQueue
 import mhashim6.android.putback.ui.enqueue
-import java.util.*
 
 
 open class NotionsFragment : BaseFragment() {
@@ -90,7 +89,7 @@ open class NotionsFragment : BaseFragment() {
         if (isIdle)
             fab.hide()
         fab.setOnClickListener {
-            showNotionDetail(NOTION_DETAIL_ACTION_CREATE, UUID.randomUUID().toString())
+            showNotionDetail(NOTION_DETAIL_ACTION_CREATE, null)
         }
     }
 

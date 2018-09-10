@@ -7,6 +7,7 @@ import android.content.Intent
 import android.widget.Toast
 import mhashim6.android.putback.RandomStrings.randomComment
 import mhashim6.android.putback.data.NotionsRealm
+import mhashim6.android.putback.debug
 import mhashim6.android.putback.ui.MainActivity
 import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
 
@@ -18,7 +19,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
         val notionId = intent.getStringExtra(NOTION_ID_EXTRA)
         val actionType = intent.getIntExtra(ACTION_TYPE, ACTION_TYPE_PUTBACK)
-
+        debug("vroad $notionId")
         when (actionType) {
             ACTION_TYPE_PUTBACK -> {
                 Toast.makeText(context, randomComment(), Toast.LENGTH_SHORT).show()

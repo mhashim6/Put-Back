@@ -6,6 +6,8 @@ import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
 import io.realm.*
+import io.realm.kotlin.createObject
+import io.realm.kotlin.where
 import mhashim6.android.putback.debug
 import java.util.concurrent.TimeUnit
 
@@ -48,6 +50,22 @@ object NotionsRealm {
         return looperScheduler!!
     }
 
+    fun findOne(id: String): Notion? {
+        val realm = Realm.getDefaultInstance()
+        var notion: Notion? = null
+        realm.executeTransaction {
+
+            notion = it.where<Notion>()
+                    .equalTo("id", id)
+                    .findFirst()
+            if (notion != null)
+                notion = it.copyFromRealm(notion)
+        }
+        closeRealm(realm)
+
+        return notion
+    }
+
     fun changeIdleState(notion: Notion, state: Boolean) {
         changeIdleState(notion.id, state)
     }
@@ -86,7 +104,7 @@ object NotionsRealm {
         closeRealm(realm)
     }
 
-    fun loadHottestNotion(): Notion? {
+    fun findHottestNotion(): Notion? {
         val realm = Realm.getDefaultInstance()
 
         val activeNotions = realm.where<Notion>().equalTo("isArchived", false).findAll()
@@ -106,6 +124,31 @@ object NotionsRealm {
 //        true //for testing.
     }
 
+    fun update(notionId: String, content: String, interval: Int, timeUnit: Int) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync {
+            val notion = it.where<Notion>()
+                    .equalTo("id", notionId)
+                    .findFirst() ?: it.createObject(notionId)
+
+            notion.content = content
+            notion.interval = interval
+            notion.timeUnit = timeUnit
+            notion.modifiedAt = System.currentTimeMillis()
+        }
+        closeRealm(realm)
+    }
+
+    fun delete(notionId: String?) {
+        notionId?.let { id ->
+            val realm = Realm.getDefaultInstance()
+            realm.executeTransaction {
+                it.where<Notion>().equalTo("id", id).findFirst()?.deleteFromRealm()
+            }
+            closeRealm(realm)
+        }
+    }
+
     private fun closeRealm(realm: Realm) {
         try {
             realm.close()
@@ -115,22 +158,4 @@ object NotionsRealm {
             debug("realm closed")
         }
     }
-
-    fun update(notionId: String, content: String, interval: Int, timeUnit: Int) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransactionAsync {
-            val notion = it.where<Notion>()
-                    .equalTo("id", notionId)
-                    .findFirst() ?: Notion()
-
-            notion.content = content
-            notion.interval = interval
-            notion.timeUnit = timeUnit
-            notion.modifiedAt = System.currentTimeMillis()
-            it.copyToRealmOrUpdate(notion)
-        }
-        closeRealm(realm)
-    }
-
-    private inline fun <reified T : RealmObject> Realm.where(): RealmQuery<T> = this.where(T::class.java)
 }

@@ -28,7 +28,7 @@ fun notificationAction(context: Context, id: String, actionType: Int): PendingIn
             Intent(context, NotificationBroadcastReceiver::class.java).apply {
                 putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
                 putExtra(NotificationBroadcastReceiver.ACTION_TYPE, actionType)
-            }, 0)
+            }, PendingIntent.FLAG_UPDATE_CURRENT)
 }
 
 fun notificationContentAction(context: Context, id: String, actionType: Int, action: String): PendingIntent {
@@ -37,7 +37,7 @@ fun notificationContentAction(context: Context, id: String, actionType: Int, act
             Intent(context, MainActivity::class.java).apply {
                 this.action = action
                 putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
-            }, 0)
+            }, PendingIntent.FLAG_UPDATE_CURRENT)
 }
 
 

@@ -9,6 +9,7 @@ import mhashim6.android.putback.R
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.debug
 import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
+import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_TYPE
 import mhashim6.android.putback.ui.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_ID
 import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.NOTION_ID_EXTRA
 
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showNotionDetail(notionId: String) {
         NotionDetailFragment.create(
-                bundleOf(NotionDetailFragment.NOTION_DETAIL_ACTION_TYPE to NOTION_DETAIL_ACTION_DISPLAY,
+                bundleOf(NOTION_DETAIL_ACTION_TYPE to NOTION_DETAIL_ACTION_DISPLAY,
                         NOTION_DETAIL_NOTION_ID to notionId))
                 .show(supportFragmentManager, NotionDetailFragment::class.java.simpleName)
     }
