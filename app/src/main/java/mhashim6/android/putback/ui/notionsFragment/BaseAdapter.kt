@@ -6,27 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
-/**
- * Create a @BaseAdapter
- *
- *  ```
- * recyclerView.adapter = makeAdapter<ItemView, DataClass>(R.layout.item_view, items) {
- *     onBindViewHolder { view, appSites ->
- *         ...
- *     }
- *     onItemClickListener { view, appSites ->
- *         ...
- *     }
- * }
- * ```
- *
- * To avoid use View.findViewById() in all `onBindViewHolder` call, it is better to use a custom view class ItemView in `R.layout.item_view` :
- * ```
- *  <com.tgirard12.krecyclerdsl.ItemView >
- *      ...
- *  </com.tgirard12.krecyclerdsl.ItemView >
- * ```h
- */
+
 inline fun <reified V : View, reified T : Any> makeAdapter(
         @LayoutRes resId: Int, items: List<T>, f: BaseAdapter<V, T>.() -> Unit): BaseAdapter<V, T> {
     return BaseAdapter<V, T>(resId, items).apply { f() }
@@ -39,6 +19,7 @@ class BaseAdapter<out V : View, T : Any>(@LayoutRes private val resId: Int, priv
     : RecyclerView.Adapter<BaseAdapter.DataClassViewHolder<T>>() {
     private var _onBindViewHolder: (view: V, item: T) -> Unit = { _, _ -> }
     private var _onItemClickListener: (view: V, item: T) -> Unit = { _, _ -> }
+    private var _onItemLongClickListener: (view: V, item: T) -> Boolean = { _, _ -> false }
 
     fun onBindViewHolder(f: (V, T) -> Unit) {
         _onBindViewHolder = f
@@ -48,11 +29,16 @@ class BaseAdapter<out V : View, T : Any>(@LayoutRes private val resId: Int, priv
         _onItemClickListener = f
     }
 
+    fun onItemLongClickListener(f: (V, T) -> Boolean) {
+        _onItemLongClickListener = f
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataClassViewHolder<T> {
         val itemView = LayoutInflater.from(parent.context).inflate(resId, parent, false)
         val viewHolder = DataClassViewHolder<T>(itemView)
         itemView.setOnClickListener { _onItemClickListener(itemView as V, viewHolder.item) }
+        itemView.setOnLongClickListener { _onItemLongClickListener(itemView as V, viewHolder.item) }
         return viewHolder
     }
 

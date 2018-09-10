@@ -5,6 +5,7 @@ import androidx.annotation.DrawableRes
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import io.realm.OrderedCollectionChangeSet
 import mhashim6.android.putback.data.Notion
@@ -22,7 +23,8 @@ import mhashim6.android.putback.wtf
 class ViewModel(
         val notionsChanges: Observable<Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet>>,
         val emptyNotionsVisibility: Observable<Int>,
-        val archives: Disposable)
+        val archives: Disposable,
+        val deletes: Disposable)
 
 class NotionCompactViewModel(
         resources: Resources,
@@ -33,7 +35,6 @@ class NotionCompactViewModel(
         @DrawableRes val statusIcon: Int = statusIconSelector(model),
         val color: Int = colorSelector(model, resources)
 )
-
 
 fun BaseAdapter<NotionCompactView, NotionCompactViewModel>.handleChanges(collectionChange: Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet>) {
     val (collection, changeset) = collectionChange
@@ -60,6 +61,7 @@ fun BaseAdapter<NotionCompactView, NotionCompactViewModel>.handleChanges(collect
 
 fun present(
         idleStates: PublishSubject<Pair<NotionCompactViewModel, Boolean>>,
+        deletes: PublishSubject<NotionCompactViewModel>,
         resources: Resources,
         isIdle: Boolean): ViewModel {
 
@@ -71,13 +73,17 @@ fun present(
             .map { it.first.map { notion -> NotionCompactViewModel(resources, notion) } to it.second }
 
 //		successful archives
-    val archives = idleStates
+    val idleStatesDisposable = idleStates
             .subscribe {
                 val (notion, idleState) = it
                 NotionsRealm.changeIdleState(notion.notionId, idleState)
             }
 
+    val deletesDisposable = deletes.observeOn(Schedulers.io()).subscribe {
+        NotionsRealm.delete(it.notionId)
+    }
+
     return ViewModel(notionsChanges,
             fillerViewVisibility.observeOn(AndroidSchedulers.mainThread()),
-            archives)
+            idleStatesDisposable, deletesDisposable)
 }

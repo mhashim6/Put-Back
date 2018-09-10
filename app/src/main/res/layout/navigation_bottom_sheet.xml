@@ -1,67 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/bottomSheet"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+	android:layout_height="wrap_content"
+	android:background="@color/pale_yellow"
+	android:orientation="vertical"
+	android:padding="24dp">
 
-	<androidx.appcompat.widget.AppCompatImageView
-		android:id="@+id/bottomSheetBackground"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"/>
-
-	<LinearLayout
-		android:id="@+id/bottomSheet"
+	<androidx.appcompat.widget.AppCompatTextView
+		android:id="@+id/notionsOption"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@color/pale_yellow"
-		android:orientation="vertical"
-		android:padding="24dp">
+		android:layout_marginBottom="@dimen/bottom_sheet_item_margin_bottom"
+		android:clickable="true"
+		android:drawableStart="@drawable/ic_format_list_bulleted_type_black_24dp"
+		android:drawableLeft="@drawable/ic_format_list_bulleted_type_black_24dp"
+		android:drawablePadding="@dimen/bottom_sheet_item_drawable_padding"
+		android:focusable="true"
+		android:foreground="?android:selectableItemBackground"
+		android:padding="@dimen/bottom_sheet_item_padding"
+		android:text="@string/notionsSubject"
+		android:textSize="@dimen/bottom_sheet_item_text_size"/>
 
-		<androidx.appcompat.widget.AppCompatTextView
-			android:id="@+id/notionsOption"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/bottom_sheet_item_margin_bottom"
-			android:clickable="true"
-			android:drawableLeft="@drawable/ic_format_list_bulleted_type_black_24dp"
-			android:drawablePadding="@dimen/bottom_sheet_item_drawable_padding"
-			android:drawableStart="@drawable/ic_format_list_bulleted_type_black_24dp"
-			android:focusable="true"
-			android:foreground="?android:selectableItemBackground"
-			android:padding="@dimen/bottom_sheet_item_padding"
-			android:text="@string/notionsSubject"
-			android:textSize="@dimen/bottom_sheet_item_text_size"/>
+	<androidx.appcompat.widget.AppCompatTextView
+		android:id="@+id/archiveOption"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/bottom_sheet_item_margin_bottom"
+		android:background="?android:selectableItemBackground"
+		android:clickable="true"
+		android:drawableStart="@drawable/ic_archive_black_24dp"
+		android:drawableLeft="@drawable/ic_archive_black_24dp"
+		android:drawablePadding="@dimen/bottom_sheet_item_drawable_padding"
+		android:focusable="true"
+		android:padding="@dimen/bottom_sheet_item_padding"
+		android:text="@string/archive"
+		android:textSize="@dimen/bottom_sheet_item_text_size"/>
 
-		<androidx.appcompat.widget.AppCompatTextView
-			android:id="@+id/archiveOption"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/bottom_sheet_item_margin_bottom"
-			android:background="?android:selectableItemBackground"
-			android:clickable="true"
-			android:drawableLeft="@drawable/ic_archive_black_24dp"
-			android:drawablePadding="@dimen/bottom_sheet_item_drawable_padding"
-			android:drawableStart="@drawable/ic_archive_black_24dp"
-			android:focusable="true"
-			android:padding="@dimen/bottom_sheet_item_padding"
-			android:text="@string/archive"
-			android:textSize="@dimen/bottom_sheet_item_text_size"/>
-
-		<androidx.appcompat.widget.AppCompatTextView
-			android:id="@+id/settingsOption"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/bottom_sheet_item_margin_bottom"
-			android:clickable="true"
-			android:drawableLeft="@drawable/ic_settings_black_24dp"
-			android:drawablePadding="@dimen/bottom_sheet_item_drawable_padding"
-			android:drawableStart="@drawable/ic_settings_black_24dp"
-			android:focusable="true"
-			android:foreground="?android:selectableItemBackground"
-			android:padding="@dimen/bottom_sheet_item_padding"
-			android:text="@string/settings"
-			android:textSize="@dimen/bottom_sheet_item_text_size"/>
-	</LinearLayout>
-</FrameLayout>
+	<androidx.appcompat.widget.AppCompatTextView
+		android:id="@+id/settingsOption"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/bottom_sheet_item_margin_bottom"
+		android:clickable="true"
+		android:drawableStart="@drawable/ic_settings_black_24dp"
+		android:drawableLeft="@drawable/ic_settings_black_24dp"
+		android:drawablePadding="@dimen/bottom_sheet_item_drawable_padding"
+		android:focusable="true"
+		android:foreground="?android:selectableItemBackground"
+		android:padding="@dimen/bottom_sheet_item_padding"
+		android:text="@string/settings"
+		android:textSize="@dimen/bottom_sheet_item_text_size"/>
+</LinearLayout>

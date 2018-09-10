@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -12,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
+import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_notions.*
@@ -41,6 +42,7 @@ open class NotionsFragment : BaseFragment() {
     private lateinit var fab: FloatingActionButton
 
     private val idleStates: PublishSubject<Pair<NotionCompactViewModel, Boolean>> = PublishSubject.create()
+    private val deletes: PublishSubject<NotionCompactViewModel> = PublishSubject.create()
 
     private val notionsAdapter by lazy {
         makeAdapter<NotionCompactView, NotionCompactViewModel>(R.layout.notion_compact, listOf()) {
@@ -49,6 +51,17 @@ open class NotionsFragment : BaseFragment() {
             }
             onItemClickListener { _, model ->
                 showNotionDetail(NOTION_DETAIL_ACTION_DISPLAY, model.notionId)
+            }
+            onItemLongClickListener { view, model ->
+                val menu = PopupMenu(activity!!, view)
+                menu.inflate(R.menu.notion_controls)
+                menu.setOnMenuItemClickListener {
+                    if (it.itemId == R.id.deleteItem)
+                        delete(model)
+                    true
+                }
+                menu.show()
+                true
             }
         }
     }
@@ -121,22 +134,29 @@ open class NotionsFragment : BaseFragment() {
     }
 
     private fun showData() {
-        val viewModel = present(idleStates, resources, isIdle)
+        val viewModel = present(idleStates,deletes, resources, isIdle)
         with(viewModel) {
             subscriptions.addAll(
                     notionsChanges.subscribe(notionsAdapter::handleChanges),
                     emptyNotionsVisibility.subscribe(::updateEmptyFillerView),
-                    archives
+                    archives,
+                    deletes
             )
         }
     }
 
     private fun archive(notion: NotionCompactViewModel, pos: Int) {
         idleStates.onNext(notion to isIdle.not())
-        Snackbar.make(root, if (isIdle) getString(R.string.un_archived_message) else getString(R.string.archived_message), LENGTH_SHORT)
+        Snackbar.make(root, if (isIdle) R.string.un_archived_message else R.string.archived_message, LENGTH_LONG)
                 .setAction(getString(R.string.undo)) {
                     idleStates.onNext(notion to isIdle)
+                }.enqueue()
+    }
 
+    private fun delete(notion: NotionCompactViewModel) {
+        Snackbar.make(root, R.string.confirm, LENGTH_LONG)
+                .setAction(getString(R.string.yes)) {
+                    deletes.onNext(notion)
                 }.enqueue()
     }
 

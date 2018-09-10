@@ -3,12 +3,6 @@
 	  xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<item
-		android:id="@+id/archiveItem"
-		android:icon="@drawable/ic_package_down_white_24dp"
-		android:title="@string/archive"
-		app:showAsAction="ifRoom"/>
-
-	<item
 		android:id="@+id/deleteItem"
 		android:icon="@drawable/ic_delete_white_24dp"
 		android:title="@string/delete"

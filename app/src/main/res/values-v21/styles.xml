@@ -16,8 +16,19 @@
 		<item name="windowNoTitle">true</item>
 		<item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>
 
+		<item name="popupMenuStyle">@style/PopupMenu</item>
+		<item name="android:itemTextAppearance">@style/MenuItemTextAppearance</item>
 	</style>
 
+	<style name="PopupMenu" parent="Base.Theme.MaterialComponents.CompactMenu">
+		<item name="android:popupBackground">@drawable/menu_background</item>
+	</style>
+
+	<style name="MenuItemTextAppearance" parent="TextAppearance.Widget.AppCompat.ExpandedMenu.Item">
+		<item name="android:textColor">@android:color/black</item>
+	</style>
+
+	<!--spinner-->
 	<style name="SpinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
 		<item name="android:textAppearance">@style/TextAppearanceSpinnerItem</item>
 	</style>
