@@ -8,10 +8,6 @@
 	android:layout_height="match_parent"
 	tools:context=".ui.notionsFragment.NotionsFragment">
 
-	<include
-		android:id="@+id/toolbar"
-		layout="@layout/common_toolbar"/>
-
 	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/notionsRecyclerId"
 		android:layout_width="match_parent"
@@ -34,17 +30,28 @@
 		app:srcCompat="@drawable/ic_spider"
 		/>
 
+	<com.google.android.material.bottomappbar.BottomAppBar
+		android:id="@+id/toolbarId"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom"
+		app:backgroundTint="@color/dark_transparent"
+		app:fabAlignmentMode="end"
+		app:hideOnScroll="true"
+		app:navigationIcon="@drawable/ic_format_list_bulleted_type_white_24dp"
+		app:title="@string/app_name"
+		android:title="@string/app_name"
+		app:titleTextColor="@android:color/white"/>
+
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 		android:id="@+id/fabId"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_gravity="bottom|end"
-		android:layout_marginEnd="20dp"
-		android:layout_marginRight="20dp"
-		android:layout_marginBottom="20dp"
 		android:src="@drawable/ic_plus_black_36dp"
 		app:elevation="1dp"
-		app:fabSize="normal"
+		app:fabSize="auto"
+		app:layout_anchor="@id/toolbarId"
 		app:layout_scrollFlags="scroll|enterAlways"
 		app:pressedTranslationZ="12dp"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
