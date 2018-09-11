@@ -8,7 +8,7 @@
 
 		<item name="android:textColorPrimary">@android:color/white</item>
 
-		<item name="android:windowBackground">@drawable/window_background_poncho</item>
+		<item name="android:windowBackground">@drawable/window_background_red_dust</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 		<item name="android:windowTranslucentStatus">false</item>
 		<!--<item name="android:navigationBarColor">@android:color/transparent</item>-->

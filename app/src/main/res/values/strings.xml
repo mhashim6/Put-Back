@@ -13,6 +13,12 @@
 	<string name="putback">Put Back</string>
 	<string name="notion_is_archived">Productivity: 100</string>
 	<string name="delete">Delete</string>
+	<string name="one">1</string>
+	<string name="notion_is_deleted">Notion is deleted.</string>
+	<string name="yes">Yes</string>
+	<string name="confirm">Are you sure?</string>
+	<string name="un_archive">Un-archive</string>
+	<string name="content_hint">Notion goes here</string>
 
 	<!--titles-->
 	<string name="title_1">Feeling like it?</string>
@@ -25,14 +31,13 @@
 	<string name="comment_3">No need to rush</string>
 	<string name="comment_4">El. Psy. Congroo</string>
 
-
 	<!--time units-->
-	<array name="time_unit_array">
+	<string-array name="time_unit_array">
 		<item>@string/week_plural</item>
 		<item>@string/month_plural</item>
 		<item>@string/year_plural</item>
 		<item>@string/day_plural</item>
-	</array>
+	</string-array>
 
 	<string name="year">YEAR</string>
 	<string name="year_plural">YEARS</string>
@@ -50,10 +55,24 @@
 	<string name="created_at">created at</string>
 	<string name="last_run_at">last run at</string>
 
-	<string name="one">1</string>
-	<string name="notion_is_deleted">Notion is deleted.</string>
-	<string name="yes">Yes</string>
-	<string name="confirm">Are you sure?</string>
-	<string name="un_archive">Un-archive</string>
-	<string name="content_hint">Notion goes here</string>
+	<!--themes-->
+	<string-array name="themes_names">
+		<item>Red dust</item>
+		<item>Grace</item>
+		<item>Copper</item>
+		<item>Predawn</item>
+		<item>Dusk</item>
+		<item>Bronze Atmosphere</item>
+		<item>Pink Atmosphere</item>
+	</string-array>
+
+	<string-array name="themes_values">
+		<item>red_dust</item>
+		<item>grace</item>
+		<item>copper</item>
+		<item>predawn</item>
+		<item>dusk</item>
+		<item>bronze_atmosphere</item>
+		<item>pink_horizon</item>
+	</string-array>
 </resources>

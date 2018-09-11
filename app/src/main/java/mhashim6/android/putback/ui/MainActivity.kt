@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import io.realm.Realm
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.Notion
+import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.debug
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        window.setBackgroundDrawableResource(themeSelector(PreferencesRepository.theme))
 
 //		writeDummyData()
         setContentView(R.layout.activity_main)

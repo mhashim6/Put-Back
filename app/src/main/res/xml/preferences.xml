@@ -11,8 +11,8 @@
 		app:iconSpaceReserved="false"/>
 
 	<ListPreference
-		android:entries="@array/time_unit_array"
-		android:entryValues="@array/time_unit_array"
+		android:entries="@array/themes_names"
+		android:entryValues="@array/themes_values"
 		android:key="theme_preference"
 		android:summary="change the app theme"
 		android:title="App Theme"

@@ -10,12 +10,18 @@ import androidx.preference.PreferenceFragmentCompat
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.data.PreferencesRepository.KEY_SOUND_PREFERENCE
+import mhashim6.android.putback.data.PreferencesRepository.KEY_THEME_PREFERENCE
 import mhashim6.android.putback.debug
 
 
 class PreferencesScreen : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
+
+        preferenceManager.findPreference(KEY_THEME_PREFERENCE).onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
+            activity?.recreate()
+            true
+        }
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
@@ -34,10 +40,9 @@ class PreferencesScreen : PreferenceFragmentCompat() {
     }
 
     private fun launchSoundSelector() {
-
         val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Notifications Sound")
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Notification Sound")
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true)
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, Settings.System.DEFAULT_NOTIFICATION_URI)

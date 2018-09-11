@@ -26,11 +26,16 @@ object PreferencesRepository {
             putString(KEY_SOUND_PREFERENCE, value)
         }
 
+
+    val theme: String
+        get() = preferences.getString(KEY_THEME_PREFERENCE, "red_dust")!!
+
     fun init(context: Context) {
         preferences = context.defaultSharedPreferences
     }
 
     const val KEY_SOUND_PREFERENCE = "sound_preference"
     private const val SILENT_SOUND_PREFERENCE = "SILENT"
+    const val KEY_THEME_PREFERENCE = "theme_preference"
 
 }

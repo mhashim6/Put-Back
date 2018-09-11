@@ -115,6 +115,26 @@ fun statusIconSelector(notion: Notion): Int {
     }
 }
 
+private const val RED_DUST = "red_dust"
+private const val GRACE = "grace"
+private const val COPPER = "copper"
+private const val PREDAWN = "predawn"
+private const val DUSK = "dusk"
+private const val BRONZE_ATMOSPHERE = "bronze_atmosphere"
+private const val PINK_HORIZON = "pink_horizon"
+
+@DrawableRes
+fun themeSelector(themeString: String): Int {
+    return when (themeString) {
+        GRACE -> R.drawable.window_background_grace
+        COPPER -> R.drawable.window_background_copper
+        PREDAWN -> R.drawable.window_background_predawn
+        DUSK -> R.drawable.window_background_dusk
+        BRONZE_ATMOSPHERE -> R.drawable.window_background_bronze_atmosphere
+        PINK_HORIZON -> R.drawable.window_background_pink_horizon
+        else -> R.drawable.window_background_red_dust
+    }
+}
 
 val Boolean.visibility
     get() = if (this) View.VISIBLE else View.GONE
