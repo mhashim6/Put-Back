@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			 xmlns:tools="http://schemas.android.com/tools"
-			 android:layout_width="match_parent"
-			 android:layout_height="match_parent"
-			 tools:context=".ui.SettingsFragment">
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".ui.SettingsFragment">
 
-	<!-- TODO: Update blank fragment layout -->
-	<TextView
+	<FrameLayout
+		android:id="@+id/preferences_screen"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:text="@string/hello_blank_fragment"/>
+		android:layout_height="match_parent"/>
 
-</FrameLayout>
+
+	<com.google.android.material.bottomappbar.BottomAppBar
+		android:id="@+id/toolbarId"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="bottom"
+		android:title="@string/app_name"
+		app:backgroundTint="@color/dark_transparent"
+		app:fabAlignmentMode="end"
+		app:hideOnScroll="true"
+		app:navigationIcon="@drawable/ic_format_list_bulleted_type_white_24dp"
+		app:title="@string/app_name"
+		app:titleTextColor="@android:color/white"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

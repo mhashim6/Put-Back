@@ -12,6 +12,7 @@ import mhashim6.android.putback.RandomStrings.randomTitle
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.NotionsRealm.findHottestNotion
 import mhashim6.android.putback.data.NotionsRealm.updateLastRunAt
+import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.notificationAction
 import mhashim6.android.putback.notificationContentAction
 import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
@@ -41,23 +42,22 @@ class NotionsReminder : Worker() {
         val color = colorSelector(notion, applicationContext.resources)
 
         val putbackAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_PUTBACK)
-		val archiveAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_ARCHIVE)
+        val archiveAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_ARCHIVE)
 
         val showAction = notificationContentAction(applicationContext, notion.id, ACTION_TYPE_SHOW_CONTENT, MAIN_ACTIVITY_SHOW_NOTION_ACTION)
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
-//                .setSmallIcon(R.drawable.ic_format_list_bulleted_type_white_18dp) TODO app logo
+                .setSmallIcon(R.drawable.ic_format_list_bulleted_type_white_18dp) //TODO app logo
                 .setContentTitle(randomTitle(applicationContext.resources))
                 .setContentText(notion.content)
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
                 .setContentIntent(showAction)
                 .addAction(0, applicationContext.getString(R.string.putback), putbackAction)
-				.addAction(0, applicationContext.getString(R.string.archive), archiveAction)
-
+                .addAction(0, applicationContext.getString(R.string.archive), archiveAction)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(notion.content))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setChannelId(NOTIFICATION_CHANNEL_ID)
                 .setLights(color, 500, 2000)
-//				.setDefaults(NotificationCompat.DEFAULT_SOUND)
+                .setSound(PreferencesRepository.soundUri)
                 .setColor(color)
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(true)

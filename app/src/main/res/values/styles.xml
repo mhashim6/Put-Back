@@ -6,7 +6,7 @@
 		<item name="colorAccent">@color/colorAccent</item>
 		<item name="android:textColorPrimary">@android:color/white</item>
 
-		<item name="android:windowBackground">@drawable/window_background_love_couple</item>
+		<item name="android:windowBackground">@drawable/window_background_poncho</item>
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
 		<item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>

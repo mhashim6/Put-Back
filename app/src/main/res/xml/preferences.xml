@@ -1,0 +1,30 @@
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:title="Blah blah blah">
+
+	<Preference
+		android:key="sound_preference"
+		android:ringtoneType="notification"
+		android:summary="change the notification sound"
+		android:title="Notification Sound"
+		app:iconSpaceReserved="false"/>
+
+	<ListPreference
+		android:entries="@array/time_unit_array"
+		android:entryValues="@array/time_unit_array"
+		android:key="theme_preference"
+		android:summary="change the app theme"
+		android:title="App Theme"
+		app:iconSpaceReserved="false"/>
+	<Preference
+		android:key="donate_preference"
+		android:summary="This app is totally free, with no ads, yet, donations are welcome to support the development."
+		android:title="Donate"
+		app:iconSpaceReserved="false"/>
+	<Preference
+		android:key="about_preference"
+		android:title="About App"
+		app:iconSpaceReserved="false"/>
+
+</PreferenceScreen>
