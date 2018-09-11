@@ -1,30 +1,28 @@
 <PreferenceScreen
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:title="Blah blah blah">
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<Preference
 		android:key="sound_preference"
 		android:ringtoneType="notification"
 		android:summary="change the notification sound"
 		android:title="Notification Sound"
-		app:iconSpaceReserved="false"/>
-
+		app:icon="@drawable/ic_bell_ring_white_24dp"/>
 	<ListPreference
 		android:entries="@array/themes_names"
 		android:entryValues="@array/themes_values"
 		android:key="theme_preference"
-		android:summary="change the app theme"
+		android:summary="You'll find something that matches your style."
 		android:title="App Theme"
-		app:iconSpaceReserved="false"/>
+		app:icon="@drawable/ic_palette_swatch_white_24dp"/>
 	<Preference
 		android:key="donate_preference"
 		android:summary="This app is totally free, with no ads, yet, donations are welcome to support the development."
 		android:title="Donate"
-		app:iconSpaceReserved="false"/>
+		app:icon="@drawable/ic_gift_white_24dp"/>
 	<Preference
 		android:key="about_preference"
 		android:title="About App"
-		app:iconSpaceReserved="false"/>
+		app:icon="@drawable/ic_information_outline_white_24dp"/>
 
 </PreferenceScreen>

@@ -8,7 +8,7 @@
 	<string name="archived_message">Notion is now Idle</string>
 	<string name="undo">Undo</string>
 	<string name="un_archived_message">Notion is active again</string>
-	<string name="channel_name">PutBack Notions Reminder</string>
+	<string name="channel_name">Put-Back Notions Reminder</string>
 	<string name="channel_description">This channel is used to deliver notifications for active notionsSubject</string>
 	<string name="putback">Put Back</string>
 	<string name="notion_is_archived">Productivity: 100</string>
@@ -58,17 +58,17 @@
 	<!--themes-->
 	<string-array name="themes_names">
 		<item>Red dust</item>
-		<item>Grace</item>
+		<item>Vivid</item>
 		<item>Copper</item>
 		<item>Predawn</item>
 		<item>Dusk</item>
-		<item>Bronze Atmosphere</item>
-		<item>Pink Atmosphere</item>
+		<item>Bronze atmosphere</item>
+		<item>Pink Horizon</item>
 	</string-array>
 
 	<string-array name="themes_values">
 		<item>red_dust</item>
-		<item>grace</item>
+		<item>vivid</item>
 		<item>copper</item>
 		<item>predawn</item>
 		<item>dusk</item>

@@ -6,7 +6,6 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.PopupMenu
-import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +35,8 @@ open class NotionsFragment : BaseFragment() {
     @LayoutRes
     override val layoutRes = R.layout.fragment_notions
 
-    private lateinit var toolbar: Toolbar
+    override val toolbarId: Int = R.id.toolbarId
+
     private lateinit var fillerView: AppCompatImageView
     private lateinit var notionsRecycler: RecyclerView
     private lateinit var fab: FloatingActionButton
@@ -93,8 +93,6 @@ open class NotionsFragment : BaseFragment() {
     }
 
     private fun setUpViews(view: View) {
-        toolbar = view.findViewById(R.id.toolbarId)
-        setUpToolbar(toolbar)
         fillerView = view.findViewById(R.id.emptyViewId)
 
         notionsRecycler = view.findViewById(R.id.notionsRecyclerId)
@@ -176,7 +174,7 @@ open class NotionsFragment : BaseFragment() {
     override fun onNavigationItemClick(view: View) {
         when {
             view.id == R.id.archiveOption -> navigateTo(R.id.action_notionsFragment_to_idleNotionsFragment)
-            view.id == R.id.settingsOption -> navigateTo(R.id.action_notionsFragment_to_preferncesFragment)
+            view.id == R.id.settingsOption -> navigateTo(R.id.action_notionsFragment_to_preferencesFragment)
         }
     }
 }

@@ -5,7 +5,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context=".ui.SettingsFragment">
+	tools:context=".ui.preferences.SettingsFragment">
 
 	<FrameLayout
 		android:id="@+id/preferences_screen"
@@ -22,7 +22,7 @@
 		app:backgroundTint="@color/dark_transparent"
 		app:fabAlignmentMode="end"
 		app:hideOnScroll="true"
-		app:navigationIcon="@drawable/ic_format_list_bulleted_type_white_24dp"
+		app:navigationIcon="@drawable/ic_arrow_left_white_24dp"
 		app:title="@string/app_name"
 		app:titleTextColor="@android:color/white"/>
 

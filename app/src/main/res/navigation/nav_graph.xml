@@ -18,7 +18,7 @@
 			android:id="@+id/action_notionsFragment_to_idleNotionsFragment"
 			app:destination="@id/idleNotionsFragment"/>
 		<action
-			android:id="@+id/action_notionsFragment_to_preferncesFragment"
+			android:id="@+id/action_notionsFragment_to_preferencesFragment"
 			app:destination="@id/preferencesFragment"/>
 	</fragment>
 
@@ -34,7 +34,7 @@
 			android:id="@+id/action_idleNotionsFragment_to_notionsFragment"
 			app:destination="@id/notionsFragment"/>
 		<action
-			android:id="@+id/action_idleNotionsFragment_to_preferncesFragment"
+			android:id="@+id/action_idleNotionsFragment_to_preferencesFragment"
 			app:destination="@id/preferencesFragment"/>
 	</fragment>
 
@@ -46,7 +46,7 @@
 
 	<fragment
 		android:id="@+id/preferencesFragment"
-		android:name="mhashim6.android.putback.ui.SettingsFragment"
+		android:name="mhashim6.android.putback.ui.preferences.SettingsFragment"
 		android:label="fragment_settings"
 		tools:layout="@layout/fragment_settings"/>
 </navigation>

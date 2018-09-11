@@ -38,6 +38,13 @@ abstract class BaseFragment : Fragment(), ToolbarOwner {
         return inflater.inflate(layoutRes, container, false)
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val toolbar = view.findViewById<Toolbar>(toolbarId)
+        setUpToolbar(toolbar)
+    }
+
     override fun setUpToolbar(toolbar: Toolbar) {
         if (menuRes != 0)
             toolbar.inflateMenu(menuRes)
@@ -87,6 +94,9 @@ abstract class BaseFragment : Fragment(), ToolbarOwner {
 }
 
 interface ToolbarOwner {
+
+    val toolbarId: Int
+
     val toolbarTitleColor: Int
 
     val toolbarSubtitleColor: Int

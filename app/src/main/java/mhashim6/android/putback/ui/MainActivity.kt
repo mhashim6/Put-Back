@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window.setBackgroundDrawableResource(themeSelector(PreferencesRepository.theme))
+        window.setBackgroundDrawableResource(PreferencesRepository.theme)
 
 //		writeDummyData()
         setContentView(R.layout.activity_main)
