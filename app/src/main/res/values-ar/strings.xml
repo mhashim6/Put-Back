@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="notionsSubject">الأفكار</string>
+	<string name="archive">الأرشيف</string>
+	<string name="preferences">الإعدادات</string>
+	<string name="archived_message">تم وضع الفكرة في الأرشيف</string>
+	<string name="undo">الرجوع</string>
+	<string name="un_archived_message">تم تنشيط الفكرة مجدداً</string>
+	<string name="putback">لاحقاً</string>
+	<string name="notion_is_archived">تم وضع الفكرة في الأرشيف</string>
+	<string name="delete">مسح</string>
+	<string name="one">١</string>
+	<string name="notion_is_deleted">تم المسح</string>
+	<string name="yes">نعم</string>
+	<string name="confirm">هل أنت متأكد؟</string>
+	<string name="un_archive">ازالة من الأرشيف</string>
+	<string name="content_hint">اكتب الفكرة هنا</string>
+	<string name="title_1">هل مزاجك جيد؟</string>
+	<string name="title_2">عندي فكرة…</string>
+	<string name="title_3">ما رأيك أن…</string>
+	<string name="comment_1">أُرسلت الفكرة إلي المستقبل</string>
+	<string name="comment_2">خذ وقتك</string>
+	<string name="comment_3">لا داعي للعجلة</string>
+	<string name="donate_summary">هذا التطبيق مجاني تماماً، وبدون اعلانات، لكن يمكنك المساهمة في تطوير التطبيق</string>
+	<string name="donate">دعم التطبيق</string>
+	<string name="about">عن التطبيق</string>
+	<string name="theme_title">واجهة التطبيق</string>
+	<string name="theme_summary">ستجد ما يوافق ذوقك</string>
+	<string name="notification_sound">صوت التنبيه</string>
+	<string name="notification_summary">تغيير صوت التنبيه</string>
+	<string name="feedback">شارك برأيك</string>
+	<string name="opensource">المكتبات المستخدمة</string>
+	<string name="developer">المطور</string>
+	<string name="year">سنة</string>
+	<string name="year_plural">سنين</string>
+	<string name="month">شهر</string>
+	<string name="month_plural">شهور</string>
+	<string name="week">أسبوع</string>
+	<string name="week_plural">أسابيع</string>
+	<string name="day">يوم</string>
+	<string name="day_plural">أيام</string>
+	<string name="created_at">تاريخ الانشاء</string>
+	<string name="last_run_at">اخر تنبيه</string>
+</resources>
