@@ -71,14 +71,6 @@ open class NotionsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpViews(view)
-
-/* TODO
-		val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
-		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select ringtone for notifications:")
-		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
-		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
-		intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION)
-		this.startActivityForResult(intent, 999)*/
     }
 
     override fun onResume() {
@@ -124,6 +116,7 @@ open class NotionsFragment : BaseFragment() {
                 return false
             }
 
+            @Suppress("UNCHECKED_CAST")
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val notion = (viewHolder as BaseAdapter.DataClassViewHolder<NotionCompactViewModel>).item
                 archive(notion)

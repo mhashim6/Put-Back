@@ -11,10 +11,11 @@ class SettingsFragment : BaseFragment() {
 
     @LayoutRes
     override val layoutRes = R.layout.fragment_settings
+    override var menuRes = R.menu.settings
 
     override val toolbarId: Int = R.id.toolbarId
 
-    override val navigationIconRes = R.drawable.ic_arrow_left_white_24dp
+    override val navigationIconRes = R.drawable.ic_check_white_24dp
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

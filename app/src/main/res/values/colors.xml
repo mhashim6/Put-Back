@@ -20,8 +20,8 @@
 
 
 -->
-
-	<color name="colorPrimary">#00223E</color> <!-- petrol: #082c37 -->
+<!--TODO-->
+	<color name="colorPrimary">@color/dim_grey</color> <!-- petrol: #082c37 -->
 	<color name="colorPrimaryDark">@color/colorPrimary</color>
 	<color name="colorAccent">#fff0bc</color>
 </resources>

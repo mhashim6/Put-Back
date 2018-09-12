@@ -31,6 +31,15 @@
 	<string name="comment_3">No need to rush</string>
 	<string name="comment_4">El. Psy. Congroo</string>
 
+	<!--preferences-->
+	<string name="donate_summary">This app is totally free, with no ads. But, donations are welcome to support the development.</string>
+	<string name="donate">Donate</string>
+	<string name="about">About App</string>
+	<string name="theme_title">App Theme</string>
+	<string name="theme_summary">You\'ll find something that matches your style.</string>
+	<string name="notification_sound">Notification Sound</string>
+	<string name="notification_summary">change the notification sound</string>
+
 	<!--time units-->
 	<string-array name="time_unit_array">
 		<item>@string/week_plural</item>
@@ -54,6 +63,7 @@
 	<!--dates-->
 	<string name="created_at">created at</string>
 	<string name="last_run_at">last run at</string>
+	<string name="feedback">Feedback</string>
 
 	<!--themes-->
 	<string-array name="themes_names">

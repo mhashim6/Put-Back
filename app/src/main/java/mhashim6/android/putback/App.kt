@@ -20,6 +20,7 @@ class App : Application() {
         super.onCreate()
         initRealm()
         PreferencesRepository.init(applicationContext)
+//        DonationsRepository.init(applicationContext)
         NotionsReminder.createNotionsReminderNotificationChannel(applicationContext)
         submitWorks()
     }

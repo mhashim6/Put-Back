@@ -5,24 +5,25 @@
 	<Preference
 		android:key="sound_preference"
 		android:ringtoneType="notification"
-		android:summary="change the notification sound"
-		android:title="Notification Sound"
+		android:summary="@string/notification_summary"
+		android:title="@string/notification_sound"
 		app:icon="@drawable/ic_bell_ring_white_24dp"/>
 	<ListPreference
 		android:entries="@array/themes_names"
 		android:entryValues="@array/themes_values"
 		android:key="theme_preference"
-		android:summary="You'll find something that matches your style."
-		android:title="App Theme"
+		android:summary="@string/theme_summary"
+		android:title="@string/theme_title"
 		app:icon="@drawable/ic_palette_swatch_white_24dp"/>
-	<Preference
+	<!-- <Preference
 		android:key="donate_preference"
-		android:summary="This app is totally free, with no ads, yet, donations are welcome to support the development."
-		android:title="Donate"
+		android:summary="@string/donate_summary"
+		android:title="@string/donate"
 		app:icon="@drawable/ic_gift_white_24dp"/>
+		-->
 	<Preference
 		android:key="about_preference"
-		android:title="About App"
+		android:title="@string/about"
 		app:icon="@drawable/ic_information_outline_white_24dp"/>
 
 </PreferenceScreen>

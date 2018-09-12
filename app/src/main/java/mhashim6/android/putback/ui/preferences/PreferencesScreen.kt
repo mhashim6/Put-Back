@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import mhashim6.android.putback.DonationsRepository
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.data.PreferencesRepository.KEY_SOUND_PREFERENCE
@@ -30,12 +31,19 @@ class PreferencesScreen : PreferenceFragmentCompat() {
                 launchSoundSelector()
                 return true
             }
+
+/*            KEY_DONATE_PREFERENCE -> {
+                launchDonationsDialog()
+                return true
+            }
+            */
         }
 
         return super.onPreferenceTreeClick(preference)
     }
 
     companion object {
+
         const val REQUEST_CODE_ALERT_RINGTONE = 0
     }
 
@@ -48,6 +56,12 @@ class PreferencesScreen : PreferenceFragmentCompat() {
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, Settings.System.DEFAULT_NOTIFICATION_URI)
         intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, PreferencesRepository.soundUri)
         startActivityForResult(intent, REQUEST_CODE_ALERT_RINGTONE)
+    }
+
+    private fun launchDonationsDialog() {
+        if (DonationsRepository.billingReady && DonationsRepository.productsReady) {
+
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

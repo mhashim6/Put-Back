@@ -47,5 +47,6 @@ object PreferencesRepository {
     const val KEY_SOUND_PREFERENCE = "sound_preference"
     private const val SILENT_SOUND_PREFERENCE = "SILENT"
     const val KEY_THEME_PREFERENCE = "theme_preference"
+    const val KEY_DONATE_PREFERENCE = "donate_preference"
 
 }

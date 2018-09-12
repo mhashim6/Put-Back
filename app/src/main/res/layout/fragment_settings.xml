@@ -22,7 +22,6 @@
 		app:backgroundTint="@color/dark_transparent"
 		app:fabAlignmentMode="end"
 		app:hideOnScroll="true"
-		app:navigationIcon="@drawable/ic_arrow_left_white_24dp"
 		app:title="@string/app_name"
 		app:titleTextColor="@android:color/white"/>
 
