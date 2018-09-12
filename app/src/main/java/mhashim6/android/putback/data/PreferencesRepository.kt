@@ -13,6 +13,23 @@ object PreferencesRepository {
 
     private lateinit var preferences: SharedPreferences
 
+
+    var firstLaunch: Boolean
+        get() = preferences.getBoolean(KEY_FIRST_LAUNCH_PREFERENCE, true)
+        set(value) {
+            preferences.edit {
+                putBoolean(KEY_FIRST_LAUNCH_PREFERENCE, value)
+            }
+        }
+
+    var tutorialShown: Boolean
+        get() = preferences.getBoolean(KEY_TUTORIAL_SHOWN_PREFERENCE, false)
+        set(value) {
+            preferences.edit {
+                putBoolean(KEY_TUTORIAL_SHOWN_PREFERENCE, value)
+            }
+        }
+
     var soundUri: Uri?
         get() {
             val current = sound
@@ -45,6 +62,8 @@ object PreferencesRepository {
         preferences = context.defaultSharedPreferences
     }
 
+    private const val KEY_FIRST_LAUNCH_PREFERENCE = "first_launch_preference"
+    private const val KEY_TUTORIAL_SHOWN_PREFERENCE = "tutorial_shown_preference"
     const val KEY_SOUND_PREFERENCE = "sound_preference"
     private const val SILENT_SOUND_PREFERENCE = "SILENT"
     const val KEY_THEME_PREFERENCE = "theme_preference"

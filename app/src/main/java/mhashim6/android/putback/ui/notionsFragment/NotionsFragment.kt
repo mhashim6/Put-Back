@@ -4,6 +4,7 @@ package mhashim6.android.putback.ui.notionsFragment
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.os.bundleOf
@@ -16,15 +17,18 @@ import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_notions.*
+import mhashim6.android.putback.APP_URL
 import mhashim6.android.putback.R
 import mhashim6.android.putback.ui.BaseFragment
 import mhashim6.android.putback.ui.SnackbarQueue
 import mhashim6.android.putback.ui.enqueue
+import mhashim6.android.putback.ui.launchUrl
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_CREATE
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_TYPE
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_ID
+import mhashim6.lib.ratemonitor.RateConditionsMonitor
 
 
 open class NotionsFragment : BaseFragment() {
@@ -52,19 +56,7 @@ open class NotionsFragment : BaseFragment() {
             onItemClickListener { _, model ->
                 showNotionDetail(NOTION_DETAIL_ACTION_DISPLAY, model.notionId)
             }
-            onItemLongClickListener { view, model ->
-                val menu = PopupMenu(activity!!, view)
-                menu.inflate(if (isIdle) R.menu.notion_controls_idle else R.menu.notion_controls)
-                menu.setOnMenuItemClickListener {
-                    when (it.itemId) {
-                        R.id.deleteItem -> delete(model)
-                        R.id.archiveItem -> archive(model)
-                    }
-                    true
-                }
-                menu.show()
-                true
-            }
+            onItemLongClickListener(::showControlsMenu)
         }
     }
 
@@ -136,6 +128,21 @@ open class NotionsFragment : BaseFragment() {
                     deletes
             )
         }
+        showRateDialog()
+    }
+
+    private fun showControlsMenu(view: View, notion: NotionCompactViewModel): Boolean {
+        val menu = PopupMenu(activity!!, view)
+        menu.inflate(if (isIdle) R.menu.notion_controls_idle else R.menu.notion_controls)
+        menu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.deleteItem -> delete(notion)
+                R.id.archiveItem -> archive(notion)
+            }
+            true
+        }
+        menu.show()
+        return true
     }
 
     private fun archive(notion: NotionCompactViewModel) {
@@ -162,6 +169,21 @@ open class NotionsFragment : BaseFragment() {
                 bundleOf(NOTION_DETAIL_ACTION_TYPE to actionType,
                         NOTION_DETAIL_NOTION_ID to notionId))
                 .show(fragmentManager, NotionDetailFragment::class.java.simpleName)
+    }
+
+    private fun showRateDialog() {
+        if (RateConditionsMonitor.isConditionsMet)
+            AlertDialog.Builder(activity!!).apply {
+                setTitle(R.string.rate_app)
+                setMessage(R.string.rate_message)
+                setPositiveButton(R.string.rate_now) { _, _ ->
+                    RateConditionsMonitor.rated()
+                    launchUrl(APP_URL)
+                }
+                setNegativeButton(R.string.later) { _, _ -> RateConditionsMonitor.later() }
+                setCancelable(true)
+            }.create().show()
+
     }
 
     override fun onNavigationItemClick(view: View) {

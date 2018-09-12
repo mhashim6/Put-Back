@@ -16,6 +16,10 @@ import mhashim6.android.putback.work.NotificationBroadcastReceiver
 import java.text.DateFormat
 import java.util.concurrent.TimeUnit
 
+
+const val APP_URL = "https://play.google.com/store/apps/details?id=mhashim6.android.putback"
+const val GITHUB_URL = "https://github.com/mhashim6"
+
 fun Any.debug(message: Any?) = Log.d(this::class.java.simpleName, message.toString())
 fun Any.info(message: Any?) = Log.i(this::class.java.simpleName, message.toString())
 fun Any.verbose(message: Any?) = Log.v(this::class.java.simpleName, message.toString())

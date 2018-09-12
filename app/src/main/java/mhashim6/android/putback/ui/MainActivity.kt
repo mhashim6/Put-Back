@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         window.setBackgroundDrawableResource(PreferencesRepository.theme)
 
-//		writeDummyData()
+        writeDummyData()
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) //so the intent is not handled again if the device was rotated.
@@ -58,17 +58,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun writeDummyData() {
+        if (PreferencesRepository.firstLaunch.not())
+            return
+
+        PreferencesRepository.firstLaunch = false
         val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet.", interval = 2, timeUnit = Notion.WEEK))
-            it.copyToRealmOrUpdate(Notion(content = "Lorem.", interval = 8, timeUnit = Notion.DAY))
-            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor.", interval = 4, timeUnit = Notion.DAY))
-            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero.", interval = 2, timeUnit = Notion.MONTH))
-            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero.", interval = 1, timeUnit = Notion.MONTH))
-            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero.", interval = 15, timeUnit = Notion.DAY))
-            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero.", interval = 1, timeUnit = Notion.YEAR))
-            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero."))
-            it.copyToRealmOrUpdate(Notion(content = "Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper, orci ridiculus tellus quis ut libero."))
+        realm.executeTransactionAsync {
+            it.copyToRealmOrUpdate(Notion(content = resources.getString(R.string.water_plants), interval = 1, timeUnit = Notion.WEEK))
+            it.copyToRealmOrUpdate(Notion(content = resources.getString(R.string.chocolate_for_mom), interval = 2, timeUnit = Notion.WEEK))
+            it.copyToRealmOrUpdate(Notion(content = resources.getString(R.string.charity), interval = 1, timeUnit = Notion.MONTH))
         }
         realm.close()
     }

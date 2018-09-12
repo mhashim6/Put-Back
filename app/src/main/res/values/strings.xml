@@ -42,6 +42,10 @@
 	<string name="opensource">Licenses and credits</string>
 	<string name="developer">Developer</string>
 	<string name="developer_summary" translatable="false">mhashim6</string>
+	<string name="rate_app">Rate Put-Back</string>
+	<string name="charity">Charity</string>
+	<string name="chocolate_for_mom">Get chocolate for mom</string>
+	<string name="water_plants">Water the plants</string>
 
 	<!--time units-->
 	<string-array name="time_unit_array">
@@ -66,6 +70,9 @@
 	<!--dates-->
 	<string name="created_at">created at</string>
 	<string name="last_run_at">last run at</string>
+	<string name="later">Later</string>
+	<string name="rate_now">Rate</string>
+	<string name="rate_message">If you find Put-Back useful, please rate the app on Google Play. Thanks!</string>
 
 	<!--themes-->
 	<string-array name="themes_names">

@@ -23,5 +23,5 @@
 <!--TODO-->
 	<color name="colorPrimary">@color/dim_grey</color> <!-- petrol: #082c37 -->
 	<color name="colorPrimaryDark">@color/colorPrimary</color>
-	<color name="colorAccent">#fff0bc</color>
+	<color name="colorAccent">@color/pale_yellow</color>
 </resources>

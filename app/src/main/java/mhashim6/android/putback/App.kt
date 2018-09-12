@@ -8,6 +8,7 @@ import io.realm.RealmConfiguration
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.work.NotionsReminder
 import mhashim6.android.putback.work.NotionsReminder.Factory.NOTIONS_REMINDER_TAG
+import mhashim6.lib.ratemonitor.RateConditionsMonitor
 
 
 /**
@@ -23,6 +24,7 @@ class App : Application() {
 //        DonationsRepository.init(applicationContext)
         NotionsReminder.createNotionsReminderNotificationChannel(applicationContext)
         submitWorks()
+        initRate()
     }
 
     private fun initRealm() {
@@ -39,6 +41,13 @@ class App : Application() {
                 .enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,
                         ExistingPeriodicWorkPolicy.KEEP,
                         workRequest)
+    }
+
+    private fun initRate() {
+        RateConditionsMonitor.apply {
+            init(applicationContext)
+            applyConditions(launchTimes = 3, remindTimes = 5, debug = false)
+        }
     }
 
 }

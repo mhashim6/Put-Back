@@ -11,6 +11,8 @@ import com.franmontiel.attributionpresenter.AttributionPresenter
 import com.franmontiel.attributionpresenter.entities.Attribution
 import com.franmontiel.attributionpresenter.entities.Library.*
 import com.franmontiel.attributionpresenter.entities.License
+import mhashim6.android.putback.APP_URL
+import mhashim6.android.putback.GITHUB_URL
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.data.PreferencesRepository.KEY_DEVELOPER_PREFERENCE
@@ -44,9 +46,9 @@ class PreferencesScreen : PreferenceFragmentCompat() {
 
             KEY_OPEN_SOURCE_PREFERENCE -> launchCreditsDialog()
 
-            KEY_DEVELOPER_PREFERENCE -> launchUrl("https://github.com/mhashim6")
+            KEY_DEVELOPER_PREFERENCE -> launchUrl(GITHUB_URL)
 
-            KEY_FEEDBACK_PREFERENCE -> launchUrl("https://play.google.com/store/apps/details?id=mhashim6.android.putback")
+            KEY_FEEDBACK_PREFERENCE -> launchUrl(APP_URL)
         }
 
         return true
@@ -80,15 +82,24 @@ class PreferencesScreen : PreferenceFragmentCompat() {
                 .addAttributions(
                         Attribution.Builder("Androidx Appcompat")
                                 .addLicense(License.APACHE)
+                                .addCopyrightNotice("Google")
                                 .build(),
                         Attribution.Builder("Androidx Architecture Components")
+                                .addCopyrightNotice("Google")
                                 .addLicense(License.APACHE)
                                 .build(),
                         Attribution.Builder("Android KTX")
+                                .addCopyrightNotice("Google")
                                 .addLicense(License.APACHE)
                                 .setWebsite("https://github.com/android/android-ktx")
                                 .build(),
-                        Attribution.Builder("Spider Icon by Freepik")
+                        Attribution.Builder("RateConditionsMonitor")
+                                .addLicense(License.MIT)
+                                .addCopyrightNotice("Copyright 2018 Muhammad Hashim(mhashim6)")
+                                .setWebsite("https://github.com/mhashim6/RateConditionsMonitor")
+                                .build(),
+                        Attribution.Builder("Spider Icon Vector")
+                                .addCopyrightNotice("Freepik")
                                 .setWebsite("https://www.flaticon.com/free-icon/spider_93292")
                                 .build(),
                         Attribution.Builder("AttributionPresenter")
