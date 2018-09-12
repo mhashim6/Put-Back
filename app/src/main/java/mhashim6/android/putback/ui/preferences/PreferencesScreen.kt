@@ -11,7 +11,6 @@ import com.franmontiel.attributionpresenter.AttributionPresenter
 import com.franmontiel.attributionpresenter.entities.Attribution
 import com.franmontiel.attributionpresenter.entities.Library.*
 import com.franmontiel.attributionpresenter.entities.License
-import mhashim6.android.putback.DonationsRepository
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.data.PreferencesRepository.KEY_DEVELOPER_PREFERENCE
@@ -68,12 +67,13 @@ class PreferencesScreen : PreferenceFragmentCompat() {
         startActivityForResult(intent, REQUEST_CODE_ALERT_RINGTONE)
     }
 
+    /*
     private fun launchDonationsDialog() {
         if (DonationsRepository.billingReady && DonationsRepository.productsReady) {
 
         }
     }
-
+*/
     private fun launchCreditsDialog() {
         AttributionPresenter.Builder(context)
                 .addAttributions(REALM, RX_JAVA, RX_ANDROID)
