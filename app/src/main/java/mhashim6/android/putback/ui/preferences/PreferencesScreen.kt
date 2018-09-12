@@ -7,12 +7,20 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.franmontiel.attributionpresenter.AttributionPresenter
+import com.franmontiel.attributionpresenter.entities.Attribution
+import com.franmontiel.attributionpresenter.entities.Library.*
+import com.franmontiel.attributionpresenter.entities.License
 import mhashim6.android.putback.DonationsRepository
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.PreferencesRepository
+import mhashim6.android.putback.data.PreferencesRepository.KEY_DEVELOPER_PREFERENCE
+import mhashim6.android.putback.data.PreferencesRepository.KEY_FEEDBACK_PREFERENCE
+import mhashim6.android.putback.data.PreferencesRepository.KEY_OPEN_SOURCE_PREFERENCE
 import mhashim6.android.putback.data.PreferencesRepository.KEY_SOUND_PREFERENCE
 import mhashim6.android.putback.data.PreferencesRepository.KEY_THEME_PREFERENCE
 import mhashim6.android.putback.debug
+import mhashim6.android.putback.ui.launchUrl
 
 
 class PreferencesScreen : PreferenceFragmentCompat() {
@@ -27,23 +35,25 @@ class PreferencesScreen : PreferenceFragmentCompat() {
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         when (preference.key) {
-            KEY_SOUND_PREFERENCE -> {
-                launchSoundSelector()
-                return true
-            }
+            KEY_SOUND_PREFERENCE -> launchSoundSelector()
 
 /*            KEY_DONATE_PREFERENCE -> {
                 launchDonationsDialog()
                 return true
             }
             */
+
+            KEY_OPEN_SOURCE_PREFERENCE -> launchCreditsDialog()
+
+            KEY_DEVELOPER_PREFERENCE -> launchUrl("https://github.com/mhashim6")
+
+            KEY_FEEDBACK_PREFERENCE -> launchUrl("https://play.google.com/store/apps/details?id=mhashim6.android.putback")
         }
 
-        return super.onPreferenceTreeClick(preference)
+        return true
     }
 
     companion object {
-
         const val REQUEST_CODE_ALERT_RINGTONE = 0
     }
 
@@ -62,6 +72,32 @@ class PreferencesScreen : PreferenceFragmentCompat() {
         if (DonationsRepository.billingReady && DonationsRepository.productsReady) {
 
         }
+    }
+
+    private fun launchCreditsDialog() {
+        AttributionPresenter.Builder(context)
+                .addAttributions(REALM, RX_JAVA, RX_ANDROID)
+                .addAttributions(
+                        Attribution.Builder("Androidx Appcompat")
+                                .addLicense(License.APACHE)
+                                .build(),
+                        Attribution.Builder("Androidx Architecture Components")
+                                .addLicense(License.APACHE)
+                                .build(),
+                        Attribution.Builder("Android KTX")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/android/android-ktx")
+                                .build(),
+                        Attribution.Builder("Spider Icon by Freepik")
+                                .setWebsite("https://www.flaticon.com/free-icon/spider_93292")
+                                .build(),
+                        Attribution.Builder("AttributionPresenter")
+                                .addCopyrightNotice("Copyright 2017 Francisco José Montiel Navarro")
+                                .addLicense(License.APACHE)
+                                .setWebsite("https://github.com/franmontiel/AttributionPresenter")
+                                .build())
+                .build()
+                .showDialog(null)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

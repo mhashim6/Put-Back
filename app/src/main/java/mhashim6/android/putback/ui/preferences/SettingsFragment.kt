@@ -11,7 +11,6 @@ class SettingsFragment : BaseFragment() {
 
     @LayoutRes
     override val layoutRes = R.layout.fragment_settings
-    override var menuRes = R.menu.settings
 
     override val toolbarId: Int = R.id.toolbarId
 

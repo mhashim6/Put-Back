@@ -38,7 +38,8 @@ object PreferencesRepository {
             "pink_horizon" to R.drawable.window_background_pink_horizon)
 
     val theme: Int
-        @DrawableRes get() = themes.getValue(preferences.getString(KEY_THEME_PREFERENCE, "red_dust")!!)
+        @DrawableRes get() = themes.getValue(preferences.getString(KEY_THEME_PREFERENCE, "red_dust")
+                ?: "red_dust")
 
     fun init(context: Context) {
         preferences = context.defaultSharedPreferences
@@ -48,5 +49,8 @@ object PreferencesRepository {
     private const val SILENT_SOUND_PREFERENCE = "SILENT"
     const val KEY_THEME_PREFERENCE = "theme_preference"
     const val KEY_DONATE_PREFERENCE = "donate_preference"
+    const val KEY_OPEN_SOURCE_PREFERENCE = "open_source_preference"
+    const val KEY_DEVELOPER_PREFERENCE = "developer_preference"
+    const val KEY_FEEDBACK_PREFERENCE = "feedback_preference"
 
 }

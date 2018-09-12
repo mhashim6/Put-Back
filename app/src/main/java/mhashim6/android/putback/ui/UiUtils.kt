@@ -1,14 +1,17 @@
 package mhashim6.android.putback.ui
 
+import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.Uri
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.formatDate
@@ -30,6 +33,11 @@ fun View.captureBitmap(): Bitmap {
 
 fun Bitmap.crop(startX: Int, startY: Int, endX: Int, endY: Int): Bitmap {
     return Bitmap.createBitmap(this, startX, startY, endX - startX, endY - startY)
+}
+
+
+fun Fragment.launchUrl(urlString: String) {
+    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlString)))
 }
 
 

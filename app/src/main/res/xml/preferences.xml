@@ -22,8 +22,16 @@
 		app:icon="@drawable/ic_gift_white_24dp"/>
 		-->
 	<Preference
-		android:key="about_preference"
-		android:title="@string/about"
-		app:icon="@drawable/ic_information_outline_white_24dp"/>
-
+		android:key="developer_preference"
+		android:summary="@string/developer_summary"
+		android:title="@string/developer"
+		app:icon="@drawable/ic_github_circle_white_24dp"/>
+	<Preference
+		android:key="open_source_preference"
+		android:title="@string/opensource"
+		app:icon="@drawable/ic_source_branch_white_24dp"/>
+	<Preference
+		android:key="feedback_preference"
+		android:title="@string/feedback"
+		app:icon="@drawable/ic_message_draw_white_24dp"/>
 </PreferenceScreen>

@@ -50,6 +50,7 @@ class NotionDetailFragment : AppCompatDialogFragment() {
     private fun setUpViews(view: View) {
         container = view
         contentText = view.findViewById(R.id.contentId)
+//        contentText.movementMethod = LinkMovementMethod.getInstance()
         intervalText = view.findViewById(R.id.intervalTextId)
         intervalText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {

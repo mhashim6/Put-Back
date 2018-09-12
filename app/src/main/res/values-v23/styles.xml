@@ -8,6 +8,7 @@
 		<item name="colorAccent">@color/colorAccent</item>
 
 		<item name="android:textColorPrimary">@android:color/white</item>
+		<item name="panelBackground">@android:color/transparent</item>
 
 		<!--window-->
 		<item name="android:windowBackground">@drawable/window_background_red_dust</item>
