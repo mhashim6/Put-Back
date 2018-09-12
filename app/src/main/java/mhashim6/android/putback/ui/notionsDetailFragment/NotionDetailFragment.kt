@@ -128,6 +128,7 @@ class NotionDetailFragment : AppCompatDialogFragment() {
     companion object {
         const val NOTION_DETAIL_ACTION_TYPE = "NOTION_DETAIL_ACTION_TYPE"
         const val NOTION_DETAIL_NOTION_ID = "NOTION_DETAIL_NOTION_ID"
+        const val NOTION_DETAIL_NOTION_CONTENT = "NOTION_DETAIL_NOTION_CONTENT"
         const val NOTION_DETAIL_ACTION_CREATE = 0
         const val NOTION_DETAIL_ACTION_DISPLAY = 1
         const val NOTION_DETAIL_ACTION_RETAINED = 2

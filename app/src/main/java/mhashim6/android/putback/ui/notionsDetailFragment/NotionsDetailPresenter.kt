@@ -12,6 +12,7 @@ import mhashim6.android.putback.ui.dateMetaDataString
 import mhashim6.android.putback.ui.indexByUnit
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_RETAINED
+import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_CONTENT
 import mhashim6.android.putback.ui.unitByIndex
 import java.util.*
 
@@ -50,7 +51,7 @@ fun present(args: Bundle?,
     val notion = when (actionType) {
         NOTION_DETAIL_ACTION_DISPLAY -> NotionsRealm.findOne(notionId)!!
         NOTION_DETAIL_ACTION_RETAINED -> NotionsRealm.findOne(notionId) ?: Notion(id = notionId)
-        else -> Notion(id = notionId)
+        else -> Notion(id = notionId, content = args?.getString(NOTION_DETAIL_NOTION_CONTENT) ?: "")
     }
 
     val colors = intervals.map { pair ->

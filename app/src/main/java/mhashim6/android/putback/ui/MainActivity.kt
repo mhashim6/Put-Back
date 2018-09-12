@@ -10,8 +10,10 @@ import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.debug
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment
+import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_CREATE
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_TYPE
+import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_CONTENT
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_ID
 import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.NOTION_ID_EXTRA
 
@@ -36,18 +38,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleIntent(intent: Intent) {
-        if (intent.action == MAIN_ACTIVITY_SHOW_NOTION_ACTION) {
-            showNotionDetail(intent.getStringExtra(NOTION_ID_EXTRA))
+        if (intent.action == MAIN_ACTIVITY_SHOW_NOTION_ACTION)
+            showNotionDetail(intent.getStringExtra(NOTION_ID_EXTRA), null)
+        else if (intent.action == Intent.ACTION_SEND) {
+            showNotionDetail(bundleOf(
+                    NOTION_DETAIL_ACTION_TYPE to NOTION_DETAIL_ACTION_CREATE,
+                    NOTION_DETAIL_NOTION_CONTENT to intent.getStringExtra(Intent.EXTRA_TEXT)))
         }
     }
 
-    private fun showNotionDetail(notionId: String) {
-        NotionDetailFragment.create(
-                bundleOf(NOTION_DETAIL_ACTION_TYPE to NOTION_DETAIL_ACTION_DISPLAY,
-                        NOTION_DETAIL_NOTION_ID to notionId))
-                .show(supportFragmentManager, NotionDetailFragment::class.java.simpleName)
+    private fun showNotionDetail(notionId: String, content: String?) {
+        showNotionDetail(bundleOf(NOTION_DETAIL_ACTION_TYPE to NOTION_DETAIL_ACTION_DISPLAY,
+                NOTION_DETAIL_NOTION_ID to notionId,
+                NOTION_DETAIL_NOTION_CONTENT to content))
     }
 
+    private fun showNotionDetail(args: Bundle) {
+        NotionDetailFragment.create(args).show(supportFragmentManager, NotionDetailFragment::class.java.simpleName)
+    }
 
     private fun writeDummyData() {
         val realm = Realm.getDefaultInstance()
