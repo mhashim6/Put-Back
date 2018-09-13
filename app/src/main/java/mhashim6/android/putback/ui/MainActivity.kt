@@ -64,9 +64,10 @@ class MainActivity : AppCompatActivity() {
         PreferencesRepository.firstLaunch = false
         val realm = Realm.getDefaultInstance()
         realm.executeTransactionAsync {
-            it.copyToRealmOrUpdate(Notion(content = resources.getString(R.string.water_plants), interval = 1, timeUnit = Notion.WEEK))
-            it.copyToRealmOrUpdate(Notion(content = resources.getString(R.string.chocolate_for_mom), interval = 2, timeUnit = Notion.WEEK))
+            it.copyToRealmOrUpdate(Notion(content = resources.getString(R.string.family_gathering), interval = 6, timeUnit = Notion.MONTH))
+            it.copyToRealmOrUpdate(Notion(content = resources.getString(R.string.skin_routine), interval = 1, timeUnit = Notion.WEEK))
             it.copyToRealmOrUpdate(Notion(content = resources.getString(R.string.charity), interval = 1, timeUnit = Notion.MONTH))
+            it.copyToRealmOrUpdate(Notion(content = resources.getString(R.string.chocolate_for_mom), interval = 2, timeUnit = Notion.WEEK))
         }
         realm.close()
     }

@@ -54,4 +54,6 @@
 	<string name="archive_tutorial">يمكن سحب أي فكرة لوضعها في الأرشيف.</string>
 	<string name="long_press_tutorial">يمكنك الضغط مطولاً على أي فكرة لمسحها او لوضعها في الأرشيف.</string>
 	<string name="preferences_tutorial">اذهب لصفحة الإعدادات للتحكم في صوت التنبيه وشكل التطبيق.</string>
+	<string name="family_gathering">تجمع عائلي</string>
+	<string name="skin_routine">العناية الأسبوعية بالبشرة</string>
 </resources>

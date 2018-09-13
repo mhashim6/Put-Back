@@ -56,7 +56,8 @@ fun colorSelector(count: Int, unit: Int, resources: Resources): Int {
     val colorRes = when (interval) {
         in 0..13 -> R.color.muted_red
         in 14..29 -> R.color.muted_green
-        else -> R.color.muted_blue
+        in 30..179 -> R.color.muted_blue
+        else -> R.color.muted_gray
     }
 
     return ResourcesCompat.getColor(resources, colorRes, null)

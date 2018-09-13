@@ -55,6 +55,8 @@
 	<string name="long_press_tutorial">You can long-press any notion to delete or archive it.</string>
 	<string name="preferences_tutorial">Visit the preferences page to change the theme or the notification sound.</string>
 	<string name="goodbye_tutorial">Now, shall we?</string>
+	<string name="family_gathering">Family Gathering</string>
+	<string name="skin_routine">weekly skin routine</string>
 
 	<!--time units-->
 	<string-array name="time_unit_array">
@@ -79,6 +81,7 @@
 	<!--dates-->
 	<string name="created_at">created at</string>
 	<string name="last_run_at">last run at</string>
+
 
 	<!--themes-->
 	<string-array name="themes_names">

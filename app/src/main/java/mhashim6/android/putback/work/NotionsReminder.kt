@@ -76,7 +76,7 @@ class NotionsReminder : Worker() {
 
         fun createNotionsReminder(): PeriodicWorkRequest {
             return PeriodicWorkRequest
-                    .Builder(NotionsReminder::class.java, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES) //temp for testing.
+                    .Builder(NotionsReminder::class.java, 12, TimeUnit.HOURS, 5, TimeUnit.MINUTES) //temp for testing.
                     .build()
         }
 
