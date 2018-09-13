@@ -46,6 +46,15 @@
 	<string name="charity">Charity</string>
 	<string name="chocolate_for_mom">Get chocolate for mom</string>
 	<string name="water_plants">Water the plants</string>
+	<string name="later">Later</string>
+	<string name="rate_now">Rate</string>
+	<string name="rate_message">If you find Put-Back useful, please rate the app on Google Play. Thanks!</string>
+	<string name="welcome_message">Welcome to Put-Back!</string>
+	<string name="introduction_message">Here you can do things at your own pace.</string>
+	<string name="archive_tutorial">You can swipe any notion to archive it.</string>
+	<string name="long_press_tutorial">You can long-press any notion to delete or archive it.</string>
+	<string name="preferences_tutorial">Visit the preferences page to change the theme or the notification sound.</string>
+	<string name="goodbye_tutorial">Now, shall we?</string>
 
 	<!--time units-->
 	<string-array name="time_unit_array">
@@ -70,9 +79,6 @@
 	<!--dates-->
 	<string name="created_at">created at</string>
 	<string name="last_run_at">last run at</string>
-	<string name="later">Later</string>
-	<string name="rate_now">Rate</string>
-	<string name="rate_message">If you find Put-Back useful, please rate the app on Google Play. Thanks!</string>
 
 	<!--themes-->
 	<string-array name="themes_names">

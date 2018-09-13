@@ -14,11 +14,13 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
+import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_notions.*
 import mhashim6.android.putback.APP_URL
 import mhashim6.android.putback.R
+import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.ui.BaseFragment
 import mhashim6.android.putback.ui.SnackbarQueue
 import mhashim6.android.putback.ui.enqueue
@@ -128,6 +130,7 @@ open class NotionsFragment : BaseFragment() {
                     deletes
             )
         }
+        showTutorial()
         showRateDialog()
     }
 
@@ -147,14 +150,14 @@ open class NotionsFragment : BaseFragment() {
 
     private fun archive(notion: NotionCompactViewModel) {
         idleStates.onNext(notion to isIdle.not())
-        Snackbar.make(root, if (isIdle) R.string.un_archived_message else R.string.archived_message, LENGTH_LONG)
+        Snackbar.make(root, if (isIdle) R.string.un_archived_message else R.string.archived_message, LENGTH_SHORT)
                 .setAction(getString(R.string.undo)) {
                     idleStates.onNext(notion to isIdle)
                 }.enqueue()
     }
 
     private fun delete(notion: NotionCompactViewModel) {
-        Snackbar.make(root, R.string.confirm, LENGTH_LONG)
+        Snackbar.make(root, R.string.confirm, LENGTH_SHORT)
                 .setAction(getString(R.string.yes)) {
                     deletes.onNext(notion)
                 }.enqueue()
@@ -169,6 +172,19 @@ open class NotionsFragment : BaseFragment() {
                 bundleOf(NOTION_DETAIL_ACTION_TYPE to actionType,
                         NOTION_DETAIL_NOTION_ID to notionId))
                 .show(fragmentManager, NotionDetailFragment::class.java.simpleName)
+    }
+
+    private fun showTutorial() {
+        if (PreferencesRepository.tutorialShown)
+            return
+
+        Snackbar.make(root, R.string.welcome_message, LENGTH_LONG).enqueue()
+        Snackbar.make(root, R.string.introduction_message, LENGTH_LONG).enqueue()
+        Snackbar.make(root, R.string.archive_tutorial, LENGTH_LONG).enqueue()
+        Snackbar.make(root, R.string.long_press_tutorial, LENGTH_LONG).enqueue()
+        Snackbar.make(root, R.string.preferences_tutorial, LENGTH_LONG).enqueue()
+        Snackbar.make(root, R.string.goodbye_tutorial, LENGTH_LONG).enqueue()
+        PreferencesRepository.tutorialShown = true
     }
 
     private fun showRateDialog() {
