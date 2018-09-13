@@ -9,7 +9,6 @@
 
 		<item name="android:textColorPrimary">@android:color/white</item>
 		<item name="panelBackground">@android:color/transparent</item>
-
 		<!--window-->
 		<item name="android:windowBackground">@drawable/window_background_red_dust</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
@@ -25,6 +24,13 @@
 		<item name="android:itemTextAppearance">@style/MenuItemTextAppearance</item>
 
 		<item name="alertDialogTheme">@style/DialogTheme</item>
+
+		<item name="snackbarStyle">@style/SnackBar</item>
+	</style>
+
+	<style name="SnackBar" parent="Widget.MaterialComponents.Snackbar">
+		<item name="android:paddingTop">5dp</item>
+		<item name="android:paddingBottom">5dp</item>
 	</style>
 
 	<style name="DialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">

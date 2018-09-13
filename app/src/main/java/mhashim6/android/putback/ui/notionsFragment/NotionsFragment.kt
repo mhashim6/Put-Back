@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.PopupMenu
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +18,6 @@ import com.google.android.material.snackbar.Snackbar.LENGTH_LONG
 import com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_notions.*
 import mhashim6.android.putback.APP_URL
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.PreferencesRepository
@@ -43,6 +43,7 @@ open class NotionsFragment : BaseFragment() {
 
     override val toolbarId: Int = R.id.toolbarId
 
+    private lateinit var root: CoordinatorLayout
     private lateinit var fillerView: AppCompatImageView
     private lateinit var notionsRecycler: RecyclerView
     private lateinit var fab: FloatingActionButton
@@ -79,6 +80,8 @@ open class NotionsFragment : BaseFragment() {
     }
 
     private fun setUpViews(view: View) {
+        root = view.findViewById(R.id.root)
+
         fillerView = view.findViewById(R.id.emptyViewId)
 
         notionsRecycler = view.findViewById(R.id.notionsRecyclerId)
@@ -151,14 +154,14 @@ open class NotionsFragment : BaseFragment() {
     private fun archive(notion: NotionCompactViewModel) {
         idleStates.onNext(notion to isIdle.not())
         Snackbar.make(root, if (isIdle) R.string.un_archived_message else R.string.archived_message, LENGTH_SHORT)
-                .setAction(getString(R.string.undo)) {
+                .setAction(R.string.undo) {
                     idleStates.onNext(notion to isIdle)
                 }.enqueue()
     }
 
     private fun delete(notion: NotionCompactViewModel) {
         Snackbar.make(root, R.string.confirm, LENGTH_SHORT)
-                .setAction(getString(R.string.yes)) {
+                .setAction(R.string.yes) {
                     deletes.onNext(notion)
                 }.enqueue()
     }
@@ -177,7 +180,8 @@ open class NotionsFragment : BaseFragment() {
     private fun showTutorial() {
         if (PreferencesRepository.tutorialShown)
             return
-        view?.postDelayed({
+
+        root.postDelayed({
             Snackbar.make(root, R.string.welcome_message, LENGTH_LONG).enqueue()
             Snackbar.make(root, R.string.introduction_message, LENGTH_LONG).enqueue()
             Snackbar.make(root, R.string.archive_tutorial, LENGTH_LONG).enqueue()
@@ -186,7 +190,6 @@ open class NotionsFragment : BaseFragment() {
             Snackbar.make(root, R.string.goodbye_tutorial, LENGTH_LONG).enqueue()
             PreferencesRepository.tutorialShown = true
         }, 2000)
-
     }
 
     private fun showRateDialog() {
