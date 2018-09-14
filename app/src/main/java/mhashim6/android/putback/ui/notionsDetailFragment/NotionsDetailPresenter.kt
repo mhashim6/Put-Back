@@ -15,6 +15,7 @@ import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Co
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_TYPE
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_CONTENT
 import mhashim6.android.putback.ui.unitByIndex
+import mhashim6.android.putback.withNewLine
 import java.util.*
 
 class ViewModel(
@@ -33,7 +34,7 @@ class NotionDetailViewModel(
         notion: Notion,
         resources: Resources,
         val notionId: String = notion.id,
-        val content: String = notion.content + "\n", //leave a space for the user to touch in case of a url.
+        val content: String = notion.content.withNewLine(), //leave a space for the user to touch in case of a url.
         val interval: String = notion.interval.toString(),
         val timeUnit: Int = indexByUnit(notion.timeUnit),
         val backgroundColor: ColorDrawable = ColorDrawable(colorSelector(notion, resources)),

@@ -68,3 +68,7 @@ fun isAboutToRun(notion: Notion): Boolean {
 }
 
 fun formatDate(date: Long): String = DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)
+
+fun String.withNewLine(): String {
+    return if (isEmpty()) this else (this + "\n")
+}
