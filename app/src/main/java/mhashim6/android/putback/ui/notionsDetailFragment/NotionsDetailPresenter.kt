@@ -12,6 +12,7 @@ import mhashim6.android.putback.ui.dateMetaDataString
 import mhashim6.android.putback.ui.indexByUnit
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_RETAINED
+import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_TYPE
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_CONTENT
 import mhashim6.android.putback.ui.unitByIndex
 import java.util.*
@@ -49,9 +50,15 @@ fun present(args: Bundle?,
     val notionId = args?.getString(NotionDetailFragment.NOTION_DETAIL_NOTION_ID)
             ?: UUID.randomUUID().toString()
     val notion = when (actionType) {
-        NOTION_DETAIL_ACTION_DISPLAY -> NotionsRealm.findOne(notionId)!!
+        NOTION_DETAIL_ACTION_DISPLAY -> NotionsRealm.findOne(notionId)
+                ?: Notion(id = notionId) //assuming null is better than a crash.
         NOTION_DETAIL_ACTION_RETAINED -> NotionsRealm.findOne(notionId) ?: Notion(id = notionId)
         else -> Notion(id = notionId, content = args?.getString(NOTION_DETAIL_NOTION_CONTENT) ?: "")
+    }
+    args?.apply {
+        //consume the current action.
+        putInt(NOTION_DETAIL_ACTION_TYPE, NOTION_DETAIL_ACTION_RETAINED)
+        putString(NotionDetailFragment.NOTION_DETAIL_NOTION_ID, notion.id)
     }
 
     val colors = intervals.map { pair ->

@@ -27,8 +27,7 @@ class MainActivity : AppCompatActivity() {
         writeDummyData()
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState == null) //so the intent is not handled again if the device was rotated.
-            handleIntent(intent)
+        handleIntent(intent)
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -45,6 +44,8 @@ class MainActivity : AppCompatActivity() {
                     NOTION_DETAIL_ACTION_TYPE to NOTION_DETAIL_ACTION_CREATE,
                     NOTION_DETAIL_NOTION_CONTENT to intent.getStringExtra(Intent.EXTRA_TEXT)))
         }
+
+        intent.action = MAIN_ACTIVITY_CONSUMED_ACTION //consume the intent.
     }
 
     private fun showNotionDetail(notionId: String, content: String?) {
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val MAIN_ACTIVITY_SHOW_NOTION_ACTION = "MAIN_ACTIVITY_SHOW_NOTION_ACTION"
+        const val MAIN_ACTIVITY_CONSUMED_ACTION = "MAIN_ACTIVITY_CONSUMED_ACTION"
     }
 
 }

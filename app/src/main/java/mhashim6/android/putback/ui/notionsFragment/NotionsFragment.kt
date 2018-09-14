@@ -202,6 +202,7 @@ open class NotionsFragment : BaseFragment() {
                     launchUrl(APP_URL)
                 }
                 setNegativeButton(R.string.later) { _, _ -> RateConditionsMonitor.later() }
+                        .setOnDismissListener { RateConditionsMonitor.later() }
                 setCancelable(true)
             }.create().show()
 

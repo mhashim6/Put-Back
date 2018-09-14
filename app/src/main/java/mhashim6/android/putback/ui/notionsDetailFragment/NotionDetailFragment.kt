@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,8 +27,6 @@ class NotionDetailFragment : AppCompatDialogFragment() {
     private lateinit var unitSpinner: AppCompatSpinner
     private lateinit var dateMetaDataText: AppCompatTextView
 
-    private var tempId: String? = null //upon rotation.
-
     private val intervalUpdates: PublishSubject<Pair<String, Int>> = PublishSubject.create()
     private val notionUpdate: PublishSubject<NotionUpdate> = PublishSubject.create()
 
@@ -39,18 +38,13 @@ class NotionDetailFragment : AppCompatDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        savedInstanceState?.getString(NOTION_DETAIL_NOTION_ID)?.let {
-            //upon rotation.
-            arguments?.putString(NOTION_DETAIL_NOTION_ID, it)
-            arguments?.putInt(NOTION_DETAIL_ACTION_TYPE, NOTION_DETAIL_ACTION_RETAINED)
-        }
         setUpViews(view)
     }
 
     private fun setUpViews(view: View) {
         container = view
         contentText = view.findViewById(R.id.contentId)
-//        contentText.movementMethod = LinkMovementMethod.getInstance()
+        contentText.movementMethod = LinkMovementMethod.getInstance()
         intervalText = view.findViewById(R.id.intervalTextId)
         intervalText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
@@ -75,13 +69,6 @@ class NotionDetailFragment : AppCompatDialogFragment() {
         }
         dateMetaDataText = view.findViewById(R.id.dateMetaData)
         dateMetaDataText.marquee()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        tempId?.let {
-            outState.putString(NOTION_DETAIL_NOTION_ID, tempId)
-        }
     }
 
     override fun onResume() {
@@ -113,7 +100,6 @@ class NotionDetailFragment : AppCompatDialogFragment() {
 
     private fun render(notion: NotionDetailViewModel) {
         with(notion) {
-            tempId = notionId
             container.background = backgroundColor
             contentText.setText(content)
             intervalText.setText(interval)

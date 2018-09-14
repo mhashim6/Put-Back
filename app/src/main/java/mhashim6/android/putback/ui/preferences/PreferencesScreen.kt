@@ -99,8 +99,9 @@ class PreferencesScreen : PreferenceFragmentCompat() {
                                 .setWebsite("https://github.com/mhashim6/RateConditionsMonitor")
                                 .build(),
                         Attribution.Builder("Spider Icon Vector")
-                                .addCopyrightNotice("Freepik")
-                                .setWebsite("https://www.flaticon.com/free-icon/spider_93292")
+                                .addCopyrightNotice("Designed by Freepik from Flaticon")
+                                .addLicense("CC BY 3.0", "https://creativecommons.org/licenses/by/3.0/")
+                                .setWebsite("https://creativecommons.org/licenses/by/3.0/")
                                 .build(),
                         Attribution.Builder("AttributionPresenter")
                                 .addCopyrightNotice("Copyright 2017 Francisco José Montiel Navarro")
