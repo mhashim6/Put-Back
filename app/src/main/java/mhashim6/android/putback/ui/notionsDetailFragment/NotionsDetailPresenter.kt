@@ -24,7 +24,7 @@ class ViewModel(
 )
 
 class NotionUpdate(
-        val content: String,
+        var content: String,
         val interval: String,
         val timeUnit: Int
 )
@@ -33,7 +33,7 @@ class NotionDetailViewModel(
         notion: Notion,
         resources: Resources,
         val notionId: String = notion.id,
-        val content: String = notion.content,
+        val content: String = notion.content + "\n", //leave a space for the user to touch in case of a url.
         val interval: String = notion.interval.toString(),
         val timeUnit: Int = indexByUnit(notion.timeUnit),
         val backgroundColor: ColorDrawable = ColorDrawable(colorSelector(notion, resources)),
@@ -67,7 +67,7 @@ fun present(args: Bundle?,
         ColorDrawable(colorSelector(count, unit, resources))
     }
 
-    val updateDisposable = update.subscribe {
+    val updateDisposable = update.map { it.apply { content = content.trim() } }.subscribe {
         if (it.content.isEmpty())
             NotionsRealm.delete(notionId)
         else
