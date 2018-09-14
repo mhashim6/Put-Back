@@ -28,7 +28,7 @@ class ViewModel(
 
 class NotionCompactViewModel(
         resources: Resources,
-        model: Notion,
+        val model: Notion,
         val notionId: String = model.id,
         val content: String = model.content,
         val interval: String = intervalString(model.interval, model.timeUnit, resources),
@@ -61,7 +61,7 @@ fun BaseAdapter<NotionCompactView, NotionCompactViewModel>.handleChanges(collect
 
 fun present(
         idleStates: PublishSubject<Pair<NotionCompactViewModel, Boolean>>,
-        deletes: PublishSubject<NotionCompactViewModel>,
+        deletes: PublishSubject<Pair<NotionCompactViewModel, Boolean>>,
         resources: Resources,
         isIdle: Boolean): ViewModel {
 
@@ -80,7 +80,10 @@ fun present(
             }
 
     val deletesDisposable = deletes.observeOn(Schedulers.io()).subscribe {
-        NotionsRealm.delete(it.notionId)
+        if (it.second) //undo
+            NotionsRealm.add(it.first.model)
+        else
+            NotionsRealm.delete(it.first.notionId)
     }
 
     return ViewModel(notionsChanges,

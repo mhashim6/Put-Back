@@ -49,7 +49,7 @@ open class NotionsFragment : BaseFragment() {
     private lateinit var fab: FloatingActionButton
 
     private val idleStates: PublishSubject<Pair<NotionCompactViewModel, Boolean>> = PublishSubject.create()
-    private val deletes: PublishSubject<NotionCompactViewModel> = PublishSubject.create()
+    private val deletes: PublishSubject<Pair<NotionCompactViewModel, Boolean>> = PublishSubject.create()
 
     private val notionsAdapter by lazy {
         makeAdapter<NotionCompactView, NotionCompactViewModel>(R.layout.notion_compact, listOf()) {
@@ -160,9 +160,10 @@ open class NotionsFragment : BaseFragment() {
     }
 
     private fun delete(notion: NotionCompactViewModel) {
-        Snackbar.make(root, R.string.confirm, LENGTH_SHORT)
-                .setAction(R.string.yes) {
-                    deletes.onNext(notion)
+        deletes.onNext(notion to false)
+        Snackbar.make(root, R.string.notion_is_deleted, LENGTH_SHORT)
+                .setAction(R.string.undo) {
+                    deletes.onNext(notion to true)
                 }.enqueue()
     }
 

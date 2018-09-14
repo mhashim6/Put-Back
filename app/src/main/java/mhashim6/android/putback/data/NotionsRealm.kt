@@ -113,6 +113,14 @@ object NotionsRealm {
 //        true //for testing.
     }
 
+    fun add(notion: Notion) {
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransactionAsync {
+            it.copyToRealmOrUpdate(notion)
+        }
+        closeRealm(realm)
+    }
+
     fun update(notionId: String, content: String, interval: Int, timeUnit: Int) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransactionAsync {
