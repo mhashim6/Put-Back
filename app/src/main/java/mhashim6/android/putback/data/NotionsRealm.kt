@@ -1,14 +1,12 @@
 package mhashim6.android.putback.data
 
-import android.os.HandlerThread
 import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
 import io.realm.*
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import mhashim6.android.putback.debug
+import mhashim6.android.putback.looperScheduler
 import java.util.concurrent.TimeUnit
 
 /**
@@ -17,8 +15,9 @@ import java.util.concurrent.TimeUnit
 
 object NotionsRealm {
 
+    private val realmScheduler = looperScheduler()
+
     fun notionsChanges(state: Boolean): Observable<Pair<MutableList<Notion>, OrderedCollectionChangeSet>> {
-        val scheduler = looperScheduler()
         return Observable.create<Pair<MutableList<Notion>, OrderedCollectionChangeSet>> { source ->
             val realm = Realm.getDefaultInstance()
             val queryResult = realm.where<Notion>()
@@ -37,17 +36,7 @@ object NotionsRealm {
                 queryResult.removeChangeListener(listener)
                 realm.close()
             })
-        }.subscribeOn(scheduler).unsubscribeOn(scheduler)
-    }
-
-    private fun looperScheduler(): Scheduler {
-        var looperScheduler: Scheduler? = null
-        val thread = HandlerThread("looper")
-        thread.start()
-        synchronized(thread) {
-            looperScheduler = AndroidSchedulers.from(thread.looper)
-        }
-        return looperScheduler!!
+        }.subscribeOn(realmScheduler).unsubscribeOn(realmScheduler)
     }
 
     fun findOne(id: String): Notion? {
