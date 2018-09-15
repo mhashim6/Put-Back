@@ -4,7 +4,7 @@
 	<string name="archive">الأرشيف</string>
 	<string name="preferences">الإعدادات</string>
 	<string name="archived_message">تم وضع الفكرة في الأرشيف</string>
-	<string name="undo">الرجوع</string>
+	<string name="undo">رجوع</string>
 	<string name="un_archived_message">تم تنشيط الفكرة مجدداً</string>
 	<string name="putback">لاحقاً</string>
 	<string name="notion_is_archived">تم وضع الفكرة في الأرشيف</string>

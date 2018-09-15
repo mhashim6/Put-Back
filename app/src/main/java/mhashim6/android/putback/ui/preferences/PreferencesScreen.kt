@@ -103,6 +103,10 @@ class PreferencesScreen : PreferenceFragmentCompat() {
                                 .addLicense("CC BY 3.0", "https://creativecommons.org/licenses/by/3.0/")
                                 .setWebsite("https://creativecommons.org/licenses/by/3.0/")
                                 .build(),
+                        Attribution.Builder("Original Clock Vector")
+                                .addCopyrightNotice("Designed by Rawpixel.com - Freepik.com")
+                                .setWebsite("https://www.rawpixel.com")
+                                .build(),
                         Attribution.Builder("AttributionPresenter")
                                 .addCopyrightNotice("Copyright 2017 Francisco José Montiel Navarro")
                                 .addLicense(License.APACHE)

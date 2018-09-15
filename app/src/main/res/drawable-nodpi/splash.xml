@@ -3,7 +3,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
 
-	<item android:drawable="@color/dim_grey"/>
+	<item android:drawable="@color/colorPrimary"/>
 
 	<item>
 		<bitmap

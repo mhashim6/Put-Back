@@ -46,7 +46,7 @@ class NotionsReminder : Worker() {
 
         val showAction = notificationContentAction(applicationContext, notion.id, ACTION_TYPE_SHOW_CONTENT, MAIN_ACTIVITY_SHOW_NOTION_ACTION)
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_format_list_bulleted_type_white_18dp) //TODO app logo
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(randomTitle(applicationContext.resources))
                 .setContentText(notion.content)
                 .setCategory(NotificationCompat.CATEGORY_REMINDER)
