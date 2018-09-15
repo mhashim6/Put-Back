@@ -185,6 +185,7 @@ open class NotionsFragment : BaseFragment() {
         root.postDelayed({
             Snackbar.make(root, R.string.welcome_message, LENGTH_LONG).enqueue()
             Snackbar.make(root, R.string.introduction_message, LENGTH_LONG).enqueue()
+            Snackbar.make(root, R.string.pencil_message, LENGTH_LONG).enqueue()
             Snackbar.make(root, R.string.archive_tutorial, LENGTH_LONG).enqueue()
             Snackbar.make(root, R.string.long_press_tutorial, LENGTH_LONG).enqueue()
             Snackbar.make(root, R.string.preferences_tutorial, LENGTH_LONG).enqueue()
