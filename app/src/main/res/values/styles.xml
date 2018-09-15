@@ -7,7 +7,7 @@
 
 		<item name="android:textColorPrimary">@android:color/white</item>
 
-		<item name="android:windowBackground">@drawable/window_background_red_dust</item>
+		<item name="android:windowBackground">@drawable/splash</item>
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
 		<item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>

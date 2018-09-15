@@ -41,13 +41,13 @@
 	<string name="day_plural">أيام</string>
 	<string name="created_at">تاريخ الانشاء</string>
 	<string name="last_run_at">اخر تنبيه</string>
-	<string name="rate_app">قيم هذا التطبيق</string>
+	<string name="rate_app">تقييم التطبيق</string>
 	<string name="charity">أخرج صدقة</string>
 	<string name="water_plants">اسقي الزرع</string>
 	<string name="chocolate_for_mom">هدية لأمي</string>
 	<string name="later">لاحقاً</string>
 	<string name="rate_now">تقييم</string>
-	<string name="rate_message">إذا وجدت Put-Back مفيداً، رجاءاً اترك تقييماً على بلاي ستور، وشكراً لدعمكم!</string>
+	<string name="rate_message">إذا وجدت Put-Back مفيداً، رجاءاً اترك تقييماً على جوجل بلاي، وشكراً لدعمكم!</string>
 	<string name="welcome_message">مرحباً بك!</string>
 	<string name="introduction_message">هنا يمكنك انجاز مهامك بدون الحاح او استعجال.</string>
 	<string name="goodbye_tutorial">فلنبدأ!</string>
@@ -56,4 +56,6 @@
 	<string name="preferences_tutorial">اذهب لصفحة الإعدادات للتحكم في صوت التنبيه وشكل التطبيق.</string>
 	<string name="family_gathering">تجمع عائلي</string>
 	<string name="skin_routine">العناية الأسبوعية بالبشرة</string>
+	<string name="feedback_summary">.اكتب تعليفاً على جوجل بلاي</string>
+	<string name="open_source_summary">رخص المكتبات  المفتوحة المصدر.</string>
 </resources>

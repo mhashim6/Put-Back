@@ -2,8 +2,6 @@ package mhashim6.android.putback.ui
 
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.net.Uri
 import android.text.TextUtils
 import android.view.View
@@ -23,6 +21,7 @@ import java.util.*
  * Created by mhashim6 on 22/08/2018.
  */
 
+/*
 fun View.captureBitmap(): Bitmap {
     val empty = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(empty)
@@ -34,7 +33,7 @@ fun View.captureBitmap(): Bitmap {
 fun Bitmap.crop(startX: Int, startY: Int, endX: Int, endY: Int): Bitmap {
     return Bitmap.createBitmap(this, startX, startY, endX - startX, endY - startY)
 }
-
+*/
 
 fun Fragment.launchUrl(urlString: String) {
     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlString)))

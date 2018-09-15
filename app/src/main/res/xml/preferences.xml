@@ -2,12 +2,6 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 
-	<Preference
-		android:key="sound_preference"
-		android:ringtoneType="notification"
-		android:summary="@string/notification_summary"
-		android:title="@string/notification_sound"
-		app:icon="@drawable/ic_bell_ring_white_24dp"/>
 	<ListPreference
 		android:entries="@array/themes_names"
 		android:entryValues="@array/themes_values"
@@ -15,6 +9,12 @@
 		android:summary="@string/theme_summary"
 		android:title="@string/theme_title"
 		app:icon="@drawable/ic_palette_swatch_white_24dp"/>
+	<Preference
+		android:key="sound_preference"
+		android:ringtoneType="notification"
+		android:summary="@string/notification_summary"
+		android:title="@string/notification_sound"
+		app:icon="@drawable/ic_bell_ring_white_24dp"/>
 	<!-- <Preference
 		android:key="donate_preference"
 		android:summary="@string/donate_summary"
@@ -22,16 +22,18 @@
 		app:icon="@drawable/ic_gift_white_24dp"/>
 		-->
 	<Preference
-		android:key="developer_preference"
-		android:summary="@string/developer_summary"
-		android:title="@string/developer"
-		app:icon="@drawable/ic_github_circle_white_24dp"/>
-	<Preference
 		android:key="open_source_preference"
 		android:title="@string/opensource"
+		android:summary="@string/open_source_summary"
 		app:icon="@drawable/ic_source_branch_white_24dp"/>
 	<Preference
 		android:key="feedback_preference"
 		android:title="@string/feedback"
+		android:summary="@string/feedback_summary"
 		app:icon="@drawable/ic_message_draw_white_24dp"/>
+	<Preference
+		android:key="developer_preference"
+		android:summary="@string/developer_summary"
+		android:title="@string/developer"
+		app:icon="@drawable/ic_github_circle_white_24dp"/>
 </PreferenceScreen>
