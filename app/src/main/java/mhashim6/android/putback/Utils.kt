@@ -73,3 +73,5 @@ fun formatDate(date: Long): String = DateFormat.getDateInstance(DateFormat.MEDIU
 fun String.withNewLine(): String {
     return if (isEmpty()) this else (this + "\n")
 }
+
+fun Int.toOneIfZero(): Int = if (this == 0) 1 else this

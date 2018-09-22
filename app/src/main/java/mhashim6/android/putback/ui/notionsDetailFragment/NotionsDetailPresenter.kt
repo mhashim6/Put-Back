@@ -7,6 +7,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.NotionsRealm
+import mhashim6.android.putback.toOneIfZero
 import mhashim6.android.putback.ui.colorSelector
 import mhashim6.android.putback.ui.dateMetaDataString
 import mhashim6.android.putback.ui.indexByUnit
@@ -74,7 +75,7 @@ fun present(args: Bundle?,
         else
             NotionsRealm.update(notionId,
                     it.content,
-                    it.interval.takeIf(String::isNotEmpty)?.toInt() ?: 1,
+                    it.interval.takeIf(String::isNotEmpty)?.toInt()?.toOneIfZero() ?: 1,
                     unitByIndex(it.timeUnit))
     }
 
