@@ -96,7 +96,10 @@ object NotionsRealm {
     fun findHottestNotion(): Notion? {
         val realm = Realm.getDefaultInstance()
 
-        val activeNotions = realm.where<Notion>().equalTo("isArchived", false).findAll()
+        val activeNotions = realm.where<Notion>()
+                .equalTo("isArchived", false)
+                .sort("createdAt", Sort.ASCENDING)
+                .findAll()
         var notion = activeNotions.firstOrNull(hotNotionPredicate)
         if (notion != null)
             notion = realm.copyFromRealm(notion)

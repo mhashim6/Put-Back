@@ -58,6 +58,7 @@ fun notificationContentAction(context: Context, id: String, actionType: Int, act
             }, PendingIntent.FLAG_UPDATE_CURRENT)
 }
 
+//fun <E> List<E>.random(): E = this[Random().nextInt(this.size)]
 
 fun isAboutToRun(notion: Notion): Boolean {
     val interval = notion.interval * notion.timeUnit
