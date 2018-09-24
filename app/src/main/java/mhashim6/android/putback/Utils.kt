@@ -16,7 +16,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.ui.MainActivity
 import mhashim6.android.putback.work.NotificationBroadcastReceiver
-import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -68,7 +69,7 @@ fun isAboutToRun(notion: Notion): Boolean {
     return interval - (today - lastRunDay) <= 2
 }
 
-fun formatDate(date: Long): String = DateFormat.getDateInstance(DateFormat.MEDIUM).format(date)
+fun formatDate(date: Long): String = SimpleDateFormat("dd MMMM yyyy hh:mm aa", Locale.getDefault()).format(date)
 
 fun String.withNewLine(): String {
     return if (isEmpty()) this else (this + "\n")

@@ -102,15 +102,15 @@ fun indexByUnit(unit: Int): Int {
     }
 }
 
-private const val DATE_METADATA_TEMPLATE = "%s %s - %s %s"
+private const val DATE_METADATA_TEMPLATE = "%s: %s - %s: %s"
 
 fun dateMetaDataString(createdAt: Long, lastRunAt: Long, resources: Resources): String {
     return String.format(Locale.getDefault(),
             DATE_METADATA_TEMPLATE,
-            resources.getString(R.string.created_at),
-            formatDate(createdAt),
             resources.getString(R.string.last_run_at),
-            formatDate(lastRunAt))
+            formatDate(lastRunAt),
+            resources.getString(R.string.created_at),
+            formatDate(createdAt))
 }
 
 
