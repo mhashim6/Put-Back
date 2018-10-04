@@ -1,5 +1,6 @@
 package mhashim6.android.putback.ui
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
@@ -7,6 +8,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.annotation.Px
 import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -38,7 +40,6 @@ fun Bitmap.crop(startX: Int, startY: Int, endX: Int, endY: Int): Bitmap {
 fun Fragment.launchUrl(urlString: String) {
     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlString)))
 }
-
 
 fun TextView.marquee() {
     isSelected = true
@@ -122,6 +123,9 @@ fun statusIconSelector(notion: Notion): Int {
         else -> 0
     }
 }
+
+@Px
+fun dpToPx(dp: Int, context: Context) = (context.resources.displayMetrics.density * dp).toInt()
 
 val Boolean.visibility
     get() = if (this) View.VISIBLE else View.GONE

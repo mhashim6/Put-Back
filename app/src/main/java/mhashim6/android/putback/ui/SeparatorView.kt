@@ -5,9 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.DashPathEffect
 import android.graphics.Paint
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.withStyledAttributes
 import mhashim6.android.putback.R
 
 class SeparatorView : View {
@@ -27,22 +27,19 @@ class SeparatorView : View {
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
     constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int) : super(context, attributeSet, defStyleAttr) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P)
-            setLayerType(View.LAYER_TYPE_SOFTWARE, null) //TODO check this.
+        setLayerType(View.LAYER_TYPE_SOFTWARE, null) //because developing for android is such a joy.
 
-        context.theme.obtainStyledAttributes(
+        context.withStyledAttributes(
                 attributeSet,
                 R.styleable.SeparatorView,
-                0, 0).apply {
+                0, 0) {
             lineStyle = resolveStyle(getInt(R.styleable.SeparatorView_lineStyle, 0))
             lineColor = getColor(R.styleable.SeparatorView_lineColor, Color.BLACK)
-            recycle()
         }
     }
 
-
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val desiredHeight = 10
+        val desiredHeight = dpToPx(2, context)
 
         val width = View.MeasureSpec.getSize(widthMeasureSpec)
         val height = View.resolveSize(desiredHeight, heightMeasureSpec)
