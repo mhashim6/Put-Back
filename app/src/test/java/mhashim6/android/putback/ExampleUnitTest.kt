@@ -2,7 +2,6 @@ package mhashim6.android.putback
 
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.Notion.TimeUnits.DAY
-import mhashim6.android.putback.data.NotionsRealm.hotNotionPredicate
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.*

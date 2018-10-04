@@ -26,8 +26,8 @@
 			android:layout_marginRight="16dp"
 			android:layout_marginBottom="16dp"
 			android:autoLink="all"
-			android:linksClickable="false"
 			android:ellipsize="end"
+			android:linksClickable="false"
 			android:maxLines="7"
 			android:textColorLink="@color/dark_transparent"
 			android:textSize="16sp"
@@ -47,20 +47,20 @@
 			app:layout_constraintTop_toTopOf="parent"
 			tools:src="@drawable/ic_archive_grey600_18dp"/>
 
-		<View
+		<mhashim6.android.putback.ui.SeparatorView
 			android:id="@+id/separator"
 			android:layout_width="match_parent"
-			android:layout_height="1dp"
+			android:layout_height="wrap_content"
 			android:layout_marginStart="8dp"
 			android:layout_marginLeft="8dp"
 			android:layout_marginEnd="8dp"
+			app:lineColor="@android:color/black"
 			android:layout_marginRight="8dp"
 			android:layout_marginBottom="4dp"
-			android:background="@color/light_transparent"
-			android:visibility="visible"
 			app:layout_constraintBottom_toTopOf="@+id/intervalTextId"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"/>
+			app:layout_constraintStart_toStartOf="parent"
+			app:lineStyle="dotted"/>
 
 		<androidx.appcompat.widget.AppCompatTextView
 			android:id="@+id/intervalTextId"

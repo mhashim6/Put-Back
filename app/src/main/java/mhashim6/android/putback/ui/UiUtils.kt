@@ -102,7 +102,7 @@ fun indexByUnit(unit: Int): Int {
     }
 }
 
-private const val DATE_METADATA_TEMPLATE = "%s: %s - %s: %s"
+private const val DATE_METADATA_TEMPLATE = "%s: %s       %s: %s"
 
 fun dateMetaDataString(createdAt: Long, lastRunAt: Long, resources: Resources): String {
     return String.format(Locale.getDefault(),
@@ -118,7 +118,7 @@ fun dateMetaDataString(createdAt: Long, lastRunAt: Long, resources: Resources): 
 fun statusIconSelector(notion: Notion): Int {
     return when {
         notion.isArchived -> R.drawable.ic_archive_grey600_18dp
-        isAboutToRun(notion) -> R.drawable.ic_progress_clock_grey600_18dp
+        notion.isAboutToRun() -> R.drawable.ic_progress_clock_grey600_18dp
         else -> 0
     }
 }

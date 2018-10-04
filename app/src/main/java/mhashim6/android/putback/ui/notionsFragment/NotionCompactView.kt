@@ -13,16 +13,14 @@ class NotionCompactView : CardView {
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    val content: AppCompatTextView by lazy { notionContent }
-    val statusIcon: AppCompatImageView by lazy { statusIconId }
-    val intervalText: AppCompatTextView by lazy { intervalTextId }
-}
+    private val content: AppCompatTextView by lazy { notionContent }
+    private val statusIcon: AppCompatImageView by lazy { statusIconId }
+    private val intervalText: AppCompatTextView by lazy { intervalTextId }
 
-fun NotionCompactView.render(notion: NotionCompactViewModel) {
-    content.text = notion.content
-    intervalText.text = notion.interval
-
-    statusIcon.setImageResource(notion.statusIcon)
-
-    setCardBackgroundColor(notion.color)
+    fun render(notion: NotionCompactViewModel) {
+        content.text = notion.content
+        intervalText.text = notion.interval
+        statusIcon.setImageResource(notion.statusIcon)
+        setCardBackgroundColor(notion.color)
+    }
 }

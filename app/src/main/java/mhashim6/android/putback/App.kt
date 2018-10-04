@@ -21,7 +21,6 @@ class App : Application() {
         super.onCreate()
         initRealm()
         PreferencesRepository.init(applicationContext)
-//        DonationsRepository.init(applicationContext)
         NotionsReminder.createNotionsReminderNotificationChannel(applicationContext)
         submitWorks()
         initRate()
@@ -34,13 +33,14 @@ class App : Application() {
     }
 
     private fun submitWorks() {
-
+        val workManager = WorkManager.getInstance()
         val workRequest = NotionsReminder.createNotionsReminder()
 
-        WorkManager.getInstance()
-                .enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,
-                        ExistingPeriodicWorkPolicy.KEEP,
-                        workRequest)
+        ifNewUpdate(workManager::cancelAllWork)
+
+        workManager.enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,
+                ExistingPeriodicWorkPolicy.KEEP,
+                workRequest)
     }
 
     private fun initRate() {

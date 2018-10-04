@@ -18,35 +18,34 @@
 		android:layout_marginEnd="8dp"
 		android:layout_marginRight="8dp"
 		android:autoLink="all"
-		android:maxLines="7"
-		android:textColorLink="@color/dark_transparent"
 		android:background="@null"
 		android:hint="@string/content_hint"
 		android:linksClickable="true"
+		android:maxLines="7"
 		android:padding="16dp"
 		android:textColor="@android:color/black"
+		android:textColorLink="@color/dark_transparent"
 		android:textSize="20sp"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
 		tools:text="Lorem ipsum dolor sit amet consectetur adipiscing elit, suscipit interdum phasellus penatibus sagittis ullamcorper"/>
 
-	<View
+	<mhashim6.android.putback.ui.SeparatorView
 		android:id="@+id/separator"
 		android:layout_width="match_parent"
-		android:layout_height="1dp"
-		android:layout_marginStart="16dp"
-		android:layout_marginLeft="16dp"
-		android:layout_marginTop="8dp"
-		android:layout_marginEnd="16dp"
-		android:layout_marginRight="16dp"
-		android:layout_marginBottom="32dp"
-		android:background="@color/light_transparent"
-		android:visibility="visible"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginBottom="4dp"
 		app:layout_constraintBottom_toBottomOf="@id/contentId"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/contentId"/>
+		app:layout_constraintTop_toBottomOf="@+id/contentId"
+		app:lineColor="@android:color/black"
+		app:lineStyle="dotted"/>
 
 	<LinearLayout
 		android:id="@+id/intervalPanel"

@@ -6,8 +6,8 @@ import io.realm.*
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import mhashim6.android.putback.debug
+import mhashim6.android.putback.hotNotionPredicate
 import mhashim6.android.putback.looperScheduler
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by mhashim6 on 31/08/2018.
@@ -106,14 +106,6 @@ object NotionsRealm {
 
         closeRealm(realm)
         return notion
-    }
-
-    val hotNotionPredicate: (Notion) -> Boolean = { notion ->
-        val lastRunDay = TimeUnit.MILLISECONDS.toDays(notion.lastRunAt)
-        val today = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis())
-
-        (today - lastRunDay) >= notion.interval * notion.timeUnit
-//        true //for testing.
     }
 
     fun add(notion: Notion) {

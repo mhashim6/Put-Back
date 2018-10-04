@@ -7,12 +7,14 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.PeriodicWorkRequest
 import androidx.work.Worker
+import androidx.work.WorkerParameters
 import mhashim6.android.putback.R
 import mhashim6.android.putback.RandomStrings.randomTitle
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.NotionsRealm.findHottestNotion
 import mhashim6.android.putback.data.NotionsRealm.updateLastRunAt
 import mhashim6.android.putback.data.PreferencesRepository
+import mhashim6.android.putback.info
 import mhashim6.android.putback.notificationAction
 import mhashim6.android.putback.notificationContentAction
 import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
@@ -26,12 +28,13 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by mhashim6 on 31/08/2018.
  */
-class NotionsReminder : Worker() {
+class NotionsReminder(context: Context, workerParameters: WorkerParameters) : Worker(context, workerParameters) {
 
     override fun doWork(): Result {
-        val notion = findHottestNotion()
 
-        notion?.let {
+        info("a new work is invoked")
+
+        findHottestNotion()?.let {
             updateLastRunAt(it)
             showNotification(it)
         }
@@ -41,10 +44,10 @@ class NotionsReminder : Worker() {
     private fun showNotification(notion: Notion) {
         val color = colorSelector(notion, applicationContext.resources)
 
-        val putbackAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_PUTBACK)
-        val archiveAction = notificationAction(applicationContext, notion.id, ACTION_TYPE_ARCHIVE)
+        val putbackAction = notificationAction(applicationContext, notion, ACTION_TYPE_PUTBACK)
+        val archiveAction = notificationAction(applicationContext, notion, ACTION_TYPE_ARCHIVE)
 
-        val showAction = notificationContentAction(applicationContext, notion.id, ACTION_TYPE_SHOW_CONTENT, MAIN_ACTIVITY_SHOW_NOTION_ACTION)
+        val showAction = notificationContentAction(applicationContext, notion, ACTION_TYPE_SHOW_CONTENT, MAIN_ACTIVITY_SHOW_NOTION_ACTION)
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(randomTitle(applicationContext.resources))
@@ -61,22 +64,21 @@ class NotionsReminder : Worker() {
                 .setColor(color)
                 .setAutoCancel(true)
                 .setOnlyAlertOnce(true)
-                .build()
-
-        notification.flags = NotificationCompat.FLAG_ONLY_ALERT_ONCE or NotificationCompat.FLAG_AUTO_CANCEL or NotificationCompat.FLAG_SHOW_LIGHTS
+                .build().apply {
+                    flags = NotificationCompat.FLAG_ONLY_ALERT_ONCE or NotificationCompat.FLAG_AUTO_CANCEL or NotificationCompat.FLAG_SHOW_LIGHTS
+                }
 
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(NOTION_NOTIFICATION_ID, notification)
+        notificationManager.notify((notion.lastRunAt).toInt(), notification)
     }
 
     companion object Factory {
-        const val NOTION_NOTIFICATION_ID = 17
         const val NOTIFICATION_CHANNEL_ID = "NOTIONS_REMINDER_CHANNEL"
         const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG"
 
         fun createNotionsReminder(): PeriodicWorkRequest {
             return PeriodicWorkRequest
-                    .Builder(NotionsReminder::class.java, 3, TimeUnit.HOURS, 5, TimeUnit.MINUTES) //temp for testing.
+                    .Builder(NotionsReminder::class.java, 1, TimeUnit.HOURS, 5, TimeUnit.MINUTES)
                     .build()
         }
 
@@ -85,8 +87,7 @@ class NotionsReminder : Worker() {
                 val name = context.getString(R.string.channel_name)
                 val description = context.getString(R.string.channel_description)
                 val importance = NotificationManager.IMPORTANCE_HIGH
-                val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance)
-                channel.description = description
+                val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance).apply { this.description = description }
                 val notificationManager = context.getSystemService(NotificationManager::class.java)
                 notificationManager!!.createNotificationChannel(channel)
             }

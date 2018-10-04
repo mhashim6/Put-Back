@@ -14,6 +14,7 @@ import android.util.Log
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import mhashim6.android.putback.data.Notion
+import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.ui.MainActivity
 import mhashim6.android.putback.work.NotificationBroadcastReceiver
 import java.text.SimpleDateFormat
@@ -21,7 +22,10 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 
+const val APP_VERSION = BuildConfig.VERSION_CODE
+
 const val APP_URL = "https://play.google.com/store/apps/details?id=mhashim6.android.putback"
+
 const val GITHUB_URL = "https://github.com/mhashim6"
 
 fun Any.debug(message: Any?) = Log.d(this::class.java.simpleName, message.toString())
@@ -29,6 +33,15 @@ fun Any.info(message: Any?) = Log.i(this::class.java.simpleName, message.toStrin
 fun Any.verbose(message: Any?) = Log.v(this::class.java.simpleName, message.toString())
 fun Any.error(message: Any?) = Log.e(this::class.java.simpleName, message.toString())
 fun Any.wtf(message: Any?) = Log.wtf(this::class.java.simpleName, message.toString())
+
+val hotNotionPredicate: (Notion) -> Boolean = { notion ->
+    val lastRun = notion.lastRunAt
+    val now = System.currentTimeMillis()
+    val daysPassed = TimeUnit.MILLISECONDS.toDays(now - lastRun)
+
+    daysPassed >= notion.interval * notion.timeUnit
+//    true //for testing.
+}
 
 
 fun looperScheduler(): Scheduler {
@@ -41,38 +54,51 @@ fun looperScheduler(): Scheduler {
     return looperScheduler!!
 }
 
-fun notificationAction(context: Context, id: String, actionType: Int): PendingIntent {
+fun notificationAction(context: Context, notion: Notion, actionType: Int): PendingIntent {
+    val notificationId = notion.lastRunAt.toInt()
+
     return PendingIntent.getBroadcast(
-            context, actionType,
+            context, notificationId + actionType,
             Intent(context, NotificationBroadcastReceiver::class.java).apply {
-                putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
+                putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, notion.id)
+                putExtra(NotificationBroadcastReceiver.NOTIFICATION_ID_EXTRA, notificationId)
                 putExtra(NotificationBroadcastReceiver.ACTION_TYPE, actionType)
             }, PendingIntent.FLAG_UPDATE_CURRENT)
 }
 
-fun notificationContentAction(context: Context, id: String, actionType: Int, action: String): PendingIntent {
+fun notificationContentAction(context: Context, notion: Notion, actionType: Int, action: String): PendingIntent {
+
     return PendingIntent.getActivity(
             context, actionType,
             Intent(context, MainActivity::class.java).apply {
                 this.action = action
-                putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, id)
+                putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, notion.id)
             }, PendingIntent.FLAG_UPDATE_CURRENT)
 }
 
 //fun <E> List<E>.random(): E = this[Random().nextInt(this.size)]
 
-fun isAboutToRun(notion: Notion): Boolean {
-    val interval = notion.interval * notion.timeUnit
+fun Notion.isAboutToRun(): Boolean {
+    val interval = this.interval * this.timeUnit
 
-    val lastRunDay = TimeUnit.MILLISECONDS.toDays(notion.lastRunAt)
-    val today = TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis())
-    return interval - (today - lastRunDay) <= 2
+    val lastRun = this.lastRunAt
+    val now = System.currentTimeMillis()
+    val daysPassed = TimeUnit.MILLISECONDS.toDays(now - lastRun)
+
+    return interval - daysPassed <= 2
+}
+
+inline fun ifNewUpdate(action: () -> Unit) {
+    if (PreferencesRepository.updateVersion < APP_VERSION) {
+        PreferencesRepository.updateVersion = APP_VERSION
+        action()
+    }
 }
 
 fun formatDate(date: Long): String = SimpleDateFormat("dd MMMM yyyy hh:mm aa", Locale.getDefault()).format(date)
 
-fun String.withNewLine(): String {
+inline fun String.withNewLine(): String {
     return if (isEmpty()) this else (this + "\n")
 }
 
-fun Int.toOneIfZero(): Int = if (this == 0) 1 else this
+inline fun Int.toOneIfZero(): Int = if (this == 0) 1 else this
