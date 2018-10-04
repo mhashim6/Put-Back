@@ -44,8 +44,7 @@ class App : Application() {
     }
 
     private fun initRate() {
-        RateConditionsMonitor.apply {
-            init(applicationContext)
+        RateConditionsMonitor.init(applicationContext) {
             applyConditions(launchTimes = 3, remindTimes = 5, debug = false)
         }
     }

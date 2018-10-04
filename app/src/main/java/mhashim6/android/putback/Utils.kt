@@ -17,6 +17,7 @@ import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.ui.MainActivity
 import mhashim6.android.putback.work.NotificationBroadcastReceiver
+import mhashim6.lib.ratemonitor.RateConditionsMonitor
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -102,3 +103,8 @@ inline fun String.withNewLine(): String {
 }
 
 inline fun Int.toOneIfZero(): Int = if (this == 0) 1 else this
+
+inline fun RateConditionsMonitor.init(context: Context, block: RateConditionsMonitor.() -> Unit) {
+    init(context)
+    apply(block)
+}
