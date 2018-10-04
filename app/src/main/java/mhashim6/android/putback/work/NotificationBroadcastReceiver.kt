@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import mhashim6.android.putback.R
 import mhashim6.android.putback.RandomStrings.randomComment
 import mhashim6.android.putback.data.NotionsRealm
 import mhashim6.android.putback.ui.MainActivity
@@ -20,9 +21,6 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
         val notificationId = intent.getIntExtra(NOTIFICATION_ID_EXTRA, 0)
         val actionType = intent.getIntExtra(ACTION_TYPE, ACTION_TYPE_PUTBACK)
 
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.cancel(notificationId)
-
         when (actionType) {
             ACTION_TYPE_PUTBACK -> {
                 Toast.makeText(context, randomComment(), Toast.LENGTH_SHORT).show()
@@ -30,6 +28,7 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
 
             ACTION_TYPE_ARCHIVE -> {
                 NotionsRealm.changeIdleState(notionId, true)
+                Toast.makeText(context, R.string.notion_is_archived, Toast.LENGTH_SHORT).show()
             }
 
             ACTION_TYPE_SHOW_CONTENT -> {
@@ -41,6 +40,9 @@ class NotificationBroadcastReceiver : BroadcastReceiver() {
                 context.startActivity(activityStarter)
             }
         }
+
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(notificationId)
     }
 
     companion object {
