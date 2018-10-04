@@ -68,7 +68,7 @@ class NotionDetailFragment : AppCompatDialogFragment() {
 
         }
         dateMetaDataText = view.findViewById(R.id.dateMetaData)
-        dateMetaDataText.marquee()
+        dateMetaDataText.marquee() //TODO it doesn't look right on the emulator.
     }
 
     override fun onResume() {

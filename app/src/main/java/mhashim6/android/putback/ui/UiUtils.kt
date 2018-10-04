@@ -42,6 +42,7 @@ fun Fragment.launchUrl(urlString: String) {
 
 fun TextView.marquee() {
     isSelected = true
+    setHorizontallyScrolling(true)
     setSingleLine(true)
     ellipsize = TextUtils.TruncateAt.MARQUEE
 }

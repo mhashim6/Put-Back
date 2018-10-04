@@ -102,6 +102,7 @@
 		android:layout_marginRight="8dp"
 		android:ellipsize="marquee"
 		android:focusable="true"
+		android:scrollHorizontally="true"
 		android:focusableInTouchMode="true"
 		android:marqueeRepeatLimit="marquee_forever"
 		android:padding="10dp"
