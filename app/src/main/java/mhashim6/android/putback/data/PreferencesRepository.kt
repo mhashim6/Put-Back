@@ -6,6 +6,7 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.annotation.DrawableRes
 import androidx.core.content.edit
+import androidx.core.net.toUri
 import mhashim6.android.putback.R
 import org.jetbrains.anko.defaultSharedPreferences
 
@@ -41,7 +42,7 @@ object PreferencesRepository {
     var soundUri: Uri?
         get() {
             val current = sound
-            return if (current == SILENT_SOUND_PREFERENCE) null else Uri.parse(current)
+            return if (current == SILENT_SOUND_PREFERENCE) null else current.toUri()
         }
         set(value) {
             sound = value?.toString() ?: SILENT_SOUND_PREFERENCE

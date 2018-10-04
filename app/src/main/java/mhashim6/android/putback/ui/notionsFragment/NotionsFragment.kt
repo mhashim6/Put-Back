@@ -9,6 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.PopupMenu
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -167,8 +168,8 @@ open class NotionsFragment : BaseFragment() {
                 }.enqueue()
     }
 
-    private fun updateEmptyFillerView(visibility: Int) {
-        fillerView.visibility = visibility
+    private fun updateEmptyFillerView(isVisible: Boolean) {
+        fillerView.isVisible = isVisible
     }
 
     private fun showNotionDetail(actionType: Int, notionId: String?) {

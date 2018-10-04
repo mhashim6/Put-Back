@@ -13,7 +13,6 @@ import mhashim6.android.putback.data.NotionsRealm
 import mhashim6.android.putback.ui.colorSelector
 import mhashim6.android.putback.ui.intervalString
 import mhashim6.android.putback.ui.statusIconSelector
-import mhashim6.android.putback.ui.visibility
 import mhashim6.android.putback.wtf
 
 /**
@@ -22,7 +21,7 @@ import mhashim6.android.putback.wtf
 
 class ViewModel(
         val notionsChanges: Observable<Pair<List<NotionCompactViewModel>, OrderedCollectionChangeSet>>,
-        val emptyNotionsVisibility: Observable<Int>,
+        val emptyNotionsVisibility: Observable<Boolean>,
         val archives: Disposable,
         val deletes: Disposable)
 
@@ -65,11 +64,11 @@ fun present(
         resources: Resources,
         isIdle: Boolean): ViewModel {
 
-    val fillerViewVisibility = PublishSubject.create<Int>()
+    val fillerViewVisibility = PublishSubject.create<Boolean>()
 
     val notionsChanges = NotionsRealm.notionsChanges(isIdle)
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext { fillerViewVisibility.onNext(it.first.isEmpty().visibility) }
+            .doOnNext { fillerViewVisibility.onNext(it.first.isEmpty()) }
             .map { it.first.map { notion -> NotionCompactViewModel(resources, notion) } to it.second }
 
 //		successful archives

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.res.Resources
 import android.net.Uri
 import android.text.TextUtils
-import android.view.View
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.Px
@@ -126,6 +125,3 @@ fun statusIconSelector(notion: Notion): Int {
 
 @Px
 fun dpToPx(dp: Int, context: Context) = (context.resources.displayMetrics.density * dp).toInt()
-
-val Boolean.visibility
-    get() = if (this) View.VISIBLE else View.GONE
