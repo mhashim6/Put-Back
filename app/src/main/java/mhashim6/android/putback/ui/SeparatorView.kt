@@ -12,7 +12,17 @@ import mhashim6.android.putback.R
 
 class SeparatorView : View {
 
-    var lineStyle: LineStyle = LineStyle.NORMAL
+    private val solidLine = Paint()
+
+    private val dashedLine = Paint().apply {
+        pathEffect = DashPathEffect(floatArrayOf(10f, 15f), 0f)
+    }
+
+    private val dottedLine = Paint().apply {
+        pathEffect = DashPathEffect(floatArrayOf(2f, 10f), 0f)
+    }
+
+    var lineStyle = LineStyle.SOLID
         set(value) {
             field = value
             invalidate()
@@ -22,6 +32,18 @@ class SeparatorView : View {
         set(value) {
             field = value
             invalidate()
+        }
+
+    var dashGap = 10f
+        set(value) {
+            field = value
+            updateDashesStyle()
+        }
+
+    var dashWidth = 15f
+        set(value) {
+            field = value
+            updateDashesStyle()
         }
 
     constructor(context: Context) : this(context, null)
@@ -35,6 +57,9 @@ class SeparatorView : View {
                 0, 0) {
             lineStyle = resolveStyle(getInt(R.styleable.SeparatorView_lineStyle, 0))
             lineColor = getColor(R.styleable.SeparatorView_lineColor, Color.BLACK)
+
+            dashWidth = getDimension(R.styleable.SeparatorView_dashWidth, 15f)
+            dashGap = getDimension(R.styleable.SeparatorView_dashGap, 10f)
         }
     }
 
@@ -52,33 +77,28 @@ class SeparatorView : View {
         canvas.drawLine(0f, 0f, width.toFloat(), 0f, resolvePaint(lineStyle).apply { color = lineColor })
     }
 
+    private fun updateDashesStyle() {
+        dashedLine.pathEffect = DashPathEffect(floatArrayOf(dashWidth, dashGap), 0f)
+        invalidate()
+    }
+
+    private fun resolvePaint(style: LineStyle): Paint = when (style) {
+        LineStyle.SOLID -> solidLine
+        LineStyle.DASHED -> dashedLine
+        LineStyle.DOTTED -> dottedLine
+    }
+
     companion object {
         enum class LineStyle {
-            NORMAL,
+            SOLID,
             DASHED,
             DOTTED
         }
 
-        private val normalLine: Paint = Paint()
-
-        private val dashedLine: Paint = Paint().apply {
-            pathEffect = DashPathEffect(floatArrayOf(10f, 15f), 0f)
-        }
-
-        private val dottedLine: Paint = Paint().apply {
-            pathEffect = DashPathEffect(floatArrayOf(2f, 10f), 0f)
-        }
-
-        private fun resolvePaint(style: LineStyle): Paint = when (style) {
-            LineStyle.NORMAL -> normalLine
-            LineStyle.DASHED -> dashedLine
-            LineStyle.DOTTED -> dottedLine
-        }
-
-        private fun resolveStyle(value: Int): LineStyle = when (value) {
+        private fun resolveStyle(index: Int): LineStyle = when (index) {
             1 -> LineStyle.DASHED
             2 -> LineStyle.DOTTED
-            else -> LineStyle.NORMAL
+            else -> LineStyle.SOLID
         }
     }
 }

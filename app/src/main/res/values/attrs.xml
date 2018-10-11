@@ -3,12 +3,14 @@
 
 	<declare-styleable name="SeparatorView">
 		<attr name="lineStyle" format="enum">
-			<enum name="normal" value="0"/>
+			<enum name="solid" value="0"/>
 			<enum name="dashed" value="1"/>
 			<enum name="dotted" value="2"/>
 		</attr>
-
 		<attr name="lineColor" format="color"/>
+
+		<attr name="dashGap" format="dimension"/>
+		<attr name="dashWidth" format="dimension"/>
 	</declare-styleable>
 
 </resources>
