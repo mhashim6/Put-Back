@@ -68,9 +68,10 @@ fun notificationAction(context: Context, notion: Notion, actionType: Int): Pendi
 }
 
 fun notificationContentAction(context: Context, notion: Notion, actionType: Int, action: String): PendingIntent {
+    val notificationId = notion.lastRunAt.toInt()
 
     return PendingIntent.getActivity(
-            context, actionType,
+            context, notificationId,
             Intent(context, MainActivity::class.java).apply {
                 this.action = action
                 putExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA, notion.id)
