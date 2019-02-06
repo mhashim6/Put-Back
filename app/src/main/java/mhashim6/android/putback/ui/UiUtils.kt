@@ -13,8 +13,8 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.Notion
+import mhashim6.android.putback.data.NotionsRealm.isAboutToRun
 import mhashim6.android.putback.formatDate
-import mhashim6.android.putback.isAboutToRun
 import java.util.*
 
 
@@ -119,10 +119,10 @@ fun dateMetaDataString(createdAt: Long, lastRunAt: Long, resources: Resources): 
 fun statusIconSelector(notion: Notion): Int {
     return when {
         notion.isArchived -> R.drawable.ic_archive_grey600_18dp
-        notion.isAboutToRun() -> R.drawable.ic_progress_clock_grey600_18dp
+        notion.isAboutToRun -> R.drawable.ic_progress_clock_grey600_18dp
         else -> 0
     }
 }
 
 @Px
-fun dpToPx(dp: Int, context: Context) = (context.resources.displayMetrics.density * dp).toInt()
+fun Context.dpToPx(dp: Int) = (resources.displayMetrics.density * dp).toInt()

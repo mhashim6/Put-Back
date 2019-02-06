@@ -20,7 +20,6 @@ import mhashim6.android.putback.work.NotificationBroadcastReceiver
 import mhashim6.lib.ratemonitor.RateConditionsMonitor
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 const val APP_VERSION = BuildConfig.VERSION_CODE
@@ -34,15 +33,6 @@ fun Any.info(message: Any?) = Log.i(this::class.java.simpleName, message.toStrin
 fun Any.verbose(message: Any?) = Log.v(this::class.java.simpleName, message.toString())
 fun Any.error(message: Any?) = Log.e(this::class.java.simpleName, message.toString())
 fun Any.wtf(message: Any?) = Log.wtf(this::class.java.simpleName, message.toString())
-
-val hotNotionPredicate: (Notion) -> Boolean = { notion ->
-    val lastRun = notion.lastRunAt
-    val now = System.currentTimeMillis()
-    val daysPassed = TimeUnit.MILLISECONDS.toDays(now - lastRun)
-
-//    daysPassed >= notion.interval * notion.timeUnit
-    true //for testing.
-}
 
 
 fun looperScheduler(): Scheduler {
@@ -80,15 +70,6 @@ fun notificationContentAction(context: Context, notion: Notion, actionType: Int,
 
 //fun <E> List<E>.random(): E = this[Random().nextInt(this.size)]
 
-fun Notion.isAboutToRun(): Boolean {
-    val interval = this.interval * this.timeUnit
-
-    val lastRun = this.lastRunAt
-    val now = System.currentTimeMillis()
-    val daysPassed = TimeUnit.MILLISECONDS.toDays(now - lastRun)
-
-    return interval - daysPassed <= 2
-}
 
 inline fun ifNewUpdate(action: () -> Unit) {
     if (PreferencesRepository.updateVersion < APP_VERSION) {

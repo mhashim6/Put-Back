@@ -55,18 +55,6 @@ class BaseAdapter<out V : View, T : Any>(@LayoutRes private val resId: Int, priv
         items = all
     }
 
-    fun addAll(all: Collection<T>) {
-//		items.addAll(all)
-    }
-
-    fun addItem(item: T) {
-//		items.add(item)
-    }
-
-    fun removeItem(item: T) {
-//		items.remove(item)
-    }
-
     class DataClassViewHolder<T : Any>(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var item: T
     }

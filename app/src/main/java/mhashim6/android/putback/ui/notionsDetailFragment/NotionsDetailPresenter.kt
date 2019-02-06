@@ -75,7 +75,8 @@ fun present(args: Bundle?,
         else
             NotionsRealm.update(notionId,
                     it.content,
-                    it.interval.takeIf(String::isNotEmpty)?.toInt()?.toOneIfZero() ?: 1,
+                    it.interval.takeIf(String::isNotEmpty)?.toInt()?.toOneIfZero() //TODO that's a very silly workaround.
+                            ?: 1,
                     unitByIndex(it.timeUnit))
     }
 

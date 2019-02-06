@@ -80,12 +80,12 @@ class SeparatorView : View {
     }
 
     private fun onMeasureHorizontal(widthMeasureSpec: Int, heightMeasureSpec: Int): Pair<Int, Int> {
-        val desiredHeight = dpToPx(2, context)
+        val desiredHeight = context.dpToPx(2)
         return View.MeasureSpec.getSize(widthMeasureSpec) to View.resolveSize(desiredHeight, heightMeasureSpec)
     }
 
     private fun onMeasureVertical(widthMeasureSpec: Int, heightMeasureSpec: Int): Pair<Int, Int> {
-        val desiredWidth = dpToPx(2, context)
+        val desiredWidth = context.dpToPx(2)
         return View.resolveSize(desiredWidth, widthMeasureSpec) to View.MeasureSpec.getSize(heightMeasureSpec)
     }
 

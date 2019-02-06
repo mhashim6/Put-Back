@@ -6,14 +6,35 @@ import io.realm.*
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import mhashim6.android.putback.debug
-import mhashim6.android.putback.hotNotionPredicate
 import mhashim6.android.putback.looperScheduler
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by mhashim6 on 31/08/2018.
  */
 
 object NotionsRealm {
+
+    val Notion.isHot: Boolean
+        get() {
+            val lastRun = lastRunAt
+            val now = System.currentTimeMillis()
+            val daysPassed = TimeUnit.MILLISECONDS.toDays(now - lastRun)
+
+//            return daysPassed >= notion.interval * notion.timeUnit
+            return true //for testing.
+        }
+
+    val Notion.isAboutToRun: Boolean
+        get() {
+            val interval = this.interval * this.timeUnit
+
+            val lastRun = this.lastRunAt
+            val now = System.currentTimeMillis()
+            val daysPassed = TimeUnit.MILLISECONDS.toDays(now - lastRun)
+
+            return interval - daysPassed <= 2
+        }
 
     private val realmScheduler = looperScheduler()
 
@@ -47,16 +68,15 @@ object NotionsRealm {
             notion = it.where<Notion>()
                     .equalTo("id", id)
                     .findFirst()
-            if (notion != null)
-                notion = it.copyFromRealm(notion)
+            notion?.let { n ->
+
+            }
+            notion?.let { n -> it.copyFromRealm(n) }
+
         }
         closeRealm(realm)
 
         return notion
-    }
-
-    fun changeIdleState(notion: Notion, state: Boolean) {
-        changeIdleState(notion.id, state)
     }
 
     fun changeIdleState(id: String, state: Boolean) {
@@ -66,20 +86,6 @@ object NotionsRealm {
 
             notion?.isArchived = state
         }
-        closeRealm(realm)
-    }
-
-    fun changeIdleState(notions: Iterable<Notion>, state: Boolean) {
-        val realm = Realm.getDefaultInstance()
-
-        realm.executeTransactionAsync({
-            it.copyToRealmOrUpdate(
-                    notions.map { list -> list.apply { isArchived = state } }
-            )
-        }, { e ->
-            error("archive error: ${e.message}")
-        })
-
         closeRealm(realm)
     }
 
@@ -100,7 +106,7 @@ object NotionsRealm {
                 .equalTo("isArchived", false)
                 .sort("createdAt", Sort.ASCENDING)
                 .findAll()
-        var notion = activeNotions.firstOrNull(hotNotionPredicate)
+        var notion = activeNotions.firstOrNull { it.isHot }
         if (notion != null)
             notion = realm.copyFromRealm(notion)
 

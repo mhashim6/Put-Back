@@ -8,15 +8,11 @@ import androidx.core.app.NotificationCompat
 import androidx.work.PeriodicWorkRequest
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import mhashim6.android.putback.R
-import mhashim6.android.putback.RandomStrings.randomTitle
+import mhashim6.android.putback.*
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.NotionsRealm.findHottestNotion
 import mhashim6.android.putback.data.NotionsRealm.updateLastRunAt
 import mhashim6.android.putback.data.PreferencesRepository
-import mhashim6.android.putback.info
-import mhashim6.android.putback.notificationAction
-import mhashim6.android.putback.notificationContentAction
 import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
 import mhashim6.android.putback.ui.colorSelector
 import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_ARCHIVE

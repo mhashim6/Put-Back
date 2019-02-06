@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import mhashim6.android.putback.R
-import mhashim6.android.putback.RandomStrings.randomComment
 import mhashim6.android.putback.data.NotionsRealm
+import mhashim6.android.putback.randomComment
 import mhashim6.android.putback.ui.MainActivity
 import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
 
