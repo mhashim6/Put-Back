@@ -24,7 +24,6 @@ import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACT
 import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_SHOW_CONTENT
 import java.util.concurrent.TimeUnit
 
-
 /**
  * Created by mhashim6 on 31/08/2018.
  */
@@ -38,7 +37,7 @@ class NotionsReminder(context: Context, workerParameters: WorkerParameters) : Wo
             updateLastRunAt(it)
             showNotification(it)
         }
-        return Result.SUCCESS
+        return Result.success()
     }
 
     private fun showNotification(notion: Notion) {
@@ -74,7 +73,7 @@ class NotionsReminder(context: Context, workerParameters: WorkerParameters) : Wo
 
     companion object Factory {
         const val NOTIFICATION_CHANNEL_ID = "NOTIONS_REMINDER_CHANNEL"
-        const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG"
+        const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG_debug"
 
         fun createNotionsReminder(): PeriodicWorkRequest {
             return PeriodicWorkRequest

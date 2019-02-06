@@ -40,8 +40,8 @@ val hotNotionPredicate: (Notion) -> Boolean = { notion ->
     val now = System.currentTimeMillis()
     val daysPassed = TimeUnit.MILLISECONDS.toDays(now - lastRun)
 
-    daysPassed >= notion.interval * notion.timeUnit
-//    true //for testing.
+//    daysPassed >= notion.interval * notion.timeUnit
+    true //for testing.
 }
 
 

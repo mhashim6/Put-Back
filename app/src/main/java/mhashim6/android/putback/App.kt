@@ -36,10 +36,10 @@ class App : Application() {
         val workManager = WorkManager.getInstance()
         val workRequest = NotionsReminder.createNotionsReminder()
 
-        ifNewUpdate(workManager::cancelAllWork)
+        ifNewUpdate { workManager.cancelAllWork() }
 
         workManager.enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,
-                ExistingPeriodicWorkPolicy.KEEP,
+                ExistingPeriodicWorkPolicy.REPLACE,
                 workRequest)
     }
 
