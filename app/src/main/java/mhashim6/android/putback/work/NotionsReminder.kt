@@ -69,7 +69,7 @@ class NotionsReminder(context: Context, workerParameters: WorkerParameters) : Wo
 
     companion object Factory {
         const val NOTIFICATION_CHANNEL_ID = "NOTIONS_REMINDER_CHANNEL"
-        const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG_debug"
+        const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG"
 
         fun createNotionsReminder(): PeriodicWorkRequest {
             return PeriodicWorkRequest
