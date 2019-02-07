@@ -21,8 +21,8 @@ object NotionsRealm {
             val now = System.currentTimeMillis()
             val daysPassed = TimeUnit.MILLISECONDS.toDays(now - lastRun)
 
-//            return daysPassed >= notion.intervalSpinnerIndex * notion.timeUnitIndex
-            return true //for testing.
+            return daysPassed >= interval * timeUnit
+//            return true //for testing.
         }
 
     val Notion.isAboutToRun: Boolean
