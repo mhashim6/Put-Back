@@ -41,7 +41,7 @@ class NotionDetailViewModel(
 
 fun present(args: Bundle?,
             intervals: Observable<Pair<String, Int>>,
-            update: Observable<NotionUpdate>,
+            updates: Observable<NotionUpdate>,
             resources: Resources): ViewModel {
 
     val notionId = args?.getString(NotionDetailFragment.NOTION_DETAIL_NOTION_ID)
@@ -56,18 +56,18 @@ fun present(args: Bundle?,
     }
 
     val updateDisposable =
-            update.map { it.apply { content = content.trim() } }.subscribe {
-                if (it.isBlank(notion.createdAt))
+            updates.map { update -> update.apply { content = content.trim() } }.subscribe { update ->
+                if (update.isBlank(notion.createdAt))
                     NotionsRealm.delete(notionId)
                 else
                     NotionsRealm.update(notionId,
-                            it.content,
-                            it.interval
+                            update.content,
+                            update.interval
                                     .takeIf(String::isNotEmpty)
                                     ?.toInt()
                                     ?.toOneIfZero() //TODO that's a very silly line.
                                     ?: 1,
-                            unitByIndex(it.timeUnit))
+                            unitByIndex(update.timeUnit))
             }
 
     args?.putString(NotionDetailFragment.NOTION_DETAIL_NOTION_ID, notionId) // retain id in case of rotation.
