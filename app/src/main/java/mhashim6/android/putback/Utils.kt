@@ -9,14 +9,15 @@ package mhashim6.android.putback
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.HandlerThread
 import android.util.Log
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.PreferencesRepository
-import mhashim6.android.putback.ui.MainActivity
 import mhashim6.android.putback.reminder.NotificationBroadcastReceiver
+import mhashim6.android.putback.ui.MainActivity
 import mhashim6.lib.ratemonitor.RateConditionsMonitor
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,6 +28,9 @@ const val APP_VERSION = BuildConfig.VERSION_CODE
 const val APP_URL = "https://play.google.com/store/apps/details?id=mhashim6.android.putback"
 
 const val GITHUB_URL = "https://github.com/mhashim6/Put-Back"
+
+val IS_KITKAT = Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT
+
 
 fun Any.debug(message: Any?) = Log.d(this::class.java.simpleName, message.toString())
 fun Any.info(message: Any?) = Log.i(this::class.java.simpleName, message.toString())
