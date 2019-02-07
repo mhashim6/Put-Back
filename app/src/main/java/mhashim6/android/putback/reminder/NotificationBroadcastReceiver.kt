@@ -1,4 +1,4 @@
-package mhashim6.android.putback.work
+package mhashim6.android.putback.reminder
 
 import android.app.NotificationManager
 import android.content.BroadcastReceiver

@@ -16,7 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.ui.MainActivity
-import mhashim6.android.putback.work.NotificationBroadcastReceiver
+import mhashim6.android.putback.reminder.NotificationBroadcastReceiver
 import mhashim6.lib.ratemonitor.RateConditionsMonitor
 import java.text.SimpleDateFormat
 import java.util.*

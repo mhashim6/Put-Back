@@ -7,8 +7,8 @@ import androidx.work.WorkManager
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import mhashim6.android.putback.data.PreferencesRepository
-import mhashim6.android.putback.work.NotionsReminder
-import mhashim6.android.putback.work.NotionsReminder.Factory.NOTIONS_REMINDER_TAG
+import mhashim6.android.putback.reminder.NotionsReminder
+import mhashim6.android.putback.reminder.NotionsReminder.Factory.NOTIONS_REMINDER_TAG
 import mhashim6.lib.ratemonitor.RateConditionsMonitor
 
 

@@ -9,7 +9,7 @@ import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.debug
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment
-import mhashim6.android.putback.work.NotificationBroadcastReceiver
+import mhashim6.android.putback.reminder.NotificationBroadcastReceiver
 import mhashim6.android.putback.wtf
 
 class MainActivity : AppCompatActivity() {

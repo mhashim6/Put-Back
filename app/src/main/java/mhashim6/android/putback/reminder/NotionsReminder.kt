@@ -1,4 +1,4 @@
-package mhashim6.android.putback.work
+package mhashim6.android.putback.reminder
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -15,9 +15,9 @@ import mhashim6.android.putback.data.NotionsRealm.updateLastRunAt
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
 import mhashim6.android.putback.ui.colorSelector
-import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_ARCHIVE
-import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_PUTBACK
-import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.ACTION_TYPE_SHOW_CONTENT
+import mhashim6.android.putback.reminder.NotificationBroadcastReceiver.Companion.ACTION_TYPE_ARCHIVE
+import mhashim6.android.putback.reminder.NotificationBroadcastReceiver.Companion.ACTION_TYPE_PUTBACK
+import mhashim6.android.putback.reminder.NotificationBroadcastReceiver.Companion.ACTION_TYPE_SHOW_CONTENT
 import java.util.concurrent.TimeUnit
 
 /**
