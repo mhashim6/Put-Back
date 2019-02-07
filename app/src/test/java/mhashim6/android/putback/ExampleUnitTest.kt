@@ -2,6 +2,7 @@ package mhashim6.android.putback
 
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.Notion.TimeUnits.DAY
+import mhashim6.android.putback.data.NotionsRealm.isHot
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.*
@@ -15,13 +16,12 @@ class ExampleUnitTest {
 
         println(Date(pastDayInMillis))
 
-        assertTrue(hotNotionPredicate(
+        assertTrue(
                 Notion(
                         lastRunAt = pastDayInMillis,
                         interval = 8,
                         timeUnit = DAY
-                )
-        ).not())
+                ).isHot.not())
     }
 
 }

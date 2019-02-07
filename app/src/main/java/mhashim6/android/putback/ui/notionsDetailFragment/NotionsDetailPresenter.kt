@@ -46,9 +46,9 @@ fun present(args: Bundle?,
     val notion = NotionsRealm.findOne(notionId)
             ?: Notion(id = notionId, content = args?.getString(NOTION_DETAIL_NOTION_CONTENT) ?: "")
 
-    val colors = intervals.map { pair ->
-        val interval = pair.first.interval
-        val unit = pair.second.unit
+    val colors = intervals.map { (intervalIndex, unitIndex) ->
+        val interval = intervalIndex.interval
+        val unit = unitIndex.unit
         ColorDrawable(colorSelector(interval, unit, resources))
     }
 

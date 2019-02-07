@@ -37,7 +37,7 @@ object NotionsRealm {
             return interval - daysPassed <= 2
         }
 
-    private val realmScheduler = looperScheduler()
+    private val realmScheduler by lazy { looperScheduler() }
 
     fun notionsChanges(state: Boolean): Observable<Pair<MutableList<Notion>, OrderedCollectionChangeSet>> {
         return Observable.create<Pair<MutableList<Notion>, OrderedCollectionChangeSet>> { source ->
@@ -145,7 +145,7 @@ object NotionsRealm {
         }
     }
 
-    val realmFile = File(Realm.getDefaultConfiguration()!!.path)
+    val realmFile by lazy { File(Realm.getDefaultConfiguration()!!.path) }
 
     private fun closeRealm(realm: Realm) {
         try {

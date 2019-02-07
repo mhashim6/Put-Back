@@ -78,11 +78,11 @@ fun present(
                 NotionsRealm.changeIdleState(notion.notionId, idleState)
             }
 
-    val deletesDisposable = deletes.observeOn(Schedulers.io()).subscribe {
-        if (it.second) //undo
-            NotionsRealm.add(it.first.model)
+    val deletesDisposable = deletes.observeOn(Schedulers.io()).subscribe { (notion, undo) ->
+        if (undo)
+            NotionsRealm.add(notion.model)
         else
-            NotionsRealm.delete(it.first.notionId)
+            NotionsRealm.delete(notion.notionId)
     }
 
     return ViewModel(notionsChanges,
