@@ -8,7 +8,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.PopupMenu
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -27,10 +26,6 @@ import mhashim6.android.putback.ui.SnackbarQueue
 import mhashim6.android.putback.ui.enqueue
 import mhashim6.android.putback.ui.launchUrl
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment
-import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_CREATE
-import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
-import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_TYPE
-import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_ID
 import mhashim6.lib.ratemonitor.RateConditionsMonitor
 
 
@@ -58,7 +53,7 @@ open class NotionsFragment : BaseFragment() {
                 notionView.render(notion)
             }
             onItemClickListener { _, model ->
-                showNotionDetail(NOTION_DETAIL_ACTION_DISPLAY, model.notionId)
+                showNotionDetail(notionId = model.notionId)
             }
             onItemLongClickListener(::showControlsMenu)
         }
@@ -92,7 +87,7 @@ open class NotionsFragment : BaseFragment() {
         if (isIdle)
             fab.hide()
         fab.setOnClickListener {
-            showNotionDetail(NOTION_DETAIL_ACTION_CREATE, null)
+            showNotionDetail()
         }
     }
 
@@ -172,10 +167,8 @@ open class NotionsFragment : BaseFragment() {
         fillerView.isVisible = isVisible
     }
 
-    private fun showNotionDetail(actionType: Int, notionId: String?) {
-        NotionDetailFragment.create(
-                bundleOf(NOTION_DETAIL_ACTION_TYPE to actionType,
-                        NOTION_DETAIL_NOTION_ID to notionId))
+    private fun showNotionDetail(notionId: String? = null) {
+        NotionDetailFragment.create(notionId = notionId)
                 .show(fragmentManager, NotionDetailFragment::class.java.simpleName)
     }
 

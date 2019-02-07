@@ -3,19 +3,14 @@ package mhashim6.android.putback.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import io.realm.Realm
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.PreferencesRepository
 import mhashim6.android.putback.debug
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment
-import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_CREATE
-import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_DISPLAY
-import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_ACTION_TYPE
-import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_CONTENT
-import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_ID
-import mhashim6.android.putback.work.NotificationBroadcastReceiver.Companion.NOTION_ID_EXTRA
+import mhashim6.android.putback.work.NotificationBroadcastReceiver
+import mhashim6.android.putback.wtf
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,31 +26,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onNewIntent(intent: Intent) {
-        debug(intent.action)
+        wtf(intent.action)
         super.onNewIntent(intent)
         handleIntent(intent)
     }
 
     private fun handleIntent(intent: Intent) {
-        if (intent.action == MAIN_ACTIVITY_SHOW_NOTION_ACTION)
-            showNotionDetail(intent.getStringExtra(NOTION_ID_EXTRA), null)
-        else if (intent.action == Intent.ACTION_SEND) {
-            showNotionDetail(bundleOf(
-                    NOTION_DETAIL_ACTION_TYPE to NOTION_DETAIL_ACTION_CREATE,
-                    NOTION_DETAIL_NOTION_CONTENT to intent.getStringExtra(Intent.EXTRA_TEXT)))
-        }
+        debug(intent.getStringExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA))
+        if (intent.action == MAIN_ACTIVITY_SHOW_NOTION_ACTION || intent.action == Intent.ACTION_SEND)
+            showNotionDetail(notionId = intent.getStringExtra(NotificationBroadcastReceiver.NOTION_ID_EXTRA),
+                    content = intent.getStringExtra(Intent.EXTRA_TEXT))
 
         intent.action = MAIN_ACTIVITY_CONSUMED_ACTION //consume the intent.
     }
 
-    private fun showNotionDetail(notionId: String, content: String?) {
-        showNotionDetail(bundleOf(NOTION_DETAIL_ACTION_TYPE to NOTION_DETAIL_ACTION_DISPLAY,
-                NOTION_DETAIL_NOTION_ID to notionId,
-                NOTION_DETAIL_NOTION_CONTENT to content))
-    }
-
-    private fun showNotionDetail(args: Bundle) {
-        NotionDetailFragment.create(args).show(supportFragmentManager, NotionDetailFragment::class.java.simpleName)
+    private fun showNotionDetail(notionId: String? = null, content: String? = null) {
+        NotionDetailFragment.create(notionId, content).show(supportFragmentManager, NotionDetailFragment::class.java.simpleName)
     }
 
     private fun writeDummyData() {

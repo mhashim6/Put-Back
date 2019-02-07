@@ -66,8 +66,11 @@ fun present(args: Bundle?,
                     unitByIndex(it.timeUnit))
     }
 
+    args?.putString(NotionDetailFragment.NOTION_DETAIL_NOTION_ID, notionId) // retain id in case of rotation.
+
     return ViewModel(NotionDetailViewModel(notion, resources), colors, updateDisposable)
 }
+
 /** blank and new. */
 fun NotionUpdate.isBlank(createdAt: Long) =
         content.isBlank() && (System.currentTimeMillis() - createdAt) <= 10.minutes
