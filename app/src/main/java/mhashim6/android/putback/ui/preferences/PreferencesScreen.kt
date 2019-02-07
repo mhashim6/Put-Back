@@ -1,39 +1,33 @@
 package mhashim6.android.putback.ui.preferences
 
-import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.provider.Settings
+import androidx.annotation.StringRes
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.franmontiel.attributionpresenter.AttributionPresenter
 import com.franmontiel.attributionpresenter.entities.Attribution
 import com.franmontiel.attributionpresenter.entities.Library.*
 import com.franmontiel.attributionpresenter.entities.License
-import com.nabinbhandari.android.permissions.PermissionHandler
-import com.nabinbhandari.android.permissions.Permissions
-import mhashim6.android.putback.APP_URL
-import mhashim6.android.putback.GITHUB_URL
+import com.google.android.material.snackbar.Snackbar
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.PreferencesRepository
-import mhashim6.android.putback.data.PreferencesRepository.KEY_BACKUP_PREFERENCE
-import mhashim6.android.putback.data.PreferencesRepository.KEY_DEVELOPER_PREFERENCE
-import mhashim6.android.putback.data.PreferencesRepository.KEY_FEEDBACK_PREFERENCE
-import mhashim6.android.putback.data.PreferencesRepository.KEY_OPEN_SOURCE_PREFERENCE
-import mhashim6.android.putback.data.PreferencesRepository.KEY_RESTORE_PREFERENCE
-import mhashim6.android.putback.data.PreferencesRepository.KEY_SOUND_PREFERENCE
 import mhashim6.android.putback.data.PreferencesRepository.KEY_THEME_PREFERENCE
-import mhashim6.android.putback.data.backup
-import mhashim6.android.putback.data.restore
 import mhashim6.android.putback.debug
 import mhashim6.android.putback.ui.launchUrl
-import java.util.*
 
 
 class PreferencesScreen : PreferenceFragmentCompat() {
+
+    private val preferences = PublishSubject.create<Pair<Context, String>>()
+    private val subscriptions = CompositeDisposable()
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
 
@@ -43,35 +37,34 @@ class PreferencesScreen : PreferenceFragmentCompat() {
         }
     }
 
-    override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        when (preference.key) {
-            KEY_SOUND_PREFERENCE -> launchSoundSelector()
+    override fun onResume() {
+        super.onResume()
 
-            KEY_BACKUP_PREFERENCE -> withStoragePermissions(onDenied = { debug("asshole.") }) {
-                backup()
-                debug("yeah that's what I thought.")
-            }
-            KEY_RESTORE_PREFERENCE -> withStoragePermissions(onDenied = { debug("asshole.") }) {
-                restore()
-            }
-
-            KEY_OPEN_SOURCE_PREFERENCE
-            -> launchCreditsDialog()
-
-            KEY_DEVELOPER_PREFERENCE -> launchUrl(GITHUB_URL)
-
-            KEY_FEEDBACK_PREFERENCE -> launchUrl(APP_URL)
+        val viewModel = present(preferences)
+        with(viewModel) {
+            subscriptions.addAll(
+                    soundSelectorRequests.subscribe { launchSoundSelector() },
+                    snackbars.subscribe(::showSnackBar),
+                    creditsRequests.subscribe { launchCreditsDialog() },
+                    urls.subscribe(::launchUrl),
+                    preferencesDisposable
+            )
         }
+    }
 
+    override fun onPause() {
+        super.onPause()
+        subscriptions.clear()
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        preferences.onNext(context!! to preference.key)
         return true
     }
 
-    private fun withStoragePermissions(onDenied: () -> Unit, onGranted: () -> Unit) {
-        Permissions.check(context, WRITE_EXTERNAL_STORAGE, "do it stopid",
-                object : PermissionHandler() {
-                    override fun onGranted() = onGranted()
-                    override fun onDenied(context: Context?, deniedPermissions: ArrayList<String>?) = onDenied()
-                })
+    private fun showSnackBar(@StringRes message: Int) {
+        debug("wtffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
+        Snackbar.make(view!!, message, Snackbar.LENGTH_LONG).show()
     }
 
     companion object {
@@ -89,13 +82,6 @@ class PreferencesScreen : PreferenceFragmentCompat() {
         startActivityForResult(intent, REQUEST_CODE_ALERT_RINGTONE)
     }
 
-    /*
-    private fun launchDonationsDialog() {
-        if (DonationsRepository.billingReady && DonationsRepository.productsReady) {
-
-        }
-    }
-*/
     private fun launchCreditsDialog() {
         AttributionPresenter.Builder(context)
                 .addAttributions(REALM, RX_JAVA, RX_ANDROID)
