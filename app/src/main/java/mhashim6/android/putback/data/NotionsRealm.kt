@@ -7,6 +7,7 @@ import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import mhashim6.android.putback.debug
 import mhashim6.android.putback.looperScheduler
+import java.io.File
 import java.util.concurrent.TimeUnit
 
 /**
@@ -143,6 +144,8 @@ object NotionsRealm {
             closeRealm(realm)
         }
     }
+
+    val realmFile = File(Realm.getDefaultConfiguration()!!.path)
 
     private fun closeRealm(realm: Realm) {
         try {

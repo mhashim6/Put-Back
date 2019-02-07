@@ -1,6 +1,7 @@
 package mhashim6.android.putback
 
 import android.app.Application
+import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.WorkManager
 import io.realm.Realm
@@ -19,6 +20,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        context = this
         initRealm()
         PreferencesRepository.init(applicationContext)
         NotionsReminder.createNotionsReminderNotificationChannel(applicationContext)
@@ -47,6 +49,10 @@ class App : Application() {
         RateConditionsMonitor.init(applicationContext) {
             applyConditions(launchTimes = 3, remindTimes = 5, debug = false)
         }
+    }
+
+    companion object {
+        lateinit var context: Context
     }
 
 }

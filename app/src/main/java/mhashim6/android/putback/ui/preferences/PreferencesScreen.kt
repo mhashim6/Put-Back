@@ -1,6 +1,8 @@
 package mhashim6.android.putback.ui.preferences
 
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Bundle
@@ -11,17 +13,24 @@ import com.franmontiel.attributionpresenter.AttributionPresenter
 import com.franmontiel.attributionpresenter.entities.Attribution
 import com.franmontiel.attributionpresenter.entities.Library.*
 import com.franmontiel.attributionpresenter.entities.License
+import com.nabinbhandari.android.permissions.PermissionHandler
+import com.nabinbhandari.android.permissions.Permissions
 import mhashim6.android.putback.APP_URL
 import mhashim6.android.putback.GITHUB_URL
 import mhashim6.android.putback.R
 import mhashim6.android.putback.data.PreferencesRepository
+import mhashim6.android.putback.data.PreferencesRepository.KEY_BACKUP_PREFERENCE
 import mhashim6.android.putback.data.PreferencesRepository.KEY_DEVELOPER_PREFERENCE
 import mhashim6.android.putback.data.PreferencesRepository.KEY_FEEDBACK_PREFERENCE
 import mhashim6.android.putback.data.PreferencesRepository.KEY_OPEN_SOURCE_PREFERENCE
+import mhashim6.android.putback.data.PreferencesRepository.KEY_RESTORE_PREFERENCE
 import mhashim6.android.putback.data.PreferencesRepository.KEY_SOUND_PREFERENCE
 import mhashim6.android.putback.data.PreferencesRepository.KEY_THEME_PREFERENCE
+import mhashim6.android.putback.data.backup
+import mhashim6.android.putback.data.restore
 import mhashim6.android.putback.debug
 import mhashim6.android.putback.ui.launchUrl
+import java.util.*
 
 
 class PreferencesScreen : PreferenceFragmentCompat() {
@@ -38,13 +47,16 @@ class PreferencesScreen : PreferenceFragmentCompat() {
         when (preference.key) {
             KEY_SOUND_PREFERENCE -> launchSoundSelector()
 
-/*            KEY_DONATE_PREFERENCE -> {
-                launchDonationsDialog()
-                return true
+            KEY_BACKUP_PREFERENCE -> withStoragePermissions(onDenied = { debug("asshole.") }) {
+                backup()
+                debug("yeah that's what I thought.")
             }
-            */
+            KEY_RESTORE_PREFERENCE -> withStoragePermissions(onDenied = { debug("asshole.") }) {
+                restore()
+            }
 
-            KEY_OPEN_SOURCE_PREFERENCE -> launchCreditsDialog()
+            KEY_OPEN_SOURCE_PREFERENCE
+            -> launchCreditsDialog()
 
             KEY_DEVELOPER_PREFERENCE -> launchUrl(GITHUB_URL)
 
@@ -52,6 +64,14 @@ class PreferencesScreen : PreferenceFragmentCompat() {
         }
 
         return true
+    }
+
+    private fun withStoragePermissions(onDenied: () -> Unit, onGranted: () -> Unit) {
+        Permissions.check(context, WRITE_EXTERNAL_STORAGE, "do it stopid",
+                object : PermissionHandler() {
+                    override fun onGranted() = onGranted()
+                    override fun onDenied(context: Context?, deniedPermissions: ArrayList<String>?) = onDenied()
+                })
     }
 
     companion object {

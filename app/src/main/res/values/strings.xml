@@ -84,6 +84,10 @@
 	<!--dates-->
 	<string name="created_at">created at</string>
 	<string name="last_run_at">last run at</string>
+	<string name="backup_summary">Backup notions to device memory.</string>
+	<string name="backup_title">Backup Notions</string>
+	<string name="restore_summary">Restore notions from device memory.</string>
+	<string name="restore_title">Restore Notions</string>
 
 
 	<!--themes-->

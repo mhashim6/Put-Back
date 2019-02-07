@@ -15,12 +15,19 @@
 		android:summary="@string/notification_summary"
 		android:title="@string/notification_sound"
 		app:icon="@drawable/ic_bell_ring_white_24dp"/>
-	<!-- <Preference
-		android:key="donate_preference"
-		android:summary="@string/donate_summary"
-		android:title="@string/donate"
-		app:icon="@drawable/ic_gift_white_24dp"/>
-		-->
+
+	<Preference
+		android:key="backup_preference"
+		android:summary="@string/backup_summary"
+		android:title="@string/backup_title"
+		app:icon="@drawable/ic_file_replace_white_24dp"/>
+
+	<Preference
+		android:key="restore_preference"
+		android:summary="@string/restore_summary"
+		android:title="@string/restore_title"
+		app:icon="@drawable/ic_file_restore_white_24dp"/>
+
 	<Preference
 		android:key="open_source_preference"
 		android:title="@string/opensource"
