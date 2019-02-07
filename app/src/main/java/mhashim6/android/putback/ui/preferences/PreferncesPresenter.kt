@@ -5,6 +5,9 @@ import android.app.Activity
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import mhashim6.android.putback.APP_URL
 import mhashim6.android.putback.GITHUB_URL
 import mhashim6.android.putback.R
@@ -34,26 +37,40 @@ fun present(preferences: PublishSubject<Pair<Activity, String>>): PreferencesVie
     val creditsRequests = PublishSubject.create<Unit>()
     val urls = PublishSubject.create<String>()
 
+
+    val background = CoroutineScope(Dispatchers.IO)
+    val main = CoroutineScope(Dispatchers.Main)
+
     val preferencesDisposable = preferences.subscribe { (context, key) ->
         when (key) {
             KEY_BACKUP_PREFERENCE -> withStoragePermissions(context,
                     onDenied = {
                         snackbars.onNext(R.string.storage_permissions_denied)
                     }, onGranted = {
-                if (backup()) //TODO coroutines
-                    snackbars.onNext(R.string.backup_successful)
-                else
-                    snackbars.onNext(R.string.backup_error)
+                background.launch {
+                    val successful = backup()
+                    main.launch {
+                        if (successful)
+                            snackbars.onNext(R.string.backup_successful)
+                        else
+                            snackbars.onNext(R.string.backup_error)
+                    }
+                }
             })
             KEY_RESTORE_PREFERENCE -> withStoragePermissions(context,
                     onDenied = {
                         snackbars.onNext(R.string.storage_permissions_denied)
                     }
                     , onGranted = {
-                if (restore()) //TODO coroutines
-                    snackbars.onNext(R.string.restore_successful)
-                else
-                    snackbars.onNext(R.string.restore_error)
+                background.launch {
+                    val successful = restore()
+                    main.launch {
+                        if (successful)
+                            snackbars.onNext(R.string.restore_successful)
+                        else
+                            snackbars.onNext(R.string.restore_error)
+                    }
+                }
             })
 
             KEY_SOUND_PREFERENCE -> soundSelectorRequests.onNext(Unit)
