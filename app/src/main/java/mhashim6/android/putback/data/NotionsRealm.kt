@@ -68,10 +68,7 @@ object NotionsRealm {
             notion = it.where<Notion>()
                     .equalTo("id", id)
                     .findFirst()
-            notion?.let { n ->
-
-            }
-            notion?.let { n -> it.copyFromRealm(n) }
+            notion?.let { n -> notion = it.copyFromRealm(n) }
 
         }
         closeRealm(realm)
