@@ -88,6 +88,11 @@
 	<string name="backup_title">Backup Notions</string>
 	<string name="restore_summary">Restore notions from device memory.</string>
 	<string name="restore_title">Restore Notions</string>
+	<string name="backup_successful">Notions have been sccessfully backed up.</string>
+	<string name="restore_successful">Notions are restored from backup.</string>
+	<string name="storage_permissions_denied">Storage permissions denied.</string>
+	<string name="backup_error">Couldn\'t backup notions.</string>
+	<string name="restore_error">Couldn\'t restore notions.</string>
 
 
 	<!--themes-->

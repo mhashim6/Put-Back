@@ -36,7 +36,7 @@ fun Bitmap.crop(startX: Int, startY: Int, endX: Int, endY: Int): Bitmap {
 }
 */
 
-fun Fragment.launchUrl(urlString: String) {
+fun Fragment.launchUrl(urlString: String) { //TODO
     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlString)))
 }
 
