@@ -55,16 +55,20 @@ fun present(args: Bundle?,
         ColorDrawable(colorSelector(count, unit, resources))
     }
 
-    val updateDisposable = update.map { it.apply { content = content.trim() } }.subscribe {
-        if (it.isBlank(notion.createdAt))
-            NotionsRealm.delete(notionId)
-        else
-            NotionsRealm.update(notionId,
-                    it.content,
-                    it.interval.takeIf(String::isNotEmpty)?.toInt()?.toOneIfZero() //TODO that's a very silly line.
-                            ?: 1,
-                    unitByIndex(it.timeUnit))
-    }
+    val updateDisposable =
+            update.map { it.apply { content = content.trim() } }.subscribe {
+                if (it.isBlank(notion.createdAt))
+                    NotionsRealm.delete(notionId)
+                else
+                    NotionsRealm.update(notionId,
+                            it.content,
+                            it.interval
+                                    .takeIf(String::isNotEmpty)
+                                    ?.toInt()
+                                    ?.toOneIfZero() //TODO that's a very silly line.
+                                    ?: 1,
+                            unitByIndex(it.timeUnit))
+            }
 
     args?.putString(NotionDetailFragment.NOTION_DETAIL_NOTION_ID, notionId) // retain id in case of rotation.
 

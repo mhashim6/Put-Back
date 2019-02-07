@@ -74,7 +74,8 @@ class NotionDetailFragment : AppCompatDialogFragment() {
 
     override fun onResume() {
         super.onResume()
-        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT) //because fuck android.
+        //because android is mean.
+        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         showData()
     }
 

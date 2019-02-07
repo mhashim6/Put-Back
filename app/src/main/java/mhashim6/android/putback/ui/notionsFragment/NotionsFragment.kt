@@ -205,9 +205,9 @@ open class NotionsFragment : BaseFragment() {
     }
 
     override fun onNavigationItemClick(view: View) {
-        when {
-            view.id == R.id.archiveOption -> navigateTo(R.id.action_notionsFragment_to_idleNotionsFragment)
-            view.id == R.id.settingsOption -> navigateTo(R.id.action_notionsFragment_to_preferencesFragment)
+        when (view.id) {
+            R.id.archiveOption -> navigateTo(R.id.action_notionsFragment_to_idleNotionsFragment)
+            R.id.settingsOption -> navigateTo(R.id.action_notionsFragment_to_preferencesFragment)
         }
     }
 }
