@@ -85,23 +85,27 @@ fun unitStringSelector(interval: Int, unit: Int): Int {
     }
 }
 
-fun unitByIndex(index: Int): Int {
-    return when (index) {
+val Int.unit: Int
+    get() = when (this) {
         0 -> Notion.WEEK
         1 -> Notion.MONTH
         2 -> Notion.YEAR
         else -> Notion.DAY
     }
-}
 
-fun indexByUnit(unit: Int): Int {
-    return when (unit) {
+val Int.unitSpinnerIndex: Int
+    get() = when (this) {
         Notion.WEEK -> 0
         Notion.MONTH -> 1
         Notion.YEAR -> 2
         else -> 3
     }
-}
+
+val Int.intervalSpinnerIndex: Int
+    get() = this.dec()
+
+val Int.interval: Int
+    get() = if (this < 15) this.inc() else 15
 
 private const val DATE_METADATA_TEMPLATE = "%s: %s       %s: %s"
 

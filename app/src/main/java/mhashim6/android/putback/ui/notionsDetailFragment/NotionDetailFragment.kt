@@ -2,14 +2,13 @@ package mhashim6.android.putback.ui.notionsDetailFragment
 
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatSpinner
@@ -24,11 +23,11 @@ class NotionDetailFragment : AppCompatDialogFragment() {
 
     private lateinit var container: View
     private lateinit var contentText: AppCompatEditText
-    private lateinit var intervalText: AppCompatEditText
+    private lateinit var intervalSpinner: AppCompatSpinner
     private lateinit var unitSpinner: AppCompatSpinner
     private lateinit var dateMetaDataText: AppCompatTextView
 
-    private val intervalUpdates: PublishSubject<Pair<String, Int>> = PublishSubject.create()
+    private val intervalUpdates: PublishSubject<Pair<Int, Int>> = PublishSubject.create()
     private val notionUpdate: PublishSubject<NotionUpdate> = PublishSubject.create()
 
     private val subscriptions: CompositeDisposable = CompositeDisposable()
@@ -46,25 +45,25 @@ class NotionDetailFragment : AppCompatDialogFragment() {
         container = view
         contentText = view.findViewById(R.id.contentId)
         contentText.movementMethod = LinkMovementMethod.getInstance()
-        intervalText = view.findViewById(R.id.intervalTextId)
-        intervalText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                intervalUpdates.onNext(s.toString() to unitSpinner.selectedItemPosition)
-            }
+        intervalSpinner = view.findViewById<AppCompatSpinner>(R.id.intervalSpinner).apply {
+            adapter = ArrayAdapter<Int>(context!!, android.R.layout.simple_spinner_dropdown_item, (1..15).toList())
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
 
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    intervalUpdates.onNext(position to unitSpinner.selectedItemPosition)
+                }
             }
+        }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            }
-        })
         unitSpinner = view.findViewById(R.id.unitSpinner)
         unitSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                intervalUpdates.onNext(intervalText.text.toString() to position)
+                intervalUpdates.onNext(intervalSpinner.selectedItemPosition to position)
             }
 
         }
@@ -83,7 +82,7 @@ class NotionDetailFragment : AppCompatDialogFragment() {
         super.onPause()
         notionUpdate.onNext(NotionUpdate(
                 contentText.text.toString(),
-                intervalText.text.toString(),
+                intervalSpinner.selectedItemPosition,
                 unitSpinner.selectedItemPosition
         ))
         subscriptions.clear()
@@ -104,7 +103,7 @@ class NotionDetailFragment : AppCompatDialogFragment() {
         with(notion) {
             container.background = backgroundColor
             contentText.setText(content)
-            intervalText.setText(interval)
+            intervalSpinner.setSelection(intervalSpinnerIndex)
             unitSpinner.setSelection(timeUnit)
             dateMetaDataText.text = dateMetaData
         }

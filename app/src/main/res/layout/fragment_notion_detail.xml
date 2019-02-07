@@ -62,30 +62,24 @@
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/separator">
 
-		<androidx.appcompat.widget.AppCompatEditText
-			android:id="@+id/intervalTextId"
-			android:layout_width="100dp"
-			android:layout_height="wrap_content"
-			android:background="@null"
-			android:hint="@string/one"
-			android:inputType="number"
-			android:maxLength="2"
-			android:maxLines="1"
-			android:padding="10dp"
-			android:requiresFadingEdge="horizontal"
-			android:textAlignment="center"
-			android:textColor="@android:color/black"
-			android:textSize="20sp"
-			tools:text="15"/>
-
 		<androidx.appcompat.widget.AppCompatSpinner
-			android:id="@+id/unitSpinner"
-			android:layout_width="match_parent"
+			android:id="@+id/intervalSpinner"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginStart="32dp"
 			android:layout_marginLeft="32dp"
+			android:padding="5dp"
+			android:textColor="@android:color/black"
+			android:spinnerMode="dropdown"/>
+
+		<androidx.appcompat.widget.AppCompatSpinner
+			android:id="@+id/unitSpinner"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="32dp"
+			android:padding="5dp"
+			android:layout_marginLeft="32dp"
 			android:entries="@array/time_unit_array"
-			android:padding="10dp"
 			android:textColor="@android:color/black"
 			/>
 	</LinearLayout>
@@ -102,10 +96,10 @@
 		android:layout_marginRight="8dp"
 		android:ellipsize="marquee"
 		android:focusable="true"
-		android:scrollHorizontally="true"
 		android:focusableInTouchMode="true"
 		android:marqueeRepeatLimit="marquee_forever"
 		android:padding="10dp"
+		android:scrollHorizontally="true"
 		android:singleLine="true"
 		android:textColor="@color/dark_transparent"
 		android:textIsSelectable="true"

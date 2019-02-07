@@ -57,14 +57,14 @@
 			android:layout_marginEnd="8dp"
 			android:layout_marginRight="8dp"
 			android:layout_marginBottom="4dp"
-			app:layout_constraintBottom_toTopOf="@+id/intervalTextId"
+			app:layout_constraintBottom_toTopOf="@+id/intervalSpinner"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:lineColor="@android:color/black"
 			app:lineStyle="dotted"/>
 
 		<androidx.appcompat.widget.AppCompatTextView
-			android:id="@+id/intervalTextId"
+			android:id="@+id/intervalSpinner"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginStart="8dp"

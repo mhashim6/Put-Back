@@ -11,7 +11,7 @@ class ExampleUnitTest {
 
     @Test
     fun testHotNotionPredicate() {
-        val pastDayInMillis = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(7) //last run 7 interval ago
+        val pastDayInMillis = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(7) //last run 7 intervalSpinnerIndex ago
 
         println(Date(pastDayInMillis))
 

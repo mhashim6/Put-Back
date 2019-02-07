@@ -5,14 +5,11 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.PublishSubject
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.NotionsRealm
-import mhashim6.android.putback.toOneIfZero
-import mhashim6.android.putback.ui.colorSelector
-import mhashim6.android.putback.ui.dateMetaDataString
-import mhashim6.android.putback.ui.indexByUnit
+import mhashim6.android.putback.ui.*
 import mhashim6.android.putback.ui.notionsDetailFragment.NotionDetailFragment.Companion.NOTION_DETAIL_NOTION_CONTENT
-import mhashim6.android.putback.ui.unitByIndex
 import mhashim6.android.putback.withNewLine
 import java.util.*
 
@@ -24,8 +21,8 @@ class ViewModel(
 
 class NotionUpdate(
         var content: String,
-        val interval: String,
-        val timeUnit: Int
+        val intervalSpinnerIndex: Int,
+        val timeUnitIndex: Int
 )
 
 class NotionDetailViewModel(
@@ -33,14 +30,14 @@ class NotionDetailViewModel(
         resources: Resources,
         val notionId: String = notion.id,
         val content: String = notion.content.withNewLine(), //leave a space for the user to touch in case of a url.
-        val interval: String = notion.interval.toString(),
-        val timeUnit: Int = indexByUnit(notion.timeUnit),
+        val intervalSpinnerIndex: Int = notion.interval.intervalSpinnerIndex,
+        val timeUnit: Int = notion.timeUnit.unitSpinnerIndex,
         val backgroundColor: ColorDrawable = ColorDrawable(colorSelector(notion, resources)),
         val dateMetaData: String = dateMetaDataString(notion.createdAt, notion.lastRunAt, resources)
 )
 
 fun present(args: Bundle?,
-            intervals: Observable<Pair<String, Int>>,
+            intervals: PublishSubject<Pair<Int, Int>>,
             updates: Observable<NotionUpdate>,
             resources: Resources): ViewModel {
 
@@ -50,9 +47,9 @@ fun present(args: Bundle?,
             ?: Notion(id = notionId, content = args?.getString(NOTION_DETAIL_NOTION_CONTENT) ?: "")
 
     val colors = intervals.map { pair ->
-        val count = pair.first.takeIf(String::isNotEmpty)?.toInt() ?: 1
-        val unit = unitByIndex(pair.second)
-        ColorDrawable(colorSelector(count, unit, resources))
+        val interval = pair.first.interval
+        val unit = pair.second.unit
+        ColorDrawable(colorSelector(interval, unit, resources))
     }
 
     val updateDisposable =
@@ -62,12 +59,8 @@ fun present(args: Bundle?,
                 else
                     NotionsRealm.update(notionId,
                             update.content,
-                            update.interval
-                                    .takeIf(String::isNotEmpty)
-                                    ?.toInt()
-                                    ?.toOneIfZero() //TODO that's a very silly line.
-                                    ?: 1,
-                            unitByIndex(update.timeUnit))
+                            update.intervalSpinnerIndex.interval,
+                            update.timeUnitIndex.unit)
             }
 
     args?.putString(NotionDetailFragment.NOTION_DETAIL_NOTION_ID, notionId) // retain id in case of rotation.

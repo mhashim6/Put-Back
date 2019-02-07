@@ -15,7 +15,7 @@ class NotionCompactView : CardView {
 
     private val content: AppCompatTextView by lazy { notionContent }
     private val statusIcon: AppCompatImageView by lazy { statusIconId }
-    private val intervalText: AppCompatTextView by lazy { intervalTextId }
+    private val intervalText: AppCompatTextView by lazy { intervalSpinner }
 
     fun render(notion: NotionCompactViewModel) {
         content.text = notion.content
