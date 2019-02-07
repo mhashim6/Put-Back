@@ -1,7 +1,6 @@
 package mhashim6.android.putback.ui.preferences
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Bundle
@@ -25,7 +24,7 @@ import mhashim6.android.putback.ui.launchUrl
 
 class PreferencesScreen : PreferenceFragmentCompat() {
 
-    private val preferences = PublishSubject.create<Pair<Context, String>>()
+    private val preferences = PublishSubject.create<Pair<Activity, String>>()
     private val subscriptions = CompositeDisposable()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -58,12 +57,11 @@ class PreferencesScreen : PreferenceFragmentCompat() {
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        preferences.onNext(context!! to preference.key)
+        preferences.onNext(activity!! to preference.key)
         return true
     }
 
     private fun showSnackBar(@StringRes message: Int) {
-        debug("wtffffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
         Snackbar.make(view!!, message, Snackbar.LENGTH_LONG).show()
     }
 

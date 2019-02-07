@@ -1,9 +1,7 @@
 package mhashim6.android.putback.ui.preferences
 
 import android.Manifest
-import android.content.Context
-import com.nabinbhandari.android.permissions.PermissionHandler
-import com.nabinbhandari.android.permissions.Permissions
+import android.app.Activity
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
@@ -18,6 +16,8 @@ import mhashim6.android.putback.data.PreferencesRepository.KEY_RESTORE_PREFERENC
 import mhashim6.android.putback.data.PreferencesRepository.KEY_SOUND_PREFERENCE
 import mhashim6.android.putback.data.backup
 import mhashim6.android.putback.data.restore
+import pl.tajchert.nammu.Nammu
+import pl.tajchert.nammu.PermissionCallback
 
 
 class PreferencesViewModel(
@@ -27,7 +27,7 @@ class PreferencesViewModel(
         val preferencesDisposable: Disposable,
         val urls: Observable<String>)
 
-fun present(preferences: PublishSubject<Pair<Context, String>>): PreferencesViewModel {
+fun present(preferences: PublishSubject<Pair<Activity, String>>): PreferencesViewModel {
 
     val soundSelectorRequests = PublishSubject.create<Unit>()
     val snackbars = PublishSubject.create<Int>()
@@ -44,7 +44,7 @@ fun present(preferences: PublishSubject<Pair<Context, String>>): PreferencesView
                     snackbars.onNext(R.string.backup_successful)
                 else
                     snackbars.onNext(R.string.backup_error)
-            }, snackbars = snackbars)
+            })
             KEY_RESTORE_PREFERENCE -> withStoragePermissions(context,
                     onDenied = {
                         snackbars.onNext(R.string.storage_permissions_denied)
@@ -54,7 +54,7 @@ fun present(preferences: PublishSubject<Pair<Context, String>>): PreferencesView
                     snackbars.onNext(R.string.restore_successful)
                 else
                     snackbars.onNext(R.string.restore_error)
-            }, snackbars = snackbars)
+            })
 
             KEY_SOUND_PREFERENCE -> soundSelectorRequests.onNext(Unit)
             KEY_OPEN_SOURCE_PREFERENCE -> creditsRequests.onNext(Unit)
@@ -62,17 +62,14 @@ fun present(preferences: PublishSubject<Pair<Context, String>>): PreferencesView
             KEY_FEEDBACK_PREFERENCE -> urls.onNext(APP_URL)
         }
     }
-
     return PreferencesViewModel(soundSelectorRequests, snackbars, creditsRequests, preferencesDisposable, urls)
 }
 
-private fun withStoragePermissions(context: Context, onDenied: () -> Unit, onGranted: () -> Unit, snackbars: PublishSubject<Int>) {
-    Permissions.check(context, Manifest.permission.WRITE_EXTERNAL_STORAGE, "do it stopid",
-            object : PermissionHandler() {
-                override fun onGranted() = onGranted()
-                override fun onDenied(context: Context?, deniedPermissions: ArrayList<String>?) {
-                    snackbars.onNext(R.string.storage_permissions_denied)
+private fun withStoragePermissions(activity: Activity, onDenied: () -> Unit, onGranted: () -> Unit) {
+    Nammu.askForPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE, object : PermissionCallback {
+        //TODO for some reason these 2 don't work!
+        override fun permissionGranted() = onGranted()
 
-                }
-            })
+        override fun permissionRefused() = onDenied()
+    })
 }

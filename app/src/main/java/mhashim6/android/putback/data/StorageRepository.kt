@@ -24,13 +24,13 @@ val storageFile: File by lazy {
 
 val backupFile by lazy { File(storageFile.absolutePath, "backup") }
 
-fun backup(): Boolean { //TODO
+fun backup(): Boolean {
     if (isStorageWritable.not() || realmFile.exists().not()) return false
     realmFile.copyTo(backupFile, overwrite = true)
     return true
 }
 
-fun restore(): Boolean { //TODO
+fun restore(): Boolean {
     if (isStorageReadable.not() || backupFile.exists().not()) return false
     backupFile.copyTo(realmFile, overwrite = true)
     return true
