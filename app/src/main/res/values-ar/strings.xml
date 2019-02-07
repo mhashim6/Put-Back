@@ -59,4 +59,13 @@
 	<string name="feedback_summary">.اكتب تعليفاً على جوجل بلاي</string>
 	<string name="open_source_summary">رخص المكتبات  المفتوحة المصدر.</string>
 	<string name="pencil_message">يمكنك استخدام القلم لكتابة فكرة جديدة.</string>
+	<string name="backup_summary">نسخ احتياطي للبيانات في ذاكرة الهاتف.</string>
+	<string name="backup_title">النسخ الاحتياطي</string>
+	<string name="restore_summary">استرجاع النسخ الاحتياطي من ذاكرة الهاتف.</string>
+	<string name="restore_title">استرجاع النسخ الاحتياطي</string>
+	<string name="backup_successful">تم النسخ.</string>
+	<string name="restore_successful">تم الاسترجاع.</string>
+	<string name="storage_permissions_denied">لا يمكن الدخول للذاكرة.</string>
+	<string name="backup_error">خطأ في النسخ الاحتياطي.</string>
+	<string name="restore_error">خطأ في استرجاع النسخ الاحتياطي.</string>
 </resources>
