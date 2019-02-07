@@ -11,5 +11,5 @@ Not feeling like doing things today? No problem, it won't rush you.
 
 The app is totally free, with no ads.
 
-[App on Google Play](https://play.google.com/store/apps/details?id=mhashim6.android.putback).
+[App on Google Play](https://play.google.com/store/apps/details?id=mhashim6.android.putback).  
 [XDA-Developers thread](https://forum.xda-developers.com/android/apps-games/app-pace-scheduling-pressure-t3843021).
