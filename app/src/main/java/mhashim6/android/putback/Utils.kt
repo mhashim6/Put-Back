@@ -26,7 +26,7 @@ const val APP_VERSION = BuildConfig.VERSION_CODE
 
 const val APP_URL = "https://play.google.com/store/apps/details?id=mhashim6.android.putback"
 
-const val GITHUB_URL = "https://github.com/mhashim6"
+const val GITHUB_URL = "https://github.com/mhashim6/Put-Back"
 
 fun Any.debug(message: Any?) = Log.d(this::class.java.simpleName, message.toString())
 fun Any.info(message: Any?) = Log.i(this::class.java.simpleName, message.toString())
