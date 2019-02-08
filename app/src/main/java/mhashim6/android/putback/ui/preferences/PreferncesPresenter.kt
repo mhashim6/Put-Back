@@ -37,7 +37,6 @@ fun present(preferences: PublishSubject<Pair<Activity, String>>): PreferencesVie
     val creditsRequests = PublishSubject.create<Unit>()
     val urls = PublishSubject.create<String>()
 
-
     val background = CoroutineScope(Dispatchers.IO)
     val main = CoroutineScope(Dispatchers.Main)
 
