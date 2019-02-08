@@ -5,19 +5,18 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
-import androidx.work.PeriodicWorkRequest
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+import androidx.work.*
 import mhashim6.android.putback.*
+import mhashim6.android.putback.R
 import mhashim6.android.putback.data.Notion
 import mhashim6.android.putback.data.NotionsRealm.findHottestNotion
 import mhashim6.android.putback.data.NotionsRealm.updateLastRunAt
 import mhashim6.android.putback.data.PreferencesRepository
-import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
-import mhashim6.android.putback.ui.colorSelector
 import mhashim6.android.putback.reminder.NotificationBroadcastReceiver.Companion.ACTION_TYPE_ARCHIVE
 import mhashim6.android.putback.reminder.NotificationBroadcastReceiver.Companion.ACTION_TYPE_PUTBACK
 import mhashim6.android.putback.reminder.NotificationBroadcastReceiver.Companion.ACTION_TYPE_SHOW_CONTENT
+import mhashim6.android.putback.ui.MainActivity.Companion.MAIN_ACTIVITY_SHOW_NOTION_ACTION
+import mhashim6.android.putback.ui.colorSelector
 import java.util.concurrent.TimeUnit
 
 /**
@@ -71,13 +70,26 @@ class NotionsReminder(context: Context, workerParameters: WorkerParameters) : Wo
         const val NOTIFICATION_CHANNEL_ID = "NOTIONS_REMINDER_CHANNEL"
         const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG"
 
-        fun createNotionsReminder(): PeriodicWorkRequest {
+
+        fun start(context: Context) {
+            createNotificationChannel(context)
+            val workManager = WorkManager.getInstance()
+            val workRequest = NotionsReminder.createNotionsReminder()
+
+            ifNewUpdate { workManager.cancelAllWork() }
+
+            workManager.enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,
+                    ExistingPeriodicWorkPolicy.REPLACE,
+                    workRequest)
+        }
+
+        private fun createNotionsReminder(): PeriodicWorkRequest {
             return PeriodicWorkRequest
                     .Builder(NotionsReminder::class.java, 1, TimeUnit.HOURS, 5, TimeUnit.MINUTES)
                     .build()
         }
 
-        fun createNotionsReminderNotificationChannel(context: Context) {
+        private fun createNotificationChannel(context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val name = context.getString(R.string.channel_name)
                 val description = context.getString(R.string.channel_description)
