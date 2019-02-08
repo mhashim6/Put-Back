@@ -12,7 +12,7 @@ open class Notion(
         @Index var timeUnit: Int = WEEK,
         @Index var createdAt: Long = System.currentTimeMillis(),
         @Index var modifiedAt: Long = createdAt,
-        /**last date this Notion has passed it's intervalSpinnerIndex.*/
+        /**last date this Notion has passed it's interval.*/
         @Index var lastRunAt: Long = createdAt,
         @Index var isArchived: Boolean = false
 ) : RealmObject() {

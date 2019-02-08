@@ -85,10 +85,8 @@ inline fun ifNewUpdate(action: () -> Unit) {
 fun formatDate(date: Long): String = SimpleDateFormat("dd MMMM yyyy hh:mm aa", Locale.getDefault()).format(date)
 
 inline fun String.withNewLine(): String {
-    return if (isEmpty()) this else (this + "\n")
+    return if (isBlank()) this else (this + "\n")
 }
-
-inline fun Int.toOneIfZero(): Int = if (this == 0) 1 else this
 
 inline fun RateConditionsMonitor.init(context: Context, block: RateConditionsMonitor.() -> Unit) {
     init(context)
