@@ -41,10 +41,15 @@ fun present(args: Bundle?,
             updates: Observable<NotionUpdate>,
             resources: Resources): ViewModel {
 
+
     val notionId = args?.getString(NotionDetailFragment.NOTION_DETAIL_NOTION_ID)
             ?: UUID.randomUUID().toString()
-    val notion = NotionsRealm.findOne(notionId)
-            ?: Notion(id = notionId, content = args?.getString(NOTION_DETAIL_NOTION_CONTENT) ?: "")
+
+
+    var notion = NotionsRealm.findOne(notionId)
+    val isNew = notion == null
+    if (isNew)
+        notion = Notion(id = notionId, content = args?.getString(NOTION_DETAIL_NOTION_CONTENT) ?: "")
 
     val colors = intervals.map { (intervalIndex, unitIndex) ->
         val interval = intervalIndex.interval
@@ -54,7 +59,7 @@ fun present(args: Bundle?,
 
     val updateDisposable =
             updates.map { update -> update.apply { content = content.trim() } }.subscribe { update ->
-                if (update.isBlank(notion.createdAt))
+                if (update.isBlank(isNew))
                     NotionsRealm.delete(notionId)
                 else
                     NotionsRealm.update(notionId,
@@ -65,12 +70,12 @@ fun present(args: Bundle?,
 
     args?.putString(NotionDetailFragment.NOTION_DETAIL_NOTION_ID, notionId) // retain id in case of rotation.
 
-    return ViewModel(NotionDetailViewModel(notion, resources), colors, updateDisposable)
+    return ViewModel(NotionDetailViewModel(notion!!, resources), colors, updateDisposable)
 }
 
 /** blank and new. */
-fun NotionUpdate.isBlank(createdAt: Long) =
-        content.isBlank() && (System.currentTimeMillis() - createdAt) <= 10.minutes
+fun NotionUpdate.isBlank(isNew: Boolean) =
+        content.isBlank() && isNew
 
 val Int.minutes: Long
     get() = this * 60L * 1000L
