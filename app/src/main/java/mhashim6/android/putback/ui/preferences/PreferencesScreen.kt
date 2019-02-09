@@ -24,7 +24,7 @@ import mhashim6.android.putback.ui.launchUrl
 
 class PreferencesScreen : PreferenceFragmentCompat() {
 
-    private val preferences = PublishSubject.create<Pair<Activity, String>>()
+    private val preferences = PublishSubject.create<String>()
     private val subscriptions = CompositeDisposable()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -39,7 +39,7 @@ class PreferencesScreen : PreferenceFragmentCompat() {
     override fun onResume() {
         super.onResume()
 
-        val viewModel = present(preferences)
+        val viewModel = present(activity!!, preferences)
         with(viewModel) {
             subscriptions.addAll(
                     soundSelectorRequests.subscribe { launchSoundSelector() },
@@ -57,7 +57,7 @@ class PreferencesScreen : PreferenceFragmentCompat() {
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
-        preferences.onNext(activity!! to preference.key)
+        preferences.onNext(preference.key)
         return true
     }
 

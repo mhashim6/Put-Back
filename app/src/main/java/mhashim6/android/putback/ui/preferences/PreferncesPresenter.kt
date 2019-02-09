@@ -30,7 +30,7 @@ class PreferencesViewModel(
         val preferencesDisposable: Disposable,
         val urls: Observable<String>)
 
-fun present(preferences: PublishSubject<Pair<Activity, String>>): PreferencesViewModel {
+fun present(activity: Activity, preferences: PublishSubject<String>): PreferencesViewModel {
 
     val soundSelectorRequests = PublishSubject.create<Unit>()
     val snackbars = PublishSubject.create<Int>()
@@ -40,9 +40,9 @@ fun present(preferences: PublishSubject<Pair<Activity, String>>): PreferencesVie
     val background = CoroutineScope(Dispatchers.IO)
     val main = CoroutineScope(Dispatchers.Main)
 
-    val preferencesDisposable = preferences.subscribe { (context, key) ->
+    val preferencesDisposable = preferences.subscribe { key ->
         when (key) {
-            KEY_BACKUP_PREFERENCE -> withStoragePermissions(context,
+            KEY_BACKUP_PREFERENCE -> withStoragePermissions(activity,
                     onDenied = {
                         snackbars.onNext(R.string.storage_permissions_denied)
                     }, onGranted = {
@@ -56,7 +56,7 @@ fun present(preferences: PublishSubject<Pair<Activity, String>>): PreferencesVie
                     }
                 }
             })
-            KEY_RESTORE_PREFERENCE -> withStoragePermissions(context,
+            KEY_RESTORE_PREFERENCE -> withStoragePermissions(activity,
                     onDenied = {
                         snackbars.onNext(R.string.storage_permissions_denied)
                     }
