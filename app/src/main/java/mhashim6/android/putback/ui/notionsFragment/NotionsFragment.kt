@@ -1,6 +1,7 @@
 package mhashim6.android.putback.ui.notionsFragment
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -134,7 +135,7 @@ open class NotionsFragment : BaseFragment() {
     }
 
     private fun showControlsMenu(view: View, notion: NotionCompactViewModel): Boolean {
-        val menu = PopupMenu(activity!!, view)
+        val menu = PopupMenu(requireActivity(), view)
         menu.inflate(if (isIdle) R.menu.notion_controls_idle else R.menu.notion_controls)
         menu.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -169,9 +170,10 @@ open class NotionsFragment : BaseFragment() {
 
     private fun showNotionDetail(notionId: String? = null) {
         NotionDetailFragment.create(notionId = notionId)
-                .show(fragmentManager, NotionDetailFragment::class.java.simpleName)
+                .show(parentFragmentManager, NotionDetailFragment::class.java.simpleName)
     }
 
+    @SuppressLint("ShowToast")
     private fun showTutorial() {
         if (PreferencesRepository.tutorialShown)
             return
@@ -190,7 +192,7 @@ open class NotionsFragment : BaseFragment() {
 
     private fun showRateDialog() {
         if (RateConditionsMonitor.isConditionsMet)
-            AlertDialog.Builder(activity!!).apply {
+            AlertDialog.Builder(requireActivity()).apply {
                 setTitle(R.string.rate_app)
                 setMessage(R.string.rate_message)
                 setPositiveButton(R.string.rate_now) { _, _ ->

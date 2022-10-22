@@ -22,10 +22,10 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by mhashim6 on 31/08/2018.
  */
-class NotionsReminder(context: Context, workerParameters: WorkerParameters) : Worker(context, workerParameters) {
+class NotionsReminder(context: Context, workerParameters: WorkerParameters) :
+    Worker(context, workerParameters) {
 
     override fun doWork(): Result {
-
         info("a new work is invoked")
 
         findHottestNotion()?.let {
@@ -41,28 +41,35 @@ class NotionsReminder(context: Context, workerParameters: WorkerParameters) : Wo
         val putbackAction = notificationAction(applicationContext, notion, ACTION_TYPE_PUTBACK)
         val archiveAction = notificationAction(applicationContext, notion, ACTION_TYPE_ARCHIVE)
 
-        val showAction = notificationContentAction(applicationContext, notion, ACTION_TYPE_SHOW_CONTENT, MAIN_ACTIVITY_SHOW_NOTION_ACTION)
+        val showAction = notificationContentAction(
+            applicationContext,
+            notion,
+            ACTION_TYPE_SHOW_CONTENT,
+            MAIN_ACTIVITY_SHOW_NOTION_ACTION
+        )
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(randomTitle(applicationContext.resources))
-                .setContentText(notion.content)
-                .setCategory(NotificationCompat.CATEGORY_REMINDER)
-                .setContentIntent(showAction)
-                .addAction(0, applicationContext.getString(R.string.putback), putbackAction)
-                .addAction(0, applicationContext.getString(R.string.archive), archiveAction)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(notion.content))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setChannelId(NOTIFICATION_CHANNEL_ID)
-                .setLights(color, 500, 2000)
-                .setSound(PreferencesRepository.soundUri)
-                .setColor(color)
-                .setAutoCancel(true)
-                .setOnlyAlertOnce(true)
-                .build().apply {
-                    flags = NotificationCompat.FLAG_ONLY_ALERT_ONCE or NotificationCompat.FLAG_AUTO_CANCEL or NotificationCompat.FLAG_SHOW_LIGHTS
-                }
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(randomTitle(applicationContext.resources))
+            .setContentText(notion.content)
+            .setCategory(NotificationCompat.CATEGORY_REMINDER)
+            .setContentIntent(showAction)
+            .addAction(0, applicationContext.getString(R.string.putback), putbackAction)
+            .addAction(0, applicationContext.getString(R.string.archive), archiveAction)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(notion.content))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setChannelId(NOTIFICATION_CHANNEL_ID)
+            .setLights(color, 500, 2000)
+            .setSound(PreferencesRepository.soundUri)
+            .setColor(color)
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
+            .build().apply {
+                flags =
+                    NotificationCompat.FLAG_ONLY_ALERT_ONCE or NotificationCompat.FLAG_AUTO_CANCEL or NotificationCompat.FLAG_SHOW_LIGHTS
+            }
 
-        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify((notion.lastRunAt).toInt(), notification)
     }
 
@@ -70,31 +77,34 @@ class NotionsReminder(context: Context, workerParameters: WorkerParameters) : Wo
         const val NOTIFICATION_CHANNEL_ID = "NOTIONS_REMINDER_CHANNEL"
         const val NOTIONS_REMINDER_TAG = "NOTIONS_REMINDER_TAG"
 
-
         fun start(context: Context) {
             createNotificationChannel(context)
-            val workManager = WorkManager.getInstance()
-            val workRequest = NotionsReminder.createNotionsReminder()
-
-            ifNewUpdate { workManager.cancelAllWork() }
-
-            workManager.enqueueUniquePeriodicWork(NOTIONS_REMINDER_TAG,
+//            WorkManager.initialize(context, Configuration.Builder().build())
+            WorkManager.getInstance(context).run {
+                ifNewUpdate { cancelAllWork() }
+                enqueueUniquePeriodicWork(
+                    NOTIONS_REMINDER_TAG,
                     ExistingPeriodicWorkPolicy.REPLACE,
-                    workRequest)
+                    createNotionsReminder()
+                )
+            }
         }
 
-        private fun createNotionsReminder(): PeriodicWorkRequest {
-            return PeriodicWorkRequest
-                    .Builder(NotionsReminder::class.java, 1, TimeUnit.HOURS, 5, TimeUnit.MINUTES)
-                    .build()
-        }
+        private fun createNotionsReminder(): PeriodicWorkRequest =
+            PeriodicWorkRequestBuilder<NotionsReminder>(
+                1, TimeUnit.HOURS, 5, TimeUnit.MINUTES
+            ).build()
 
         private fun createNotificationChannel(context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val name = context.getString(R.string.channel_name)
                 val description = context.getString(R.string.channel_description)
                 val importance = NotificationManager.IMPORTANCE_HIGH
-                val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance).apply { this.description = description }
+                val channel = NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID,
+                    name,
+                    importance
+                ).apply { this.description = description }
                 val notificationManager = context.getSystemService(NotificationManager::class.java)
                 notificationManager!!.createNotificationChannel(channel)
             }

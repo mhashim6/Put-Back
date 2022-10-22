@@ -30,7 +30,7 @@ class PreferencesScreen : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
 
-        preferenceManager.findPreference(KEY_THEME_PREFERENCE).onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
+        preferenceManager.findPreference<Preference>(KEY_THEME_PREFERENCE)?.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
             activity?.recreate()
             true
         }
@@ -39,7 +39,7 @@ class PreferencesScreen : PreferenceFragmentCompat() {
     override fun onResume() {
         super.onResume()
 
-        val viewModel = present(activity!!, preferences)
+        val viewModel = present(requireActivity(), preferences)
         with(viewModel) {
             subscriptions.addAll(
                     soundSelectorRequests.subscribe { launchSoundSelector() },
@@ -62,7 +62,7 @@ class PreferencesScreen : PreferenceFragmentCompat() {
     }
 
     private fun showSnackBar(@StringRes message: Int) {
-        Snackbar.make(view!!, message, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
     }
 
     companion object {

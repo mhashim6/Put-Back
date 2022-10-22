@@ -46,7 +46,7 @@ class NotionDetailFragment : AppCompatDialogFragment() {
         contentText = view.findViewById(R.id.contentId)
         contentText.movementMethod = LinkMovementMethod.getInstance()
         intervalSpinner = view.findViewById<AppCompatSpinner>(R.id.intervalSpinner).apply {
-            adapter = ArrayAdapter<Int>(context!!, android.R.layout.simple_spinner_dropdown_item, (1..15).toList())
+            adapter = ArrayAdapter<Int>(requireContext(), android.R.layout.simple_spinner_dropdown_item, (1..15).toList())
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
@@ -74,7 +74,7 @@ class NotionDetailFragment : AppCompatDialogFragment() {
     override fun onResume() {
         super.onResume()
         //because android is mean.
-        dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         showData()
     }
 

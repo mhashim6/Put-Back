@@ -77,7 +77,7 @@ object NotionsRealm {
         return notion
     }
 
-    fun changeIdleState(id: String, state: Boolean) {
+    fun changeIdleState(id: String?, state: Boolean) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransactionAsync {
             val notion = it.where<Notion>().equalTo("id", id).findFirst()

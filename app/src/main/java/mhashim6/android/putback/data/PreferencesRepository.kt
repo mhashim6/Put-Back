@@ -3,12 +3,12 @@ package mhashim6.android.putback.data
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import android.preference.PreferenceManager
 import android.provider.Settings
 import androidx.annotation.DrawableRes
 import androidx.core.content.edit
 import androidx.core.net.toUri
 import mhashim6.android.putback.R
-import org.jetbrains.anko.defaultSharedPreferences
 
 object PreferencesRepository {
 
@@ -67,7 +67,7 @@ object PreferencesRepository {
         @DrawableRes get() = themes.getValue(preferences.getString(KEY_THEME_PREFERENCE, "red_dust")!!)
 
     fun init(context: Context) {
-        preferences = context.defaultSharedPreferences
+        preferences = PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     private const val KEY_FIRST_LAUNCH_PREFERENCE = "first_launch_preference"
